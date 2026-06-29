@@ -22,3 +22,5 @@ env/
 # Historical snapshots are generated locally and can grow quickly.
 data/run_history/
 
+# Accidental nested GitHub Desktop checkout.
+2026-worldcup_agent/
