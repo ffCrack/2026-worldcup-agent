@@ -1,1 +1,4 @@
 updated_at,update_type,target_file,match_number,team,field,old_value,new_value,source,note
+2026-06-29T19:17:57+00:00,match_result,data/knockout_bracket.csv,76,Brazil,team1_score_90,,2,https://www.theguardian.com/football/live/2026/jun/29/brazil-v-japan-world-cup-2026-last-32-live-updates,Applied normalized harvested match result.
+2026-06-29T19:17:57+00:00,match_result,data/knockout_bracket.csv,76,Brazil,team2_score_90,,1,https://www.theguardian.com/football/live/2026/jun/29/brazil-v-japan-world-cup-2026-last-32-live-updates,Applied normalized harvested match result.
+2026-06-29T19:17:57+00:00,match_result,data/knockout_bracket.csv,76,Brazil,actual_advancing_team,,Brazil,https://www.theguardian.com/football/live/2026/jun/29/brazil-v-japan-world-cup-2026-last-32-live-updates,Applied normalized harvested match result.
