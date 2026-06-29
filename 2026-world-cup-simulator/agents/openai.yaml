@@ -1,0 +1,4 @@
+interface:
+  display_name: "2026 World Cup Simulator"
+  short_description: "Maintain this World Cup Elo simulator"
+  default_prompt: "Use $2026-world-cup-simulator to update or run the World Cup Elo and Monte Carlo simulator."

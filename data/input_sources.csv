@@ -1,0 +1,11 @@
+file,type,source,url,transformation,last_reviewed
+pre_tournament_ratings.json,input,FIFA Men's World Ranking official 11 June 2026 snapshot,https://inside.fifa.com/fifa-world-ranking/men?dateId=FRS_Male_Football_20260401,48 participating teams' FIFA points copied into team-to-points JSON,2026-06-28
+world_cup_2026_teams.csv,input,FIFA World Cup 2026 teams/groups plus FIFA ranking snapshot,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026,Joined participant groups to FIFA rank/code/points,2026-06-28
+world_cup_history.csv,input,FIFA World Cup 2026 fixtures/results article,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums,Group-stage results copied into chronological match rows with venue country added,2026-06-28
+round_of_32_matches.csv,input,FIFA World Cup 2026 fixtures/results article,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums,Round of 32 fixtures copied into match rows with venue country added,2026-06-28
+knockout_bracket.csv,input,FIFA World Cup 2026 fixtures/results article,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums,Full knockout bracket copied with winner/runner-up dependencies and update fields for scores/results,2026-06-28
+team_context_adjustments.csv,input,User-approved manual/news research,,Manual team-level Elo-point adjustment rows for active news context,2026-06-28
+automation_sources.csv,input,Project automation config,,Configured sources for optional normalized result feeds and post-match news RSS harvesting,2026-06-28
+harvested_match_results.csv,input,Automation or normalized external feed,,Normalized match-result rows that can update knockout_bracket.csv,2026-06-28
+news_adjustment_candidates.csv,audit,Automated post-match news collection,,Detected concrete availability news for advancing teams before context application,2026-06-28
+update_log.csv,audit,Automated update pipeline,,Append-only record of automatic input changes,2026-06-28
