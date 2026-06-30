@@ -1,5 +1,6 @@
 import argparse
 import json
+import errno
 import threading
 import time
 from datetime import datetime
@@ -239,6 +240,19 @@ LIVE_HTML = """<!doctype html>
       if (!s1 || !s2) return "";
       return `${s1}-${s2}`;
     }
+    function contextLabel(reason) {
+      if (!reason) return "";
+      const lower = String(reason).toLowerCase();
+      if (lower.includes("automatic knockout strength adjustment")) return "Performance boost";
+      if (lower.includes("availability") || lower.includes("injur") || lower.includes("suspension") || lower.includes("red card")) return "Availability update";
+      return "Context update";
+    }
+    function contextSummary(row) {
+      const labels = [];
+      if (row.team1_context_reason) labels.push(`${row.team1}: ${contextLabel(row.team1_context_reason)}`);
+      if (row.team2_context_reason) labels.push(`${row.team2}: ${contextLabel(row.team2_context_reason)}`);
+      return labels.join(" | ");
+    }
     function rowMatches(row) {
       const query = document.getElementById("search").value.trim().toLowerCase();
       if (!query) return true;
@@ -291,18 +305,19 @@ LIVE_HTML = """<!doctype html>
     function renderKnockout() {
       let rows = DATA.knockout.filter(row => round === "All" || row.round === round).filter(rowMatches);
       document.getElementById("thead").innerHTML = `
-        <tr><th>Match</th><th>Date</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Context</th></tr>`;
+        <tr><th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Context</th></tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr class="${row.is_actual_result === "True" ? "actual" : ""}">
           <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong></td>
           <td>${esc(row.date)}<br><span class="muted">${esc(row.venue)}</span></td>
+          <td>${esc(row.result_check_after_utc || "Date passed")}<br><span class="muted">${esc(row.kickoff_utc || "")}</span></td>
           <td><span class="team">${esc(row.team1)}</span><br><span class="team">${esc(row.team2)}</span></td>
           <td>${esc(score(row)) || "<span class='muted'>Pending</span>"}</td>
           <td>${row.actual_advancing_team ? `<span class="pill actual-pill">${esc(row.actual_advancing_team)}</span>` : "<span class='muted'>Pending</span>"}</td>
           <td>${esc(row.predicted_90min_result)}<br><span class="muted">${pct(row.team1_90min_win_probability)} / ${pct(row.draw_90min_probability)} / ${pct(row.team2_90min_win_probability)}</span></td>
           <td>${esc(row.team1)} ${pct(row.team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.team2_advance_probability)}</td>
           <td><span class="pill projected-pill">${esc(row.projected_advancing_team)}</span></td>
-          <td class="reason">${esc([row.team1_context_reason, row.team2_context_reason].filter(Boolean).join(" | ")) || "<span class='muted'>None</span>"}</td>
+          <td class="reason">${esc(contextSummary(row)) || "<span class='muted'>None</span>"}</td>
         </tr>
       `).join("");
     }
@@ -331,7 +346,7 @@ LIVE_HTML = """<!doctype html>
           <td>${esc(row.timestamp)}</td>
           <td>${esc(row.run_type)}<br><span class="muted">${esc(row.run_id)}</span></td>
           <td><span class="pill projected-pill">${esc(row.projected_champion)}</span></td>
-          <td>Results: ${esc(row.match_result_updates)}<br>News: ${esc(row.news_adjustments_applied)}</td>
+          <td>Results: ${esc(row.match_result_updates)}<br>Strength: ${esc(row.strength_adjustments_applied)}<br>News: ${esc(row.news_adjustments_applied)}</td>
           <td>${esc(row.snapshot_path)}</td>
         </tr>
       `).join("");
@@ -460,10 +475,21 @@ def main():
         STATE["auto_update"] = not args.no_auto_update
         STATE["interval_seconds"] = max(args.interval_minutes, 1) * 60
 
+    try:
+        server = ThreadingHTTPServer((args.host, args.port), LiveDashboardHandler)
+    except OSError as exc:
+        if exc.errno == errno.EADDRINUSE:
+            print("=== LIVE WORLD CUP DASHBOARD ===")
+            print(f"Port {args.port} is already in use.")
+            print(f"The dashboard may already be running at http://{args.host}:{args.port}")
+            print("Stop the existing run, or start this one with a different port:")
+            print("python3 live_dashboard.py --port 8766")
+            return
+        raise
+
     thread = threading.Thread(target=background_update_loop, daemon=True)
     thread.start()
 
-    server = ThreadingHTTPServer((args.host, args.port), LiveDashboardHandler)
     print("=== LIVE WORLD CUP DASHBOARD ===")
     print(f"Open http://{args.host}:{args.port}")
     print(f"Auto update: {'on' if not args.no_auto_update else 'off'}")

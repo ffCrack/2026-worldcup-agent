@@ -61,6 +61,9 @@ The full knockout bracket from Match 73 through Match 104.
   and bracket dependencies.
 - For matches whose teams are not known yet, `team1_source` and `team2_source`
   contain values such as `Winner match 74`.
+- `kickoff_utc` is the scheduled start time when known.
+- `result_check_after_utc` is the fixed automation time for checking post-match
+  news, normally kickoff plus 150 minutes.
 - When a knockout match finishes, update the score columns and
   `actual_advancing_team`.
 - If the final score is not known yet but the advancing team is known, fill
@@ -107,6 +110,18 @@ Normalized match-result input used by `python3 automate.py`.
   applies those scores/results into `knockout_bracket.csv`.
 - Expected columns: `match_number`, score columns, `actual_advancing_team`,
   and `source`.
+
+### `result_check_schedule.csv`
+
+Backup schedule for news-based result harvesting.
+
+- `kickoff_utc` is the match kickoff time.
+- `check_after_utc` is when automation is allowed to check post-match news.
+  For knockout games this is set to kickoff plus 150 minutes, so extra time and
+  penalties usually have room to finish.
+- The bracket file carries the active `kickoff_utc` and
+  `result_check_after_utc` fields. This file is kept as a transparent source and
+  fallback.
 
 ### `news_adjustment_candidates.csv`
 

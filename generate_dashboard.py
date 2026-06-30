@@ -273,6 +273,21 @@ def render_html(data):
       return `${{s1}}-${{s2}}`;
     }}
 
+    function contextLabel(reason) {{
+      if (!reason) return "";
+      const lower = String(reason).toLowerCase();
+      if (lower.includes("automatic knockout strength adjustment")) return "Performance boost";
+      if (lower.includes("availability") || lower.includes("injur") || lower.includes("suspension") || lower.includes("red card")) return "Availability update";
+      return "Context update";
+    }}
+
+    function contextSummary(row) {{
+      const labels = [];
+      if (row.team1_context_reason) labels.push(`${{row.team1}}: ${{contextLabel(row.team1_context_reason)}}`);
+      if (row.team2_context_reason) labels.push(`${{row.team2}}: ${{contextLabel(row.team2_context_reason)}}`);
+      return labels.join(" | ");
+    }}
+
     function esc(value) {{
       return String(value ?? "").replace(/[&<>"']/g, ch => ({{
         "&": "&amp;",
@@ -326,13 +341,14 @@ def render_html(data):
 
       document.getElementById("thead").innerHTML = `
         <tr>
-          <th>Match</th><th>Date</th><th>Teams</th><th>Score</th><th>Actual</th>
+          <th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th>
           <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Context</th>
         </tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr class="${{row.is_actual_result === "True" ? "actual" : ""}}">
           <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong></td>
           <td>${{esc(row.date)}}<br><span class="muted">${{esc(row.venue)}}</span></td>
+          <td>${{esc(row.result_check_after_utc || "Date passed")}}<br><span class="muted">${{esc(row.kickoff_utc || "")}}</span></td>
           <td><span class="team">${{esc(row.team1)}}</span><br><span class="team">${{esc(row.team2)}}</span></td>
           <td>${{esc(score(row)) || "<span class='muted'>Pending</span>"}}</td>
           <td>${{row.actual_advancing_team ? `<span class="pill actual">${{esc(row.actual_advancing_team)}}</span>` : "<span class='muted'>Pending</span>"}}</td>
@@ -340,7 +356,7 @@ def render_html(data):
           <td>${{esc(row.team1)}} ${{fmtPct(row.team1_advance_probability)}}<br>${{esc(row.team2)}} ${{fmtPct(row.team2_advance_probability)}}</td>
           <td><span class="pill projected">${{esc(row.projected_advancing_team)}}</span></td>
           <td>${{esc(row.team1_adjusted_elo)}}<br>${{esc(row.team2_adjusted_elo)}}</td>
-          <td class="reason">${{esc([row.team1_context_reason, row.team2_context_reason].filter(Boolean).join(" | ")) || "<span class='muted'>None</span>"}}</td>
+          <td class="reason">${{esc(contextSummary(row)) || "<span class='muted'>None</span>"}}</td>
         </tr>
       `).join("");
     }}
@@ -377,7 +393,7 @@ def render_html(data):
           <td>${{esc(row.timestamp)}}</td>
           <td>${{esc(row.run_type)}}<br><span class="muted">${{esc(row.run_id)}}</span></td>
           <td><span class="pill projected">${{esc(row.projected_champion)}}</span></td>
-          <td>Results: ${{esc(row.match_result_updates)}}<br>News: ${{esc(row.news_adjustments_applied)}}</td>
+          <td>Results: ${{esc(row.match_result_updates)}}<br>Strength: ${{esc(row.strength_adjustments_applied)}}<br>News: ${{esc(row.news_adjustments_applied)}}</td>
           <td>${{esc(row.snapshot_path)}}</td>
         </tr>
       `).join("");

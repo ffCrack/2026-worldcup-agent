@@ -87,6 +87,7 @@ class RunHistoryRecorder:
     def has_meaningful_update(self, summary):
         return (
             int(summary.get("match_result_updates", 0) or 0) > 0
+            or int(summary.get("strength_adjustments_applied", 0) or 0) > 0
             or int(summary.get("news_adjustments_applied", 0) or 0) > 0
         )
 
@@ -120,6 +121,7 @@ class RunHistoryRecorder:
             "run_type",
             "projected_champion",
             "match_result_updates",
+            "strength_adjustments_applied",
             "news_adjustments_applied",
             "snapshot_reason",
             "snapshot_path",
@@ -139,6 +141,7 @@ class RunHistoryRecorder:
                 "run_type": manifest["run_type"],
                 "projected_champion": manifest.get("projected_champion", ""),
                 "match_result_updates": summary.get("match_result_updates", ""),
+                "strength_adjustments_applied": summary.get("strength_adjustments_applied", ""),
                 "news_adjustments_applied": summary.get("news_adjustments_applied", ""),
                 "snapshot_reason": summary.get("snapshot_reason", "meaningful_update"),
                 "snapshot_path": os.path.join(self.history_dir, manifest["run_id"]),

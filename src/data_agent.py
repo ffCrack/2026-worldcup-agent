@@ -346,6 +346,8 @@ class DataAndRatingAgent:
             prediction.update({
                 "team1_source": row.get("team1_source", ""),
                 "team2_source": row.get("team2_source", ""),
+                "kickoff_utc": row.get("kickoff_utc", ""),
+                "result_check_after_utc": row.get("result_check_after_utc", ""),
                 "team1_score_90": row.get("team1_score_90"),
                 "team2_score_90": row.get("team2_score_90"),
                 "team1_score_final": row.get("team1_score_final"),

@@ -58,6 +58,7 @@ The intended workflow is:
 FIFA baseline ratings
   -> replay completed group results
   -> update ratings and tournament form
+  -> check post-match news after scheduled knockout matches finish
   -> project knockout bracket
   -> apply concrete winner news/context
   -> refresh dashboard
@@ -232,4 +233,3 @@ GitHub:
 ```text
 https://github.com/ffCrack/2026-worldcup-agent
 ```
-
