@@ -4,6 +4,7 @@ from src.data_loader import (
     load_world_cup_teams,
 )
 from src.data_agent import DataAndRatingAgent
+from evaluate_predictions import evaluate_predictions
 
 
 def main():
@@ -53,6 +54,9 @@ def main():
     rating_agent.save_ratings()
     print("[Knockout Agent]: 'data/round_of_32_predictions.csv' written successfully.")
     print("[Knockout Agent]: 'data/knockout_bracket_predictions.csv' written successfully.")
+    evaluation_rows = evaluate_predictions()
+    misses = sum(1 for row in evaluation_rows if row["evaluation"] == "Miss")
+    print(f"[Evaluation]: 'data/prediction_evaluation.csv' written successfully ({misses} misses).")
 
 
 if __name__ == "__main__":

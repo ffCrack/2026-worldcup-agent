@@ -165,6 +165,7 @@ LIVE_HTML = """<!doctype html>
       z-index: 1;
     }
     tr.actual td { background: #f0f8f4; }
+    tr.miss td { background: #fff1f0; }
     .team { font-weight: 760; }
     .pill {
       display: inline-flex;
@@ -179,6 +180,7 @@ LIVE_HTML = """<!doctype html>
     }
     .actual-pill { color: var(--ok); border-color: #b7dfc9; background: #edf8f2; }
     .projected-pill { color: var(--warn); border-color: #ead2a8; background: #fff8ea; }
+    .miss-pill { color: var(--bad); border-color: #f3b8b1; background: #fff1f0; }
     .bad { color: var(--bad); }
     .reason { max-width: 360px; white-space: normal; color: var(--muted); }
     @media (max-width: 900px) {
@@ -203,6 +205,7 @@ LIVE_HTML = """<!doctype html>
     <section class="metrics" id="metrics"></section>
     <div class="controls">
       <button class="active" id="tabKnockout" type="button">Knockout</button>
+      <button id="tabEval" type="button">Evaluation</button>
       <button id="tabGroup" type="button">Group History</button>
       <button id="tabRuns" type="button">Run History</button>
       <select id="roundFilter"></select>
@@ -253,6 +256,16 @@ LIVE_HTML = """<!doctype html>
       if (row.team2_context_reason) labels.push(`${row.team2}: ${contextLabel(row.team2_context_reason)}`);
       return labels.join(" | ");
     }
+    function evaluationFor(row) {
+      if (!DATA || !DATA.evaluation) return null;
+      return DATA.evaluation.find(item => item.match_number === row.match_number) || null;
+    }
+    function evaluationCell(row) {
+      const evaluation = evaluationFor(row);
+      if (!evaluation) return "<span class='muted'>Pending</span>";
+      const cls = evaluation.evaluation === "Miss" ? "miss-pill" : "actual-pill";
+      return `<span class="pill ${cls}">${esc(evaluation.evaluation)}</span><br><span class="muted">${esc(evaluation.predicted_advancing_team)} → ${esc(evaluation.actual_advancing_team)}</span>`;
+    }
     function rowMatches(row) {
       const query = document.getElementById("search").value.trim().toLowerCase();
       if (!query) return true;
@@ -290,7 +303,7 @@ LIVE_HTML = """<!doctype html>
         ["Champion", DATA.projected_champion || "TBD"],
         ["Final", final.team1 && final.team2 ? `${final.team1} vs ${final.team2}` : "TBD"],
         ["Final Odds", final.team1_advance_probability ? `${final.team1} ${pct(final.team1_advance_probability)} / ${final.team2} ${pct(final.team2_advance_probability)}` : "TBD"],
-        ["Actual Knockouts", `${DATA.completed_knockout_count} / ${DATA.knockout.length}`],
+        ["Prediction Record", `${DATA.prediction_hit_count || 0} hit / ${DATA.prediction_miss_count || 0} miss`],
       ];
       document.getElementById("metrics").innerHTML = rows.map(([label, value]) => `
         <div class="metric"><div class="metric-label">${esc(label)}</div><div class="metric-value">${esc(value)}</div></div>
@@ -305,9 +318,9 @@ LIVE_HTML = """<!doctype html>
     function renderKnockout() {
       let rows = DATA.knockout.filter(row => round === "All" || row.round === round).filter(rowMatches);
       document.getElementById("thead").innerHTML = `
-        <tr><th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Context</th></tr>`;
+        <tr><th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Context</th><th>Eval</th></tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
-        <tr class="${row.is_actual_result === "True" ? "actual" : ""}">
+        <tr class="${evaluationFor(row)?.evaluation === "Miss" ? "miss" : row.is_actual_result === "True" ? "actual" : ""}">
           <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong></td>
           <td>${esc(row.date)}<br><span class="muted">${esc(row.venue)}</span></td>
           <td>${esc(row.result_check_after_utc || "Date passed")}<br><span class="muted">${esc(row.kickoff_utc || "")}</span></td>
@@ -318,6 +331,7 @@ LIVE_HTML = """<!doctype html>
           <td>${esc(row.team1)} ${pct(row.team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.team2_advance_probability)}</td>
           <td><span class="pill projected-pill">${esc(row.projected_advancing_team)}</span></td>
           <td class="reason">${esc(contextSummary(row)) || "<span class='muted'>None</span>"}</td>
+          <td>${evaluationCell(row)}</td>
         </tr>
       `).join("");
     }
@@ -334,6 +348,22 @@ LIVE_HTML = """<!doctype html>
           <td>${esc(row.predicted_result)}</td>
           <td>${pct(row.home_win_probability)} / ${pct(row.draw_probability)} / ${pct(row.away_win_probability)}</td>
           <td>${esc(row.home_pre_elo)} -> ${esc(row.home_post_elo)}<br>${esc(row.away_pre_elo)} -> ${esc(row.away_post_elo)}</td>
+        </tr>
+      `).join("");
+    }
+    function renderEvaluation() {
+      const rows = DATA.evaluation.filter(rowMatches).slice().reverse();
+      document.getElementById("thead").innerHTML = `
+        <tr><th>Match</th><th>Teams</th><th>Prediction</th><th>Actual</th><th>Result</th><th>Surprise</th><th>Note</th></tr>`;
+      document.getElementById("tbody").innerHTML = rows.map(row => `
+        <tr class="${row.evaluation === "Hit" ? "actual" : ""}">
+          <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong><br><span class="muted">${esc(row.date)}</span></td>
+          <td><span class="team">${esc(row.team1)}</span><br><span class="team">${esc(row.team2)}</span></td>
+          <td><span class="pill projected-pill">${esc(row.predicted_advancing_team)}</span><br><span class="muted">${esc(row.predicted_90min_result)}</span></td>
+          <td><span class="pill actual-pill">${esc(row.actual_advancing_team)}</span><br><span class="muted">${esc(row.actual_score)}</span></td>
+          <td>${row.evaluation === "Hit" ? "<span class='pill actual-pill'>Hit</span>" : "<span class='pill projected-pill'>Miss</span>"}</td>
+          <td>${pct(row.surprise_score)}<br><span class="muted">actual ${pct(row.actual_advance_probability)}</span></td>
+          <td class="reason">${esc(row.note)}</td>
         </tr>
       `).join("");
     }
@@ -354,7 +384,7 @@ LIVE_HTML = """<!doctype html>
     function setTab(nextTab) {
       tab = nextTab;
       document.querySelectorAll(".controls button:not(#runNow)").forEach(button => button.classList.remove("active"));
-      document.getElementById(nextTab === "group" ? "tabGroup" : nextTab === "runs" ? "tabRuns" : "tabKnockout").classList.add("active");
+      document.getElementById(nextTab === "group" ? "tabGroup" : nextTab === "runs" ? "tabRuns" : nextTab === "evaluation" ? "tabEval" : "tabKnockout").classList.add("active");
       render();
     }
     function render() {
@@ -363,10 +393,12 @@ LIVE_HTML = """<!doctype html>
       renderMetrics();
       renderRoundFilter();
       if (tab === "group") renderGroup();
+      else if (tab === "evaluation") renderEvaluation();
       else if (tab === "runs") renderRuns();
       else renderKnockout();
     }
     document.getElementById("tabKnockout").addEventListener("click", () => setTab("knockout"));
+    document.getElementById("tabEval").addEventListener("click", () => setTab("evaluation"));
     document.getElementById("tabGroup").addEventListener("click", () => setTab("group"));
     document.getElementById("tabRuns").addEventListener("click", () => setTab("runs"));
     document.getElementById("roundFilter").addEventListener("change", event => { round = event.target.value; render(); });

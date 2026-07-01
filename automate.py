@@ -3,6 +3,7 @@ from generate_dashboard import main as generate_dashboard
 from src.automation_agent import AutomatedUpdateAgent
 from src.run_history import RunHistoryRecorder
 from validate_match_results import validate_knockout_results
+from evaluate_predictions import evaluate_predictions
 
 
 def main():
@@ -19,6 +20,9 @@ def main():
 
     print("\n[Automation]: Re-running prediction model with updated inputs...")
     run_model()
+    evaluation_rows = evaluate_predictions()
+    misses = sum(1 for row in evaluation_rows if row["evaluation"] == "Miss")
+    print(f"[Evaluation]: {len(evaluation_rows)} completed knockout predictions evaluated; {misses} misses.")
     generate_dashboard()
     manifest = RunHistoryRecorder().record_if_needed("automated_update", summary)
     if manifest:

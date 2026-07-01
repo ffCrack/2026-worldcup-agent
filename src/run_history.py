@@ -15,6 +15,7 @@ DEFAULT_SNAPSHOT_FILES = [
     "data/match_predictions.csv",
     "data/round_of_32_predictions.csv",
     "data/knockout_bracket_predictions.csv",
+    "data/prediction_evaluation.csv",
     "team_ratings.json",
 ]
 

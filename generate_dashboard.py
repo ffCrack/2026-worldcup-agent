@@ -25,11 +25,16 @@ def build_dashboard_data():
     knockout = read_csv("data/knockout_bracket_predictions.csv")
     group = read_csv("data/match_predictions.csv")
     history = read_csv("data/run_history/index.csv")
+    evaluation = read_csv("data/prediction_evaluation.csv")
 
     final = next((row for row in knockout if row.get("round") == "Final"), {})
     completed_knockouts = [
         row for row in knockout
         if row.get("is_actual_result") == "True"
+    ]
+    misses = [
+        row for row in evaluation
+        if row.get("evaluation") == "Miss"
     ]
 
     return {
@@ -39,7 +44,10 @@ def build_dashboard_data():
         "knockout": knockout,
         "group": group,
         "history": history,
+        "evaluation": evaluation,
         "completed_knockout_count": len(completed_knockouts),
+        "prediction_hit_count": len(evaluation) - len(misses),
+        "prediction_miss_count": len(misses),
     }
 
 
@@ -190,6 +198,7 @@ def render_html(data):
       z-index: 1;
     }}
     tr.actual td {{ background: #f0f8f4; }}
+    tr.miss td {{ background: #fff1f0; }}
     .team {{
       font-weight: 720;
       color: var(--text);
@@ -208,6 +217,7 @@ def render_html(data):
     }}
     .pill.actual {{ color: var(--ok); border-color: #b7dfc9; background: #edf8f2; }}
     .pill.projected {{ color: var(--warn); border-color: #ead2a8; background: #fff8ea; }}
+    .pill.miss {{ color: var(--accent-2); border-color: #f3b8b1; background: #fff1f0; }}
     .reason {{
       max-width: 360px;
       white-space: normal;
@@ -239,6 +249,7 @@ def render_html(data):
     <div class="toolbar">
       <div class="tabs">
         <button id="tab-knockout" class="active" type="button">Knockout</button>
+        <button id="tab-evaluation" type="button">Evaluation</button>
         <button id="tab-group" type="button">Group History</button>
         <button id="tab-runs" type="button">Run History</button>
       </div>
@@ -288,6 +299,18 @@ def render_html(data):
       return labels.join(" | ");
     }}
 
+    function evaluationFor(row) {{
+      if (!DATA || !DATA.evaluation) return null;
+      return DATA.evaluation.find(item => item.match_number === row.match_number) || null;
+    }}
+
+    function evaluationCell(row) {{
+      const evaluation = evaluationFor(row);
+      if (!evaluation) return "<span class='muted'>Pending</span>";
+      const cls = evaluation.evaluation === "Miss" ? "miss" : "actual";
+      return `<span class="pill ${{cls}}">${{esc(evaluation.evaluation)}}</span><br><span class="muted">${{esc(evaluation.predicted_advancing_team)}} → ${{esc(evaluation.actual_advancing_team)}}</span>`;
+    }}
+
     function esc(value) {{
       return String(value ?? "").replace(/[&<>"']/g, ch => ({{
         "&": "&amp;",
@@ -304,7 +327,7 @@ def render_html(data):
         ["Champion", DATA.projected_champion || "TBD"],
         ["Final", final.team1 && final.team2 ? `${{final.team1}} vs ${{final.team2}}` : "TBD"],
         ["Final Advance", final.team1_advance_probability ? `${{final.team1}} ${{fmtPct(final.team1_advance_probability)}} / ${{final.team2}} ${{fmtPct(final.team2_advance_probability)}}` : "TBD"],
-        ["Actual Knockouts", `${{DATA.completed_knockout_count}} / ${{DATA.knockout.length}}`],
+        ["Prediction Record", `${{DATA.prediction_hit_count || 0}} hit / ${{DATA.prediction_miss_count || 0}} miss`],
       ];
       document.getElementById("summary").innerHTML = metrics.map(([label, value]) => `
         <div class="metric">
@@ -342,10 +365,10 @@ def render_html(data):
       document.getElementById("thead").innerHTML = `
         <tr>
           <th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th>
-          <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Context</th>
+          <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Context</th><th>Eval</th>
         </tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
-        <tr class="${{row.is_actual_result === "True" ? "actual" : ""}}">
+        <tr class="${{evaluationFor(row)?.evaluation === "Miss" ? "miss" : row.is_actual_result === "True" ? "actual" : ""}}">
           <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong></td>
           <td>${{esc(row.date)}}<br><span class="muted">${{esc(row.venue)}}</span></td>
           <td>${{esc(row.result_check_after_utc || "Date passed")}}<br><span class="muted">${{esc(row.kickoff_utc || "")}}</span></td>
@@ -357,6 +380,7 @@ def render_html(data):
           <td><span class="pill projected">${{esc(row.projected_advancing_team)}}</span></td>
           <td>${{esc(row.team1_adjusted_elo)}}<br>${{esc(row.team2_adjusted_elo)}}</td>
           <td class="reason">${{esc(contextSummary(row)) || "<span class='muted'>None</span>"}}</td>
+          <td>${{evaluationCell(row)}}</td>
         </tr>
       `).join("");
     }}
@@ -399,10 +423,28 @@ def render_html(data):
       `).join("");
     }}
 
+    function renderEvaluation() {{
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const rows = DATA.evaluation.filter(row => rowMatches(row, query)).slice().reverse();
+      document.getElementById("thead").innerHTML = `
+        <tr><th>Match</th><th>Teams</th><th>Prediction</th><th>Actual</th><th>Result</th><th>Surprise</th><th>Note</th></tr>`;
+      document.getElementById("tbody").innerHTML = rows.map(row => `
+        <tr class="${{row.evaluation === "Hit" ? "actual" : ""}}">
+          <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong><br><span class="muted">${{esc(row.date)}}</span></td>
+          <td><span class="team">${{esc(row.team1)}}</span><br><span class="team">${{esc(row.team2)}}</span></td>
+          <td><span class="pill projected">${{esc(row.predicted_advancing_team)}}</span><br><span class="muted">${{esc(row.predicted_90min_result)}}</span></td>
+          <td><span class="pill actual">${{esc(row.actual_advancing_team)}}</span><br><span class="muted">${{esc(row.actual_score)}}</span></td>
+          <td>${{row.evaluation === "Hit" ? "<span class='pill actual'>Hit</span>" : "<span class='pill projected'>Miss</span>"}}</td>
+          <td>${{fmtPct(row.surprise_score)}}<br><span class="muted">actual ${{fmtPct(row.actual_advance_probability)}}</span></td>
+          <td class="reason">${{esc(row.note)}}</td>
+        </tr>
+      `).join("");
+    }}
+
     function setTab(tab) {{
       currentTab = tab;
       document.querySelectorAll(".tabs button").forEach(button => button.classList.remove("active"));
-      document.getElementById(`tab-${{tab === "group" ? "group" : tab === "runs" ? "runs" : "knockout"}}`).classList.add("active");
+      document.getElementById(`tab-${{tab === "group" ? "group" : tab === "runs" ? "runs" : tab === "evaluation" ? "evaluation" : "knockout"}}`).classList.add("active");
       render();
     }}
 
@@ -410,11 +452,13 @@ def render_html(data):
       renderSummary();
       renderRoundButtons();
       if (currentTab === "group") renderGroup();
+      else if (currentTab === "evaluation") renderEvaluation();
       else if (currentTab === "runs") renderRuns();
       else renderKnockout();
     }}
 
     document.getElementById("tab-knockout").addEventListener("click", () => setTab("knockout"));
+    document.getElementById("tab-evaluation").addEventListener("click", () => setTab("evaluation"));
     document.getElementById("tab-group").addEventListener("click", () => setTab("group"));
     document.getElementById("tab-runs").addEventListener("click", () => setTab("runs"));
     document.getElementById("search").addEventListener("input", render);

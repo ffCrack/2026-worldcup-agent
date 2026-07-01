@@ -1,0 +1,8 @@
+round,match_number,date,team1,team2,predicted_advancing_team,actual_advancing_team,evaluation,actual_advance_probability,surprise_score,predicted_90min_result,actual_score,note
+Round of 32,73,2026-06-28,South Africa,Canada,Canada,Canada,Hit,0.5073,0.4927,Draw,0-1,Model hit
+Round of 32,74,2026-06-29,Germany,Paraguay,Germany,Paraguay,Miss,0.3338,0.6662,Germany,1-1,Miss: actual winner had 33.4% pre-match advance probability
+Round of 32,75,2026-06-29,Netherlands,Morocco,Netherlands,Morocco,Miss,0.4953,0.5047,Draw,1-1,Miss: actual winner had 49.5% pre-match advance probability
+Round of 32,76,2026-06-29,Brazil,Japan,Brazil,Brazil,Hit,0.6684,0.3316,Brazil,2-1,Model hit
+Round of 32,77,2026-06-30,France,Sweden,France,France,Hit,0.8894,0.1106,France,3-0,Model hit
+Round of 32,78,2026-06-30,Côte d'Ivoire,Norway,Norway,Norway,Hit,0.5269,0.4731,Draw,1-2,Model hit
+Round of 32,79,2026-06-30,Mexico,Ecuador,Mexico,Mexico,Hit,0.7451,0.2549,Mexico,2-0,Model hit
