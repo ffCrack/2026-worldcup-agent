@@ -1,2 +1,5 @@
-# This project currently uses only the Python standard library.
-
+# Core model code uses the Python standard library.
+#
+# The FIFA Power Rankings refresh needs a browser because fifa.com renders the
+# team filter/table with JavaScript.
+playwright>=1.45

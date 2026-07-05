@@ -1,0 +1,22 @@
+checked_at,source,status,rows_before,rows_after,rows_changed,note
+2026-07-04T18:15:02+00:00,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings,failed,256,256,0,"Traceback (most recent call last):
+  File ""/Users/fangfang/Desktop/worldcup_2026_agent_2/refresh_fifa_power_rankings.py"", line 132, in harvest_power_rankings
+    from playwright.sync_api import sync_playwright
+ModuleNotFoundError: No module named 'playwright'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/Users/fangfang/Desktop/worldcup_2026_agent_2/refresh_fifa_power_rankings.py"", line 228, in <module>
+    main()
+    ~~~~^^
+  File ""/Users/fangfang/Desktop/worldcup_2026_agent_2/refresh_fifa_power_rankings.py"", line 207, in main
+    raw_rows = harvest_power_rankings(teams, headless=not args.headed, slow_mo=args.slow_mo)
+  File ""/Users/fangfang/Desktop/worldcup_2026_agent_2/refresh_fifa_power_rankings.py"", line 134, in harvest_power_rankings
+    raise RuntimeError(
+        ""Playwright is not installed. Install it with: python3 -m pip install playwright && python3 -m playwright install chromium""
+    ) from exc
+RuntimeError: Playwright is not installed. Install it with: python3 -m pip install playwright && python3 -m playwright install chromium"
+2026-07-04T18:15:32+00:00,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings,failed,256,256,0,Playwright is not installed. Install it with: python3 -m pip install -r requirements.txt && python3 -m playwright install chromium
+2026-07-05T00:08:44+00:00,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings,failed,256,256,0,Playwright is not installed. Install it with: python3 -m pip install -r requirements.txt && python3 -m playwright install chromium
+2026-07-05T00:09:23+00:00,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings,failed,256,256,0,Playwright is not installed. Install it with: python3 -m pip install -r requirements.txt && python3 -m playwright install chromium

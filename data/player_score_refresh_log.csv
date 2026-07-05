@@ -1,0 +1,4 @@
+checked_at,match_number,team1,team2,source,status,rows_found,rows_applied,note
+2026-07-03T12:48:49+00:00,86,Argentina,Cabo Verde,,skipped,0,0,No enabled FIFA player-score URL is configured.
+2026-07-03T12:48:49+00:00,87,Colombia,Ghana,,skipped,0,0,No enabled FIFA player-score URL is configured.
+2026-07-03T12:48:49+00:00,88,Australia,Egypt,,skipped,0,0,No enabled FIFA player-score URL is configured.

@@ -93,6 +93,97 @@ Brazil,-45,Key forward ruled out with hamstring injury,Reuters,2026-06-29,2026-0
 Japan,20,Starting midfielder returns from suspension,FIFA,2026-06-29,2026-06-29
 ```
 
+### `player_scores.csv`
+
+Optional player-level squad strength input.
+
+- Source: FIFA player/squad score pages or configured official FIFA
+  player-score endpoints. The automation refreshes this file before upcoming
+  matches when a FIFA source URL is configured in `automation_sources.csv`.
+- Expected columns:
+  - `team`: team name matching the rest of the project.
+  - `player`: player name.
+  - `position`: optional position label such as GK, DEF, MID, FWD.
+  - `score`: numeric player score.
+  - `role`: use `starter` for expected starting XI players. If fewer than 7
+    starters are marked, the model uses the top 11 available players.
+  - `status`: leave blank for available players; use `out`, `injured`,
+    `suspended`, or `unavailable` to exclude a player from the squad score.
+  - `source`: URL or note for where the score came from.
+- Model transformation:
+  - starting XI average receives 85% weight.
+  - bench/depth average receives 15% weight.
+  - team squad strength is compared with the average of teams that have player
+    data.
+  - each player-score point above/below that baseline becomes 8 Elo-like points,
+    capped at +/-80.
+
+### `player_score_refresh_log.csv`
+
+Audit log for pre-match FIFA player-score refreshes.
+
+- The automation checks matches whose `kickoff_utc` is within the next 24 hours.
+- If no FIFA player-score URL is configured, the check is logged as `skipped`.
+- If a FIFA URL is configured but no numeric player scores are found, the check
+  is logged as `no_scores_found`.
+- Only real numeric rows found in the configured FIFA source are written into
+  `player_scores.csv`.
+
+### `fifa_power_rankings.csv`
+
+Official FIFA Power Rankings powered by Aramco player-performance input.
+
+- Source: https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings
+- The page provides objective player scores from World Cup match data.
+- Expected columns:
+  - `rank`: FIFA player ranking position within the visible category.
+  - `change`: movement shown by FIFA when available.
+  - `player`: player name as shown by FIFA.
+  - `team`: national team.
+  - `attacking`, `creativity`, `defending`: outfield player category scores.
+  - `goalkeeping_defending`, `goalkeeping_possession`: goalkeeper category
+    scores.
+  - `overall_score`: transparent project score used by the model. For outfield
+    players, this is the average of attacking, creativity, and defending. For
+    goalkeepers, this is the available goalkeeper score average.
+  - `source`: FIFA page URL.
+  - `checked_at`: when the row was observed.
+- Model transformation:
+  - team power score is the average of up to the top 3 ranked players per team.
+  - teams absent from the file receive no power-ranking adjustment.
+  - scores only apply to matches on or after the row's `checked_at` date, so
+    newer rankings do not rewrite old pre-match evaluations.
+  - each team-power point above/below the active baseline becomes 14 Elo-like
+    points.
+  - top-10 ranked players add a small rank bonus.
+  - the total power-ranking adjustment is capped at +/-75.
+- Refresh:
+  - `refresh_fifa_power_rankings.py` opens the FIFA page in a browser, selects
+    each current Round of 16 team from the team filter, reads both the Outfield
+    and Goalkeeper tables, concatenates the rows, and rewrites this CSV.
+  - `automate.py` calls that script before rerunning the model when
+    `fifa_power_rankings_browser` is enabled in `automation_sources.csv`.
+  - The browser refresh requires Playwright and Chromium.
+
+### `team_power_rankings.csv`
+
+Generated output summarizing how `fifa_power_rankings.csv` affects each team.
+
+### `fifa_power_rankings_harvest.json`
+
+Raw browser-harvest audit file from the latest FIFA Power Rankings refresh.
+This preserves the unnormalized table rows before conversion into
+`fifa_power_rankings.csv`.
+
+### `fifa_power_ranking_refresh_log.csv`
+
+Audit log for automated FIFA Power Rankings refresh attempts.
+
+- `applied`: browser refresh completed and changed `fifa_power_rankings.csv`.
+- `unchanged`: browser refresh completed but the normalized CSV was unchanged.
+- `failed`: browser refresh could not run, commonly because Playwright or the
+  Chromium browser is not installed.
+
 ### `automation_sources.csv`
 
 Configures optional automated data sources.
@@ -101,6 +192,11 @@ Configures optional automated data sources.
   suspension, red-card, and availability news for advancing knockout teams.
 - `match_results_csv`: optional normalized CSV URL for match result harvesting.
   This is disabled by default until a reliable normalized source is provided.
+- `fifa_player_scores_json`: official FIFA JSON or FIFA page URL used for
+  player-score refreshes before upcoming matches. URL templates may use
+  `{match_number}`, `{team1}`, and `{team2}`.
+- `fifa_power_rankings_browser`: official FIFA Power Rankings page used by the
+  browser refresh script.
 
 ### `harvested_match_results.csv`
 

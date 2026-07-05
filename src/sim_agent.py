@@ -3,8 +3,8 @@ import random
 
 
 class MatchSimulationAgent:
-    def __init__(self):
-        with open("team_ratings.json", "r") as f:
+    def __init__(self, ratings_json="data/team_ratings.json"):
+        with open(ratings_json, "r") as f:
             self.ratings = json.load(f)
 
     def get_rating(self, team):

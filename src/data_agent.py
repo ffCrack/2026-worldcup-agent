@@ -14,9 +14,11 @@ class DataAndRatingAgent:
     def __init__(
         self,
         history_csv_path="world_cup_history.csv",
-        ratings_json="team_ratings.json",
+        ratings_json="data/team_ratings.json",
         seed_ratings_json=None,
         context_adjustments_csv="data/team_context_adjustments.csv",
+        player_scores_csv="data/player_scores.csv",
+        power_rankings_csv="data/fifa_power_rankings.csv",
     ):
         self.csv_path = history_csv_path
         self.ratings_json = ratings_json
@@ -27,8 +29,19 @@ class DataAndRatingAgent:
         self.draw_decay = 600
         self.form_decay = 0.65
         self.form_points = 90
+        self.player_score_points = 8
+        self.player_adjustment_cap = 80
+        self.power_score_points = 14
+        self.power_rank_bonus_points = 2
+        self.power_adjustment_cap = 75
         self.form = {}
         self.context_adjustments = self.load_context_adjustments(context_adjustments_csv)
+        self.player_scores = self.load_player_scores(player_scores_csv)
+        self.player_strengths = self.compute_player_strengths(self.player_scores)
+        self.player_strength_baseline = self.compute_player_strength_baseline(self.player_strengths)
+        self.power_rankings = self.load_power_rankings(power_rankings_csv)
+        self.power_strengths = self.compute_power_strengths(self.power_rankings)
+        self.power_strength_baseline = self.compute_power_strength_baseline(self.power_strengths)
 
         # Start from a pre-tournament ratings file if one is provided.
         # Otherwise, unseen teams begin at the default 1500 Elo baseline.
@@ -51,6 +64,284 @@ class DataAndRatingAgent:
     def form_adjustment(self, team):
         """Temporary tournament-form boost from recent over/under-performance."""
         return self.form.get(team, 0.0) * self.form_points
+
+    def load_player_scores(self, file_path):
+        """Loads optional FIFA-style player ratings for squad-strength adjustment."""
+        if not file_path:
+            return []
+
+        if not os.path.exists(file_path):
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, "w", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=[
+                    "team",
+                    "player",
+                    "position",
+                    "score",
+                    "role",
+                    "status",
+                    "source",
+                ])
+                writer.writeheader()
+            return []
+
+        with open(file_path, newline="") as f:
+            rows = list(csv.DictReader(f))
+
+        player_scores = []
+        for row in rows:
+            if not row.get("team") or not row.get("player") or not row.get("score"):
+                continue
+            try:
+                score = float(row["score"])
+            except ValueError:
+                continue
+            player_scores.append({
+                "team": row["team"],
+                "player": row["player"],
+                "position": row.get("position", ""),
+                "score": score,
+                "role": row.get("role", ""),
+                "status": row.get("status", ""),
+                "source": row.get("source", ""),
+            })
+
+        return player_scores
+
+    def compute_player_strengths(self, player_scores):
+        by_team = {}
+        for row in player_scores:
+            by_team.setdefault(row["team"], []).append(row)
+
+        strengths = {}
+        for team, rows in by_team.items():
+            available = [
+                row for row in rows
+                if row.get("status", "").strip().lower() not in ("out", "injured", "suspended", "unavailable")
+            ]
+            if not available:
+                continue
+
+            starters = [
+                row for row in available
+                if row.get("role", "").strip().lower() in ("starter", "likely_starter", "starting_xi", "xi")
+            ]
+            ordered = sorted(available, key=lambda row: row["score"], reverse=True)
+            if len(starters) < 7:
+                starters = ordered[:11]
+            else:
+                starters = sorted(starters, key=lambda row: row["score"], reverse=True)[:11]
+
+            starter_names = {row["player"] for row in starters}
+            bench = [row for row in ordered if row["player"] not in starter_names][:7]
+            starter_average = self.average([row["score"] for row in starters])
+            bench_average = self.average([row["score"] for row in bench])
+            squad_strength = starter_average
+            if bench_average is not None:
+                squad_strength = (starter_average * 0.85) + (bench_average * 0.15)
+
+            strengths[team] = {
+                "team": team,
+                "player_count": len(rows),
+                "available_count": len(available),
+                "starter_average": starter_average,
+                "bench_average": bench_average,
+                "squad_strength": squad_strength,
+            }
+
+        return strengths
+
+    def average(self, values):
+        values = [value for value in values if value is not None]
+        if not values:
+            return None
+        return sum(values) / len(values)
+
+    def compute_player_strength_baseline(self, strengths):
+        values = [
+            row["squad_strength"]
+            for row in strengths.values()
+            if row.get("squad_strength") is not None
+        ]
+        if not values:
+            return None
+        return sum(values) / len(values)
+
+    def player_strength_adjustment(self, team):
+        strength = self.player_strengths.get(team, {}).get("squad_strength")
+        if strength is None or self.player_strength_baseline is None:
+            return 0.0
+        adjustment = (strength - self.player_strength_baseline) * self.player_score_points
+        return max(-self.player_adjustment_cap, min(self.player_adjustment_cap, adjustment))
+
+    def player_strength_score(self, team):
+        strength = self.player_strengths.get(team, {}).get("squad_strength")
+        if strength is None:
+            return ""
+        return round(strength, 2)
+
+    def load_power_rankings(self, file_path):
+        """Loads official FIFA Power Rankings player-performance rows."""
+        if not file_path:
+            return []
+
+        fieldnames = [
+            "rank",
+            "change",
+            "player",
+            "team",
+            "attacking",
+            "creativity",
+            "defending",
+            "goalkeeping_defending",
+            "goalkeeping_possession",
+            "overall_score",
+            "source",
+            "checked_at",
+        ]
+        if not os.path.exists(file_path):
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, "w", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+            return []
+
+        rows = []
+        with open(file_path, newline="") as f:
+            for row in csv.DictReader(f):
+                if not row.get("team") or not row.get("player"):
+                    continue
+                score = self.power_overall_score(row)
+                if score is None:
+                    continue
+                rows.append({
+                    "rank": self.safe_int(row.get("rank")),
+                    "change": row.get("change", ""),
+                    "player": row["player"],
+                    "team": row["team"],
+                    "attacking": self.safe_float(row.get("attacking")),
+                    "creativity": self.safe_float(row.get("creativity")),
+                    "defending": self.safe_float(row.get("defending")),
+                    "goalkeeping_defending": self.safe_float(row.get("goalkeeping_defending")),
+                    "goalkeeping_possession": self.safe_float(row.get("goalkeeping_possession")),
+                    "overall_score": score,
+                    "source": row.get("source", ""),
+                    "checked_at": row.get("checked_at", ""),
+                    "active_from": self.date_from_iso(row.get("checked_at", "")),
+                })
+        return rows
+
+    def power_overall_score(self, row):
+        explicit = self.safe_float(row.get("overall_score"))
+        if explicit is not None:
+            return explicit
+
+        values = [
+            self.safe_float(row.get("attacking")),
+            self.safe_float(row.get("creativity")),
+            self.safe_float(row.get("defending")),
+        ]
+        values = [value for value in values if value is not None]
+        if values:
+            return sum(values) / len(values)
+
+        values = [
+            self.safe_float(row.get("goalkeeping_defending")),
+            self.safe_float(row.get("goalkeeping_possession")),
+        ]
+        values = [value for value in values if value is not None]
+        if values:
+            return sum(values) / len(values)
+        return None
+
+    def compute_power_strengths(self, power_rankings):
+        by_team = {}
+        for row in power_rankings:
+            by_team.setdefault(row["team"], []).append(row)
+
+        strengths = {}
+        for team, rows in by_team.items():
+            ordered = sorted(rows, key=lambda row: row["overall_score"], reverse=True)
+            top_rows = ordered[:3]
+            team_power_score = self.average([row["overall_score"] for row in top_rows])
+            best_rank = min([row["rank"] for row in rows if row["rank"] is not None], default=None)
+            strengths[team] = {
+                "team": team,
+                "ranked_player_count": len(rows),
+                "best_rank": best_rank,
+                "best_player": sorted(rows, key=lambda row: row["rank"] or 9999)[0]["player"],
+                "team_power_score": team_power_score,
+            }
+        return strengths
+
+    def compute_power_strength_baseline(self, strengths):
+        values = [
+            row["team_power_score"]
+            for row in strengths.values()
+            if row.get("team_power_score") is not None
+        ]
+        if not values:
+            return None
+        return sum(values) / len(values)
+
+    def active_power_strengths(self, match_date=None):
+        if not match_date:
+            return self.power_strengths
+        if hasattr(match_date, "date"):
+            match_date = match_date.date().isoformat()
+
+        active_rows = [
+            row for row in self.power_rankings
+            if not row.get("active_from") or row["active_from"] <= match_date
+        ]
+        return self.compute_power_strengths(active_rows)
+
+    def active_power_baseline(self, strengths):
+        return self.compute_power_strength_baseline(strengths)
+
+    def power_ranking_adjustment(self, team, match_date=None):
+        strengths = self.active_power_strengths(match_date)
+        strength = strengths.get(team, {})
+        score = strength.get("team_power_score")
+        baseline = self.active_power_baseline(strengths)
+        if score is None or baseline is None:
+            return 0.0
+
+        score_points = (score - baseline) * self.power_score_points
+        best_rank = strength.get("best_rank")
+        rank_bonus = 0
+        if best_rank is not None and best_rank <= 10:
+            rank_bonus = (11 - best_rank) * self.power_rank_bonus_points
+
+        adjustment = score_points + rank_bonus
+        return max(-self.power_adjustment_cap, min(self.power_adjustment_cap, adjustment))
+
+    def power_score(self, team, match_date=None):
+        score = self.active_power_strengths(match_date).get(team, {}).get("team_power_score")
+        if score is None:
+            return ""
+        return round(score, 2)
+
+    def date_from_iso(self, value):
+        if not value:
+            return ""
+        return value[:10]
+
+    def safe_float(self, value):
+        if value in (None, ""):
+            return None
+        try:
+            return float(value)
+        except ValueError:
+            return None
+
+    def safe_int(self, value):
+        if value in (None, ""):
+            return None
+        try:
+            return int(float(value))
+        except ValueError:
+            return None
 
     def load_context_adjustments(self, file_path):
         """Loads manual news/context adjustments such as injuries or suspensions."""
@@ -121,6 +412,8 @@ class DataAndRatingAgent:
             + self.host_advantage(team, venue_country)
             + self.form_adjustment(team)
             + self.context_adjustment(team, match_date)
+            + self.player_strength_adjustment(team)
+            + self.power_ranking_adjustment(team, match_date)
         )
 
     def expected_score(self, team1, team2, venue_country=None, match_date=None):
@@ -135,6 +428,10 @@ class DataAndRatingAgent:
         team2_rating = self.get_rating(team2)
         team1_context = self.context_adjustment(team1, match_date)
         team2_context = self.context_adjustment(team2, match_date)
+        team1_player = self.player_strength_adjustment(team1)
+        team2_player = self.player_strength_adjustment(team2)
+        team1_power = self.power_ranking_adjustment(team1, match_date)
+        team2_power = self.power_ranking_adjustment(team2, match_date)
         team1_adjusted = self.adjusted_rating(team1, venue_country, match_date)
         team2_adjusted = self.adjusted_rating(team2, venue_country, match_date)
         expected = self.expected_score(team1, team2, venue_country, match_date)
@@ -163,6 +460,14 @@ class DataAndRatingAgent:
             "away_form_adjustment": round(self.form_adjustment(team2), 1),
             "home_context_adjustment": round(team1_context, 1),
             "away_context_adjustment": round(team2_context, 1),
+            "home_player_strength": self.player_strength_score(team1),
+            "away_player_strength": self.player_strength_score(team2),
+            "home_player_adjustment": round(team1_player, 1),
+            "away_player_adjustment": round(team2_player, 1),
+            "home_power_score": self.power_score(team1, match_date),
+            "away_power_score": self.power_score(team2, match_date),
+            "home_power_adjustment": round(team1_power, 1),
+            "away_power_adjustment": round(team2_power, 1),
             "home_context_reason": self.context_adjustment_reasons(team1, match_date),
             "away_context_reason": self.context_adjustment_reasons(team2, match_date),
             "home_adjusted_elo": round(team1_adjusted, 1),
@@ -306,6 +611,14 @@ class DataAndRatingAgent:
                 "team2_form_adjustment": prediction["away_form_adjustment"],
                 "team1_context_adjustment": prediction["home_context_adjustment"],
                 "team2_context_adjustment": prediction["away_context_adjustment"],
+                "team1_player_strength": prediction["home_player_strength"],
+                "team2_player_strength": prediction["away_player_strength"],
+                "team1_player_adjustment": prediction["home_player_adjustment"],
+                "team2_player_adjustment": prediction["away_player_adjustment"],
+                "team1_power_score": prediction["home_power_score"],
+                "team2_power_score": prediction["away_power_score"],
+                "team1_power_adjustment": prediction["home_power_adjustment"],
+                "team2_power_adjustment": prediction["away_power_adjustment"],
                 "team1_context_reason": prediction["home_context_reason"],
                 "team2_context_reason": prediction["away_context_reason"],
                 "team1_adjusted_elo": prediction["home_adjusted_elo"],
@@ -441,6 +754,7 @@ class DataAndRatingAgent:
         print(f"Updated ratings based on today's match: {team1} {score1} - {score2} {team2}")
 
     def save_ratings(self):
+        os.makedirs(os.path.dirname(self.ratings_json), exist_ok=True)
         with open(self.ratings_json, 'w') as f:
             json.dump(self.ratings, f, indent=4)
 
@@ -476,6 +790,70 @@ class DataAndRatingAgent:
 
         with open(file_path, "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+            writer.writeheader()
+            writer.writerows(rows)
+
+    def player_strength_summary(self):
+        rows = []
+        for team in sorted(self.player_strengths):
+            strength = self.player_strengths[team]
+            rows.append({
+                "team": team,
+                "player_count": strength["player_count"],
+                "available_count": strength["available_count"],
+                "starter_average": round(strength["starter_average"], 2),
+                "bench_average": "" if strength["bench_average"] is None else round(strength["bench_average"], 2),
+                "squad_strength": round(strength["squad_strength"], 2),
+                "player_adjustment": round(self.player_strength_adjustment(team), 1),
+            })
+        return sorted(rows, key=lambda row: row["player_adjustment"], reverse=True)
+
+    def save_player_strength_summary(self, file_path="data/team_player_strength.csv"):
+        rows = self.player_strength_summary()
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        fieldnames = [
+            "team",
+            "player_count",
+            "available_count",
+            "starter_average",
+            "bench_average",
+            "squad_strength",
+            "player_adjustment",
+        ]
+        with open(file_path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+
+    def power_ranking_summary(self):
+        rows = []
+        for team in sorted(self.power_strengths):
+            strength = self.power_strengths[team]
+            rows.append({
+                "team": team,
+                "ranked_player_count": strength["ranked_player_count"],
+                "best_rank": "" if strength["best_rank"] is None else strength["best_rank"],
+                "best_player": strength["best_player"],
+                "team_power_score": round(strength["team_power_score"], 2),
+                "power_adjustment": round(self.power_ranking_adjustment(team), 1),
+            })
+        return sorted(rows, key=lambda row: row["power_adjustment"], reverse=True)
+
+    def save_power_ranking_summary(self, file_path="data/team_power_rankings.csv"):
+        rows = self.power_ranking_summary()
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        fieldnames = [
+            "team",
+            "ranked_player_count",
+            "best_rank",
+            "best_player",
+            "team_power_score",
+            "power_adjustment",
+        ]
+        with open(file_path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(rows)
 

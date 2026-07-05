@@ -11,12 +11,18 @@ DEFAULT_SNAPSHOT_FILES = [
     "data/world_cup_history.csv",
     "data/knockout_bracket.csv",
     "data/team_context_adjustments.csv",
+    "data/player_scores.csv",
+    "data/player_score_refresh_log.csv",
+    "data/fifa_power_rankings.csv",
+    "data/fifa_power_ranking_refresh_log.csv",
     "data/team_form_adjustments.csv",
+    "data/team_player_strength.csv",
+    "data/team_power_rankings.csv",
     "data/match_predictions.csv",
     "data/round_of_32_predictions.csv",
     "data/knockout_bracket_predictions.csv",
     "data/prediction_evaluation.csv",
-    "team_ratings.json",
+    "data/team_ratings.json",
 ]
 
 
@@ -87,7 +93,9 @@ class RunHistoryRecorder:
 
     def has_meaningful_update(self, summary):
         return (
-            int(summary.get("match_result_updates", 0) or 0) > 0
+            int(summary.get("power_ranking_updates", 0) or 0) > 0
+            or int(summary.get("player_score_updates", 0) or 0) > 0
+            or int(summary.get("match_result_updates", 0) or 0) > 0
             or int(summary.get("strength_adjustments_applied", 0) or 0) > 0
             or int(summary.get("news_adjustments_applied", 0) or 0) > 0
         )
@@ -122,6 +130,8 @@ class RunHistoryRecorder:
             "run_type",
             "projected_champion",
             "match_result_updates",
+            "power_ranking_updates",
+            "player_score_updates",
             "strength_adjustments_applied",
             "news_adjustments_applied",
             "snapshot_reason",
@@ -142,6 +152,8 @@ class RunHistoryRecorder:
                 "run_type": manifest["run_type"],
                 "projected_champion": manifest.get("projected_champion", ""),
                 "match_result_updates": summary.get("match_result_updates", ""),
+                "power_ranking_updates": summary.get("power_ranking_updates", ""),
+                "player_score_updates": summary.get("player_score_updates", ""),
                 "strength_adjustments_applied": summary.get("strength_adjustments_applied", ""),
                 "news_adjustments_applied": summary.get("news_adjustments_applied", ""),
                 "snapshot_reason": summary.get("snapshot_reason", "meaningful_update"),

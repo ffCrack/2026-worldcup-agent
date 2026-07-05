@@ -132,6 +132,12 @@ Run automated updates first, then regenerate predictions and dashboard output:
 python3 automate.py
 ```
 
+Refresh FIFA Power Rankings only:
+
+```bash
+python3 refresh_fifa_power_rankings.py
+```
+
 Run the live updater without the browser UI:
 
 ```bash
@@ -183,7 +189,7 @@ data/team_form_adjustments.csv
 data/round_of_32_predictions.csv
 data/knockout_bracket_predictions.csv
 data/dashboard.html
-team_ratings.json
+data/team_ratings.json
 ```
 
 Automation/audit files:
@@ -214,7 +220,15 @@ docs/assets/
 
 ## Requirements
 
-The project currently uses only the Python standard library.
+The core model uses the Python standard library.
+
+The FIFA Power Rankings refresh uses Playwright because FIFA renders the team
+filter and ranking tables in JavaScript. Install it once with:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 -m playwright install chromium
+```
 
 Recommended Python version: 3.10+
 
@@ -224,6 +238,8 @@ Recommended Python version: 3.10+
 - The model is intentionally simple and explainable.
 - News/context adjustments are rule-based and should be treated as approximate.
 - Public data sources can change, so automated harvesting may need maintenance.
+- If Playwright is not installed, `automate.py` keeps running but skips/logs the
+  FIFA Power Rankings browser refresh and uses the latest saved CSV.
 - The dashboard is local-first; it is not currently deployed as a hosted app.
 
 ## Repository

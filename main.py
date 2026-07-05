@@ -21,7 +21,7 @@ def main():
     # 3. Initialize the Data & Rating Agent using the official FIFA baseline.
     rating_agent = DataAndRatingAgent(
         history_csv_path="data/world_cup_history.csv",
-        ratings_json="team_ratings.json",
+        ratings_json="data/team_ratings.json",
         seed_ratings_json="data/pre_tournament_ratings.json",
         context_adjustments_csv="data/team_context_adjustments.csv",
     )
@@ -32,10 +32,14 @@ def main():
     predictions_df = rating_agent.process_matches_chronologically(match_df)
     rating_agent.save_predictions(predictions_df)
     rating_agent.save_form_summary()
+    rating_agent.save_player_strength_summary()
+    rating_agent.save_power_ranking_summary()
     rating_agent.save_ratings()
     print("[Data Agent]: 'data/match_predictions.csv' written successfully.")
     print("[Data Agent]: 'data/team_form_adjustments.csv' written successfully.")
-    print("[Data Agent]: 'team_ratings.json' updated successfully.")
+    print("[Data Agent]: 'data/team_player_strength.csv' written successfully.")
+    print("[Data Agent]: 'data/team_power_rankings.csv' written successfully.")
+    print("[Data Agent]: 'data/team_ratings.json' updated successfully.")
 
     # 5. Predict the full knockout bracket. Actual results in the bracket file
     # override model predictions; future slots use projected advancing teams.

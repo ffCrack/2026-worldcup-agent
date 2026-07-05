@@ -1,73 +1,73 @@
-date,stage,venue,venue_country,home_team,away_team,home_pre_elo,away_pre_elo,home_form_adjustment,away_form_adjustment,home_context_adjustment,away_context_adjustment,home_context_reason,away_context_reason,home_adjusted_elo,away_adjusted_elo,home_advantage_team,home_win_probability,draw_probability,away_win_probability,predicted_result,predicted_winner,home_score,away_score,actual_winner,home_post_elo,away_post_elo
-2026-06-11,Group A,Mexico City Stadium,Mexico,Mexico,South Africa,1687.5,1428.4,0.0,0.0,0.0,0.0,,,1762.5,1428.4,Mexico,0.6797,0.2063,0.114,Mexico,Mexico,2,0,Mexico,1698.3,1417.5
-2026-06-11,Group A,Guadalajara Stadium,Mexico,Korea Republic,Czechia,1591.6,1505.7,0.0,0.0,0.0,0.0,,,1591.6,1505.7,,0.4257,0.312,0.2623,Korea Republic,Korea Republic,2,1,Korea Republic,1612.5,1484.8
-2026-06-12,Group B,Toronto Stadium,Canada,Canada,Bosnia and Herzegovina,1559.5,1387.2,0.0,0.0,0.0,0.0,,,1634.5,1387.2,Canada,0.6017,0.2384,0.1599,Canada,Canada,1,1,Draw,1548.4,1398.3
-2026-06-12,Group D,Los Angeles Stadium,USA,USA,Paraguay,1671.2,1505.3,0.0,0.0,0.0,0.0,,,1746.2,1505.3,USA,0.5955,0.241,0.1636,USA,USA,4,1,USA,1685.4,1491.1
-2026-06-13,Group C,Boston Stadium,USA,Haiti,Scotland,1293.1,1503.3,0.0,0.0,0.0,0.0,,,1293.1,1503.3,,0.1818,0.2536,0.5646,Scotland,Scotland,0,1,Scotland,1277.7,1518.8
-2026-06-13,Group D,BC Place Vancouver,Canada,Australia,Türkiye,1579.3,1605.7,0.0,0.0,0.0,0.0,,,1579.3,1605.7,,0.3024,0.3445,0.353,Türkiye,Türkiye,2,0,Australia,1605.6,1579.5
-2026-06-13,Group C,New York New Jersey Stadium,USA,Brazil,Morocco,1765.9,1755.1,0.0,0.0,0.0,0.0,,,1765.9,1755.1,,0.3335,0.3536,0.3129,Draw,Draw,1,1,Draw,1765.3,1755.6
-2026-06-13,Group B,San Francisco Bay Area Stadium,USA,Qatar,Switzerland,1450.3,1650.1,0.0,0.0,0.0,0.0,,,1450.3,1650.1,,0.1882,0.2581,0.5537,Switzerland,Switzerland,1,1,Draw,1459.4,1640.9
-2026-06-14,Group E,Philadelphia Stadium,USA,Côte d'Ivoire,Ecuador,1540.9,1598.5,0.0,0.0,0.0,0.0,,,1540.9,1598.5,,0.2814,0.327,0.3916,Ecuador,Ecuador,1,0,Côte d'Ivoire,1568.6,1570.8
-2026-06-14,Group E,Houston Stadium,USA,Germany,Curaçao,1735.8,1294.8,0.0,0.0,0.0,0.0,,,1735.8,1294.8,,0.7582,0.1726,0.0691,Germany,Germany,7,1,Germany,1743.5,1287.0
-2026-06-14,Group F,Dallas Stadium,USA,Netherlands,Japan,1753.6,1661.6,0.0,0.0,0.0,0.0,,,1753.6,1661.6,,0.4329,0.3088,0.2582,Netherlands,Netherlands,2,2,Draw,1749.2,1665.9
-2026-06-14,Group F,Estadio Monterrey,Mexico,Sweden,Tunisia,1509.8,1476.4,0.0,0.0,0.0,0.0,,,1509.8,1476.4,,0.3617,0.3405,0.2978,Sweden,Sweden,5,1,Sweden,1533.2,1453.0
-2026-06-15,Group H,Miami Stadium,USA,Saudi Arabia,Uruguay,1423.9,1673.1,0.0,0.0,0.0,0.0,,,1423.9,1673.1,,0.1588,0.2376,0.6036,Uruguay,Uruguay,1,1,Draw,1435.0,1662.0
-2026-06-15,Group H,Atlanta Stadium,USA,Spain,Cabo Verde,1874.7,1371.1,0.0,0.0,0.0,0.0,,,1874.7,1371.1,,0.7958,0.1555,0.0487,Spain,Spain,0,0,Draw,1856.0,1389.8
-2026-06-15,Group G,Los Angeles Stadium,USA,IR Iran,New Zealand,1619.6,1275.6,0.0,0.0,0.0,0.0,,,1619.6,1275.6,,0.6878,0.2029,0.1093,IR Iran,IR Iran,2,2,Draw,1605.1,1290.0
-2026-06-15,Group G,Seattle Stadium,USA,Belgium,Egypt,1742.2,1562.4,0.0,0.0,0.0,0.0,,,1742.2,1562.4,,0.5327,0.2668,0.2006,Belgium,Belgium,1,1,Draw,1733.9,1570.7
-2026-06-16,Group I,New York New Jersey Stadium,USA,France,Senegal,1870.7,1684.1,0.0,0.0,0.0,0.0,,,1870.7,1684.1,,0.5399,0.2638,0.1963,France,France,3,1,France,1887.1,1667.7
-2026-06-16,Group I,Boston Stadium,USA,Iraq,Norway,1446.3,1557.4,0.0,0.0,0.0,0.0,,,1446.3,1557.4,,0.2454,0.2991,0.4555,Norway,Norway,1,4,Norway,1426.5,1577.2
-2026-06-16,Group J,Kansas City Stadium,USA,Argentina,Algeria,1877.3,1571.0,0.0,0.0,0.0,0.0,,,1877.3,1571.0,,0.656,0.2161,0.1279,Argentina,Argentina,3,0,Argentina,1889.1,1559.2
-2026-06-16,Group J,San Francisco Bay Area Stadium,USA,Austria,Jordan,1597.4,1387.7,0.0,0.0,0.0,0.0,,,1597.4,1387.7,,0.564,0.2538,0.1821,Austria,Austria,3,1,Austria,1612.9,1372.3
-2026-06-17,Group L,Toronto Stadium,Canada,Ghana,Panama,1346.9,1539.2,0.0,0.0,0.0,0.0,,,1346.9,1539.2,,0.1928,0.2613,0.5459,Panama,Panama,1,0,Ghana,1380.7,1505.3
-2026-06-17,Group L,Dallas Stadium,USA,England,Croatia,1828.0,1714.9,0.0,0.0,0.0,0.0,,,1828.0,1714.9,,0.4578,0.2981,0.2441,England,England,4,2,England,1847.7,1695.2
-2026-06-17,Group K,Houston Stadium,USA,Portugal,Congo DR,1767.8,1474.4,0.0,0.0,0.0,0.0,,,1767.8,1474.4,,0.6447,0.2208,0.1345,Portugal,Portugal,1,1,Draw,1755.1,1487.2
-2026-06-17,Group K,Mexico City Stadium,Mexico,Uzbekistan,Colombia,1458.7,1698.3,0.0,0.0,0.0,0.0,,,1458.7,1698.3,,0.1643,0.2415,0.5942,Colombia,Colombia,1,3,Colombia,1444.5,1712.6
-2026-06-18,Group A,Atlanta Stadium,USA,Czechia,South Africa,1484.8,1417.5,-37.7,-19.5,0.0,0.0,,,1447.1,1398.0,,0.3812,0.3317,0.2871,Czechia,Czechia,1,1,Draw,1482.4,1419.9
-2026-06-18,Group B,Los Angeles Stadium,USA,Switzerland,Bosnia and Herzegovina,1640.9,1398.3,-16.5,19.9,0.0,0.0,,,1624.4,1418.2,,0.5605,0.2553,0.1842,Switzerland,Switzerland,4,1,Switzerland,1656.5,1382.7
-2026-06-18,Group B,BC Place Vancouver,Canada,Canada,Qatar,1548.4,1459.4,-19.9,16.5,0.0,0.0,,,1603.5,1475.9,Canada,0.4746,0.291,0.2344,Canada,Canada,6,0,Canada,1567.4,1440.4
-2026-06-18,Group A,Guadalajara Stadium,Mexico,Mexico,Korea Republic,1698.3,1612.5,19.5,37.7,0.0,0.0,,,1792.8,1650.2,Mexico,0.4917,0.2838,0.2245,Mexico,Mexico,1,0,Mexico,1716.6,1594.2
-2026-06-19,Group C,Philadelphia Stadium,USA,Brazil,Haiti,1765.3,1277.7,-0.9,-27.8,0.0,0.0,,,1764.4,1249.9,,0.8017,0.1527,0.0456,Brazil,Brazil,3,0,Brazil,1771.4,1271.6
-2026-06-19,Group C,Boston Stadium,USA,Scotland,Morocco,1518.8,1755.6,27.8,0.9,0.0,0.0,,,1546.6,1756.5,,0.1819,0.2537,0.5643,Morocco,Morocco,0,1,Morocco,1503.4,1771.0
-2026-06-19,Group D,San Francisco Bay Area Stadium,USA,Türkiye,Paraguay,1579.5,1491.1,-47.3,-25.6,0.0,0.0,,,1532.2,1465.5,,0.4026,0.3221,0.2753,Türkiye,Türkiye,0,1,Paraguay,1551.3,1519.3
-2026-06-19,Group D,Seattle Stadium,USA,USA,Australia,1685.4,1605.6,25.6,47.3,0.0,0.0,,,1786.0,1652.9,USA,0.4808,0.2884,0.2308,USA,USA,2,0,USA,1704.2,1586.8
-2026-06-20,Group E,Toronto Stadium,Canada,Germany,Côte d'Ivoire,1743.5,1568.6,14.0,50.0,0.0,0.0,,,1757.5,1618.6,,0.4874,0.2856,0.227,Germany,Germany,2,1,Germany,1762.0,1550.1
-2026-06-20,Group E,Kansas City Stadium,USA,Ecuador,Curaçao,1570.8,1287.0,-50.0,-14.0,0.0,0.0,,,1520.8,1273.0,,0.6022,0.2382,0.1596,Ecuador,Ecuador,0,0,Draw,1559.7,1298.1
-2026-06-20,Group F,Houston Stadium,USA,Netherlands,Sweden,1749.2,1533.2,-7.9,42.1,0.0,0.0,,,1741.3,1575.3,,0.5176,0.273,0.2094,Netherlands,Netherlands,5,1,Netherlands,1766.5,1515.9
-2026-06-20,Group F,Estadio Monterrey,Mexico,Tunisia,Japan,1453.0,1665.9,-42.1,7.9,0.0,0.0,,,1410.9,1673.8,,0.1511,0.2323,0.6167,Japan,Japan,0,4,Japan,1439.6,1679.3
-2026-06-21,Group H,Miami Stadium,USA,Uruguay,Cabo Verde,1662.0,1389.8,-20.0,33.6,0.0,0.0,,,1642.0,1423.4,,0.5732,0.2501,0.1767,Uruguay,Uruguay,2,2,Draw,1652.1,1399.7
-2026-06-21,Group H,Atlanta Stadium,USA,Spain,Saudi Arabia,1856.0,1435.0,-33.6,20.0,0.0,0.0,,,1822.4,1455.0,,0.7062,0.1952,0.0987,Spain,Spain,4,0,Spain,1865.8,1425.2
-2026-06-21,Group G,Los Angeles Stadium,USA,Belgium,IR Iran,1733.9,1605.1,-14.9,-26.0,0.0,0.0,,,1719.0,1579.1,,0.4885,0.2851,0.2264,Belgium,Belgium,0,0,Draw,1727.3,1611.7
-2026-06-21,Group G,BC Place Vancouver,Canada,New Zealand,Egypt,1290.0,1570.7,26.0,14.9,0.0,0.0,,,1316.0,1585.6,,0.1473,0.2297,0.623,Egypt,Egypt,1,3,Egypt,1276.9,1583.8
-2026-06-22,Group I,New York New Jersey Stadium,USA,Norway,Senegal,1577.2,1667.7,35.5,-29.5,0.0,0.0,,,1612.7,1638.2,,0.3031,0.3451,0.3518,Senegal,Senegal,3,2,Norway,1603.4,1641.5
-2026-06-22,Group I,Philadelphia Stadium,USA,France,Iraq,1887.1,1426.5,29.5,-35.5,0.0,0.0,,,1916.6,1391.0,,0.8077,0.1499,0.0424,France,France,3,0,France,1893.0,1420.6
-2026-06-22,Group J,Dallas Stadium,USA,Argentina,Austria,1889.1,1612.9,21.2,27.8,0.0,0.0,,,1910.3,1640.7,,0.623,0.2297,0.1473,Argentina,Argentina,2,0,Argentina,1902.2,1599.8
-2026-06-22,Group J,San Francisco Bay Area Stadium,USA,Jordan,Algeria,1372.3,1559.2,-27.8,-21.2,0.0,0.0,,,1344.5,1538.0,,0.1921,0.2608,0.5472,Algeria,Algeria,1,2,Algeria,1356.2,1575.3
-2026-06-23,Group L,Boston Stadium,USA,England,Ghana,1847.7,1380.7,35.4,60.9,0.0,0.0,,,1883.1,1441.6,,0.7585,0.1725,0.069,England,England,0,0,Draw,1830.5,1397.9
-2026-06-23,Group L,Toronto Stadium,Canada,Panama,Croatia,1505.3,1695.2,-60.9,-35.4,0.0,0.0,,,1444.4,1659.8,,0.1786,0.2514,0.5699,Croatia,Croatia,0,1,Croatia,1490.1,1710.4
-2026-06-23,Group K,Houston Stadium,USA,Portugal,Uzbekistan,1755.1,1444.5,-23.0,-25.7,0.0,0.0,,,1732.1,1418.8,,0.6622,0.2136,0.1243,Portugal,Portugal,5,0,Portugal,1766.7,1432.9
-2026-06-23,Group K,Guadalajara Stadium,Mexico,Colombia,Congo DR,1712.6,1487.2,25.7,23.0,0.0,0.0,,,1738.3,1510.2,,0.5828,0.2462,0.1711,Colombia,Colombia,1,0,Colombia,1727.3,1472.5
-2026-06-24,Group C,Miami Stadium,USA,Scotland,Brazil,1503.4,1771.4,-9.7,10.4,0.0,0.0,,,1493.7,1781.8,,0.1373,0.2227,0.64,Brazil,Brazil,0,3,Brazil,1491.0,1783.8
-2026-06-24,Group C,Atlanta Stadium,USA,Morocco,Haiti,1771.0,1271.6,28.4,-29.0,0.0,0.0,,,1799.4,1242.6,,0.8233,0.1423,0.0344,Morocco,Morocco,4,2,Morocco,1776.3,1266.3
-2026-06-24,Group B,BC Place Vancouver,Canada,Switzerland,Canada,1656.5,1567.4,17.4,21.3,0.0,0.0,,,1673.9,1663.7,Canada,0.3328,0.3539,0.3132,Draw,Draw,2,1,Switzerland,1681.0,1542.9
-2026-06-24,Group B,Seattle Stadium,USA,Bosnia and Herzegovina,Qatar,1382.7,1440.4,-15.1,-23.5,0.0,0.0,,,1367.6,1416.9,,0.287,0.3316,0.3814,Qatar,Qatar,3,1,Bosnia and Herzegovina,1410.1,1413.0
-2026-06-24,Group A,Mexico City Stadium,Mexico,Czechia,Mexico,1482.4,1716.6,-28.7,45.7,0.0,0.0,,,1453.7,1837.3,Mexico,0.0916,0.19,0.7184,Mexico,Mexico,0,3,Mexico,1473.1,1725.9
-2026-06-24,Group A,Estadio Monterrey,Mexico,South Africa,Korea Republic,1419.9,1594.2,-8.5,-8.5,0.0,0.0,,,1411.4,1585.7,,0.2041,0.2693,0.5266,Korea Republic,Korea Republic,1,0,South Africa,1453.0,1561.1
-2026-06-25,Group E,Philadelphia Stadium,USA,Curaçao,Côte d'Ivoire,1298.1,1550.1,10.8,-0.8,0.0,0.0,,,1308.9,1549.3,,0.1639,0.2412,0.595,Côte d'Ivoire,Côte d'Ivoire,0,2,Côte d'Ivoire,1283.9,1564.3
-2026-06-25,Group E,New York New Jersey Stadium,USA,Ecuador,Germany,1559.7,1762.0,-52.4,42.4,0.0,0.0,,,1507.3,1804.4,,0.1326,0.2194,0.648,Germany,Germany,2,1,Ecuador,1597.6,1724.1
-2026-06-25,Group F,Dallas Stadium,USA,Japan,Sweden,1679.3,1515.9,29.2,-3.8,0.0,0.0,,,1708.5,1512.1,,0.5501,0.2595,0.1903,Japan,Japan,1,1,Draw,1670.3,1524.9
-2026-06-25,Group F,Kansas City Stadium,USA,Tunisia,Netherlands,1439.6,1766.5,-51.4,26.0,0.0,0.0,,,1388.2,1792.5,,0.0831,0.1835,0.7334,Netherlands,Netherlands,1,3,Netherlands,1430.9,1775.2
-2026-06-25,Group D,Los Angeles Stadium,USA,Türkiye,USA,1551.3,1704.2,-81.5,50.4,0.0,0.0,,,1469.8,1829.6,USA,0.1021,0.1977,0.7002,USA,USA,3,2,Türkiye,1591.3,1664.2
-2026-06-25,Group D,San Francisco Bay Area Stadium,USA,Paraguay,Australia,1519.3,1586.8,34.1,-3.0,0.0,0.0,,,1553.4,1583.8,,0.2998,0.3422,0.358,Australia,Australia,0,0,Draw,1520.8,1585.3
-2026-06-26,Group I,Boston Stadium,USA,Norway,France,1603.4,1893.0,70.3,29.8,0.0,0.0,,,1673.7,1922.8,,0.1589,0.2377,0.6034,France,France,1,4,France,1589.5,1906.9
-2026-06-26,Group I,Toronto Stadium,Canada,Senegal,Iraq,1641.5,1420.6,-66.4,-33.7,0.0,0.0,,,1575.1,1386.9,,0.5415,0.2631,0.1954,Senegal,Senegal,5,0,Senegal,1657.8,1404.3
-2026-06-26,Group G,Seattle Stadium,USA,Egypt,IR Iran,1583.8,1611.7,33.3,-5.1,0.0,0.0,,,1617.1,1606.6,,0.3332,0.3537,0.313,Draw,Draw,1,1,Draw,1583.3,1612.2
-2026-06-26,Group G,BC Place Vancouver,Canada,New Zealand,Belgium,1276.9,1727.3,-6.7,-21.5,0.0,0.0,,,1270.2,1705.8,,0.0711,0.1742,0.7547,Belgium,Belgium,1,5,Belgium,1269.0,1735.2
-2026-06-26,Group H,Houston Stadium,USA,Cabo Verde,Saudi Arabia,1399.7,1425.2,39.7,-4.7,0.0,0.0,,,1439.4,1420.5,,0.3436,0.3489,0.3075,Draw,Draw,0,0,Draw,1398.8,1426.1
-2026-06-26,Group H,Guadalajara Stadium,Mexico,Uruguay,Spain,1652.1,1865.8,-30.8,-4.2,0.0,0.0,,,1621.3,1861.6,,0.1639,0.2412,0.5949,Spain,Spain,0,1,Spain,1637.9,1880.0
-2026-06-27,Group L,New York New Jersey Stadium,USA,Panama,England,1490.1,1830.5,-67.0,-8.0,0.0,0.0,,,1423.1,1822.5,,0.0851,0.185,0.7299,England,England,0,2,England,1481.2,1839.4
-2026-06-27,Group L,Philadelphia Stadium,USA,Croatia,Ghana,1710.4,1397.9,4.4,70.6,0.0,0.0,,,1714.8,1468.5,,0.6007,0.2388,0.1605,Croatia,Croatia,2,1,Croatia,1724.4,1383.9
-2026-06-27,Group J,Kansas City Stadium,USA,Algeria,Austria,1575.3,1599.8,15.2,-5.5,0.0,0.0,,,1590.5,1594.3,,0.3175,0.3577,0.3247,Draw,Draw,3,3,Draw,1575.5,1599.6
-2026-06-27,Group J,Dallas Stadium,USA,Jordan,Argentina,1356.2,1902.2,-47.1,37.4,0.0,0.0,,,1309.1,1939.6,,0.0188,0.1259,0.8554,Argentina,Argentina,1,3,Argentina,1352.1,1906.3
-2026-06-27,Group K,Miami Stadium,USA,Colombia,Portugal,1727.3,1766.7,43.1,5.9,0.0,0.0,,,1770.4,1772.6,,0.3186,0.3587,0.3227,Draw,Draw,0,0,Draw,1727.4,1766.6
-2026-06-27,Group K,Atlanta Stadium,USA,Congo DR,Uzbekistan,1472.5,1432.9,-11.5,-37.5,0.0,0.0,,,1461.0,1395.4,,0.4012,0.3228,0.2761,Congo DR,Congo DR,3,1,Congo DR,1494.4,1411.0
+date,stage,venue,venue_country,home_team,away_team,home_pre_elo,away_pre_elo,home_form_adjustment,away_form_adjustment,home_context_adjustment,away_context_adjustment,home_player_strength,away_player_strength,home_player_adjustment,away_player_adjustment,home_power_score,away_power_score,home_power_adjustment,away_power_adjustment,home_context_reason,away_context_reason,home_adjusted_elo,away_adjusted_elo,home_advantage_team,home_win_probability,draw_probability,away_win_probability,predicted_result,predicted_winner,home_score,away_score,actual_winner,home_post_elo,away_post_elo
+2026-06-11,Group A,Mexico City Stadium,Mexico,Mexico,South Africa,1687.5,1428.4,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1762.5,1428.4,Mexico,0.6797,0.2063,0.114,Mexico,Mexico,2,0,Mexico,1698.3,1417.5
+2026-06-11,Group A,Guadalajara Stadium,Mexico,Korea Republic,Czechia,1591.6,1505.7,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1591.6,1505.7,,0.4257,0.312,0.2623,Korea Republic,Korea Republic,2,1,Korea Republic,1612.5,1484.8
+2026-06-12,Group B,Toronto Stadium,Canada,Canada,Bosnia and Herzegovina,1559.5,1387.2,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1634.5,1387.2,Canada,0.6017,0.2384,0.1599,Canada,Canada,1,1,Draw,1548.4,1398.3
+2026-06-12,Group D,Los Angeles Stadium,USA,USA,Paraguay,1671.2,1505.3,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1746.2,1505.3,USA,0.5955,0.241,0.1636,USA,USA,4,1,USA,1685.4,1491.1
+2026-06-13,Group C,Boston Stadium,USA,Haiti,Scotland,1293.1,1503.3,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1293.1,1503.3,,0.1818,0.2536,0.5646,Scotland,Scotland,0,1,Scotland,1277.7,1518.8
+2026-06-13,Group D,BC Place Vancouver,Canada,Australia,Türkiye,1579.3,1605.7,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1579.3,1605.7,,0.3024,0.3445,0.353,Türkiye,Türkiye,2,0,Australia,1605.6,1579.5
+2026-06-13,Group C,New York New Jersey Stadium,USA,Brazil,Morocco,1765.9,1755.1,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1765.9,1755.1,,0.3335,0.3536,0.3129,Draw,Draw,1,1,Draw,1765.3,1755.6
+2026-06-13,Group B,San Francisco Bay Area Stadium,USA,Qatar,Switzerland,1450.3,1650.1,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1450.3,1650.1,,0.1882,0.2581,0.5537,Switzerland,Switzerland,1,1,Draw,1459.4,1640.9
+2026-06-14,Group E,Philadelphia Stadium,USA,Côte d'Ivoire,Ecuador,1540.9,1598.5,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1540.9,1598.5,,0.2814,0.327,0.3916,Ecuador,Ecuador,1,0,Côte d'Ivoire,1568.6,1570.8
+2026-06-14,Group E,Houston Stadium,USA,Germany,Curaçao,1735.8,1294.8,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1735.8,1294.8,,0.7582,0.1726,0.0691,Germany,Germany,7,1,Germany,1743.5,1287.0
+2026-06-14,Group F,Dallas Stadium,USA,Netherlands,Japan,1753.6,1661.6,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1753.6,1661.6,,0.4329,0.3088,0.2582,Netherlands,Netherlands,2,2,Draw,1749.2,1665.9
+2026-06-14,Group F,Estadio Monterrey,Mexico,Sweden,Tunisia,1509.8,1476.4,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1509.8,1476.4,,0.3617,0.3405,0.2978,Sweden,Sweden,5,1,Sweden,1533.2,1453.0
+2026-06-15,Group H,Miami Stadium,USA,Saudi Arabia,Uruguay,1423.9,1673.1,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1423.9,1673.1,,0.1588,0.2376,0.6036,Uruguay,Uruguay,1,1,Draw,1435.0,1662.0
+2026-06-15,Group H,Atlanta Stadium,USA,Spain,Cabo Verde,1874.7,1371.1,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1874.7,1371.1,,0.7958,0.1555,0.0487,Spain,Spain,0,0,Draw,1856.0,1389.8
+2026-06-15,Group G,Los Angeles Stadium,USA,IR Iran,New Zealand,1619.6,1275.6,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1619.6,1275.6,,0.6878,0.2029,0.1093,IR Iran,IR Iran,2,2,Draw,1605.1,1290.0
+2026-06-15,Group G,Seattle Stadium,USA,Belgium,Egypt,1742.2,1562.4,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1742.2,1562.4,,0.5327,0.2668,0.2006,Belgium,Belgium,1,1,Draw,1733.9,1570.7
+2026-06-16,Group I,New York New Jersey Stadium,USA,France,Senegal,1870.7,1684.1,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1870.7,1684.1,,0.5399,0.2638,0.1963,France,France,3,1,France,1887.1,1667.7
+2026-06-16,Group I,Boston Stadium,USA,Iraq,Norway,1446.3,1557.4,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1446.3,1557.4,,0.2454,0.2991,0.4555,Norway,Norway,1,4,Norway,1426.5,1577.2
+2026-06-16,Group J,Kansas City Stadium,USA,Argentina,Algeria,1877.3,1571.0,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1877.3,1571.0,,0.656,0.2161,0.1279,Argentina,Argentina,3,0,Argentina,1889.1,1559.2
+2026-06-16,Group J,San Francisco Bay Area Stadium,USA,Austria,Jordan,1597.4,1387.7,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1597.4,1387.7,,0.564,0.2538,0.1821,Austria,Austria,3,1,Austria,1612.9,1372.3
+2026-06-17,Group L,Toronto Stadium,Canada,Ghana,Panama,1346.9,1539.2,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1346.9,1539.2,,0.1928,0.2613,0.5459,Panama,Panama,1,0,Ghana,1380.7,1505.3
+2026-06-17,Group L,Dallas Stadium,USA,England,Croatia,1828.0,1714.9,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1828.0,1714.9,,0.4578,0.2981,0.2441,England,England,4,2,England,1847.7,1695.2
+2026-06-17,Group K,Houston Stadium,USA,Portugal,Congo DR,1767.8,1474.4,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1767.8,1474.4,,0.6447,0.2208,0.1345,Portugal,Portugal,1,1,Draw,1755.1,1487.2
+2026-06-17,Group K,Mexico City Stadium,Mexico,Uzbekistan,Colombia,1458.7,1698.3,0.0,0.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1458.7,1698.3,,0.1643,0.2415,0.5942,Colombia,Colombia,1,3,Colombia,1444.5,1712.6
+2026-06-18,Group A,Atlanta Stadium,USA,Czechia,South Africa,1484.8,1417.5,-37.7,-19.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1447.1,1398.0,,0.3812,0.3317,0.2871,Czechia,Czechia,1,1,Draw,1482.4,1419.9
+2026-06-18,Group B,Los Angeles Stadium,USA,Switzerland,Bosnia and Herzegovina,1640.9,1398.3,-16.5,19.9,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1624.4,1418.2,,0.5605,0.2553,0.1842,Switzerland,Switzerland,4,1,Switzerland,1656.5,1382.7
+2026-06-18,Group B,BC Place Vancouver,Canada,Canada,Qatar,1548.4,1459.4,-19.9,16.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1603.5,1475.9,Canada,0.4746,0.291,0.2344,Canada,Canada,6,0,Canada,1567.4,1440.4
+2026-06-18,Group A,Guadalajara Stadium,Mexico,Mexico,Korea Republic,1698.3,1612.5,19.5,37.7,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1792.8,1650.2,Mexico,0.4917,0.2838,0.2245,Mexico,Mexico,1,0,Mexico,1716.6,1594.2
+2026-06-19,Group C,Philadelphia Stadium,USA,Brazil,Haiti,1765.3,1277.7,-0.9,-27.8,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1764.4,1249.9,,0.8017,0.1527,0.0456,Brazil,Brazil,3,0,Brazil,1771.4,1271.6
+2026-06-19,Group C,Boston Stadium,USA,Scotland,Morocco,1518.8,1755.6,27.8,0.9,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1546.6,1756.5,,0.1819,0.2537,0.5643,Morocco,Morocco,0,1,Morocco,1503.4,1771.0
+2026-06-19,Group D,San Francisco Bay Area Stadium,USA,Türkiye,Paraguay,1579.5,1491.1,-47.3,-25.6,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1532.2,1465.5,,0.4026,0.3221,0.2753,Türkiye,Türkiye,0,1,Paraguay,1551.3,1519.3
+2026-06-19,Group D,Seattle Stadium,USA,USA,Australia,1685.4,1605.6,25.6,47.3,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1786.0,1652.9,USA,0.4808,0.2884,0.2308,USA,USA,2,0,USA,1704.2,1586.8
+2026-06-20,Group E,Toronto Stadium,Canada,Germany,Côte d'Ivoire,1743.5,1568.6,14.0,50.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1757.5,1618.6,,0.4874,0.2856,0.227,Germany,Germany,2,1,Germany,1762.0,1550.1
+2026-06-20,Group E,Kansas City Stadium,USA,Ecuador,Curaçao,1570.8,1287.0,-50.0,-14.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1520.8,1273.0,,0.6022,0.2382,0.1596,Ecuador,Ecuador,0,0,Draw,1559.7,1298.1
+2026-06-20,Group F,Houston Stadium,USA,Netherlands,Sweden,1749.2,1533.2,-7.9,42.1,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1741.3,1575.3,,0.5176,0.273,0.2094,Netherlands,Netherlands,5,1,Netherlands,1766.5,1515.9
+2026-06-20,Group F,Estadio Monterrey,Mexico,Tunisia,Japan,1453.0,1665.9,-42.1,7.9,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1410.9,1673.8,,0.1511,0.2323,0.6167,Japan,Japan,0,4,Japan,1439.6,1679.3
+2026-06-21,Group H,Miami Stadium,USA,Uruguay,Cabo Verde,1662.0,1389.8,-20.0,33.6,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1642.0,1423.4,,0.5732,0.2501,0.1767,Uruguay,Uruguay,2,2,Draw,1652.1,1399.7
+2026-06-21,Group H,Atlanta Stadium,USA,Spain,Saudi Arabia,1856.0,1435.0,-33.6,20.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1822.4,1455.0,,0.7062,0.1952,0.0987,Spain,Spain,4,0,Spain,1865.8,1425.2
+2026-06-21,Group G,Los Angeles Stadium,USA,Belgium,IR Iran,1733.9,1605.1,-14.9,-26.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1719.0,1579.1,,0.4885,0.2851,0.2264,Belgium,Belgium,0,0,Draw,1727.3,1611.7
+2026-06-21,Group G,BC Place Vancouver,Canada,New Zealand,Egypt,1290.0,1570.7,26.0,14.9,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1316.0,1585.6,,0.1473,0.2297,0.623,Egypt,Egypt,1,3,Egypt,1276.9,1583.8
+2026-06-22,Group I,New York New Jersey Stadium,USA,Norway,Senegal,1577.2,1667.7,35.5,-29.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1612.7,1638.2,,0.3031,0.3451,0.3518,Senegal,Senegal,3,2,Norway,1603.4,1641.5
+2026-06-22,Group I,Philadelphia Stadium,USA,France,Iraq,1887.1,1426.5,29.5,-35.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1916.6,1391.0,,0.8077,0.1499,0.0424,France,France,3,0,France,1893.0,1420.6
+2026-06-22,Group J,Dallas Stadium,USA,Argentina,Austria,1889.1,1612.9,21.2,27.8,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1910.3,1640.7,,0.623,0.2297,0.1473,Argentina,Argentina,2,0,Argentina,1902.2,1599.8
+2026-06-22,Group J,San Francisco Bay Area Stadium,USA,Jordan,Algeria,1372.3,1559.2,-27.8,-21.2,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1344.5,1538.0,,0.1921,0.2608,0.5472,Algeria,Algeria,1,2,Algeria,1356.2,1575.3
+2026-06-23,Group L,Boston Stadium,USA,England,Ghana,1847.7,1380.7,35.4,60.9,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1883.1,1441.6,,0.7585,0.1725,0.069,England,England,0,0,Draw,1830.5,1397.9
+2026-06-23,Group L,Toronto Stadium,Canada,Panama,Croatia,1505.3,1695.2,-60.9,-35.4,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1444.4,1659.8,,0.1786,0.2514,0.5699,Croatia,Croatia,0,1,Croatia,1490.1,1710.4
+2026-06-23,Group K,Houston Stadium,USA,Portugal,Uzbekistan,1755.1,1444.5,-23.0,-25.7,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1732.1,1418.8,,0.6622,0.2136,0.1243,Portugal,Portugal,5,0,Portugal,1766.7,1432.9
+2026-06-23,Group K,Guadalajara Stadium,Mexico,Colombia,Congo DR,1712.6,1487.2,25.7,23.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1738.3,1510.2,,0.5828,0.2462,0.1711,Colombia,Colombia,1,0,Colombia,1727.3,1472.5
+2026-06-24,Group C,Miami Stadium,USA,Scotland,Brazil,1503.4,1771.4,-9.7,10.4,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1493.7,1781.8,,0.1373,0.2227,0.64,Brazil,Brazil,0,3,Brazil,1491.0,1783.8
+2026-06-24,Group C,Atlanta Stadium,USA,Morocco,Haiti,1771.0,1271.6,28.4,-29.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1799.4,1242.6,,0.8233,0.1423,0.0344,Morocco,Morocco,4,2,Morocco,1776.3,1266.3
+2026-06-24,Group B,BC Place Vancouver,Canada,Switzerland,Canada,1656.5,1567.4,17.4,21.3,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1673.9,1663.7,Canada,0.3328,0.3539,0.3132,Draw,Draw,2,1,Switzerland,1681.0,1542.9
+2026-06-24,Group B,Seattle Stadium,USA,Bosnia and Herzegovina,Qatar,1382.7,1440.4,-15.1,-23.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1367.6,1416.9,,0.287,0.3316,0.3814,Qatar,Qatar,3,1,Bosnia and Herzegovina,1410.1,1413.0
+2026-06-24,Group A,Mexico City Stadium,Mexico,Czechia,Mexico,1482.4,1716.6,-28.7,45.7,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1453.7,1837.3,Mexico,0.0916,0.19,0.7184,Mexico,Mexico,0,3,Mexico,1473.1,1725.9
+2026-06-24,Group A,Estadio Monterrey,Mexico,South Africa,Korea Republic,1419.9,1594.2,-8.5,-8.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1411.4,1585.7,,0.2041,0.2693,0.5266,Korea Republic,Korea Republic,1,0,South Africa,1453.0,1561.1
+2026-06-25,Group E,Philadelphia Stadium,USA,Curaçao,Côte d'Ivoire,1298.1,1550.1,10.8,-0.8,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1308.9,1549.3,,0.1639,0.2412,0.595,Côte d'Ivoire,Côte d'Ivoire,0,2,Côte d'Ivoire,1283.9,1564.3
+2026-06-25,Group E,New York New Jersey Stadium,USA,Ecuador,Germany,1559.7,1762.0,-52.4,42.4,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1507.3,1804.4,,0.1326,0.2194,0.648,Germany,Germany,2,1,Ecuador,1597.6,1724.1
+2026-06-25,Group F,Dallas Stadium,USA,Japan,Sweden,1679.3,1515.9,29.2,-3.8,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1708.5,1512.1,,0.5501,0.2595,0.1903,Japan,Japan,1,1,Draw,1670.3,1524.9
+2026-06-25,Group F,Kansas City Stadium,USA,Tunisia,Netherlands,1439.6,1766.5,-51.4,26.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1388.2,1792.5,,0.0831,0.1835,0.7334,Netherlands,Netherlands,1,3,Netherlands,1430.9,1775.2
+2026-06-25,Group D,Los Angeles Stadium,USA,Türkiye,USA,1551.3,1704.2,-81.5,50.4,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1469.8,1829.6,USA,0.1021,0.1977,0.7002,USA,USA,3,2,Türkiye,1591.3,1664.2
+2026-06-25,Group D,San Francisco Bay Area Stadium,USA,Paraguay,Australia,1519.3,1586.8,34.1,-3.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1553.4,1583.8,,0.2998,0.3422,0.358,Australia,Australia,0,0,Draw,1520.8,1585.3
+2026-06-26,Group I,Boston Stadium,USA,Norway,France,1603.4,1893.0,70.3,29.8,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1673.7,1922.8,,0.1589,0.2377,0.6034,France,France,1,4,France,1589.5,1906.9
+2026-06-26,Group I,Toronto Stadium,Canada,Senegal,Iraq,1641.5,1420.6,-66.4,-33.7,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1575.1,1386.9,,0.5415,0.2631,0.1954,Senegal,Senegal,5,0,Senegal,1657.8,1404.3
+2026-06-26,Group G,Seattle Stadium,USA,Egypt,IR Iran,1583.8,1611.7,33.3,-5.1,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1617.1,1606.6,,0.3332,0.3537,0.313,Draw,Draw,1,1,Draw,1583.3,1612.2
+2026-06-26,Group G,BC Place Vancouver,Canada,New Zealand,Belgium,1276.9,1727.3,-6.7,-21.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1270.2,1705.8,,0.0711,0.1742,0.7547,Belgium,Belgium,1,5,Belgium,1269.0,1735.2
+2026-06-26,Group H,Houston Stadium,USA,Cabo Verde,Saudi Arabia,1399.7,1425.2,39.7,-4.7,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1439.4,1420.5,,0.3436,0.3489,0.3075,Draw,Draw,0,0,Draw,1398.8,1426.1
+2026-06-26,Group H,Guadalajara Stadium,Mexico,Uruguay,Spain,1652.1,1865.8,-30.8,-4.2,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1621.3,1861.6,,0.1639,0.2412,0.5949,Spain,Spain,0,1,Spain,1637.9,1880.0
+2026-06-27,Group L,New York New Jersey Stadium,USA,Panama,England,1490.1,1830.5,-67.0,-8.0,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1423.1,1822.5,,0.0851,0.185,0.7299,England,England,0,2,England,1481.2,1839.4
+2026-06-27,Group L,Philadelphia Stadium,USA,Croatia,Ghana,1710.4,1397.9,4.4,70.6,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1714.8,1468.5,,0.6007,0.2388,0.1605,Croatia,Croatia,2,1,Croatia,1724.4,1383.9
+2026-06-27,Group J,Kansas City Stadium,USA,Algeria,Austria,1575.3,1599.8,15.2,-5.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1590.5,1594.3,,0.3175,0.3577,0.3247,Draw,Draw,3,3,Draw,1575.5,1599.6
+2026-06-27,Group J,Dallas Stadium,USA,Jordan,Argentina,1356.2,1902.2,-47.1,37.4,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1309.1,1939.6,,0.0188,0.1259,0.8554,Argentina,Argentina,1,3,Argentina,1352.1,1906.3
+2026-06-27,Group K,Miami Stadium,USA,Colombia,Portugal,1727.3,1766.7,43.1,5.9,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1770.4,1772.6,,0.3186,0.3587,0.3227,Draw,Draw,0,0,Draw,1727.4,1766.6
+2026-06-27,Group K,Atlanta Stadium,USA,Congo DR,Uzbekistan,1472.5,1432.9,-11.5,-37.5,0.0,0.0,,,0.0,0.0,,,0.0,0.0,,,1461.0,1395.4,,0.4012,0.3228,0.2761,Congo DR,Congo DR,3,1,Congo DR,1494.4,1411.0

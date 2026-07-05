@@ -1,7 +1,11 @@
 import csv
 import html
+import json
 import os
 import re
+import ssl
+import subprocess
+import sys
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -74,6 +78,38 @@ MATCH_RESULT_FIELDS = [
     "source",
 ]
 
+PLAYER_SCORE_FIELDS = [
+    "team",
+    "player",
+    "position",
+    "score",
+    "role",
+    "status",
+    "source",
+]
+
+PLAYER_SCORE_REFRESH_FIELDS = [
+    "checked_at",
+    "match_number",
+    "team1",
+    "team2",
+    "source",
+    "status",
+    "rows_found",
+    "rows_applied",
+    "note",
+]
+
+POWER_RANKING_REFRESH_FIELDS = [
+    "checked_at",
+    "source",
+    "status",
+    "rows_before",
+    "rows_after",
+    "rows_changed",
+    "note",
+]
+
 SOURCE_FIELDS = [
     "source_type",
     "name",
@@ -135,27 +171,41 @@ class AutomatedUpdateAgent:
         context_csv="data/team_context_adjustments.csv",
         news_candidates_csv="data/news_adjustment_candidates.csv",
         match_results_csv="data/harvested_match_results.csv",
+        player_scores_csv="data/player_scores.csv",
+        player_score_refresh_log_csv="data/player_score_refresh_log.csv",
+        power_rankings_csv="data/fifa_power_rankings.csv",
+        power_ranking_refresh_log_csv="data/fifa_power_ranking_refresh_log.csv",
         update_log_csv="data/update_log.csv",
         sources_csv="data/automation_sources.csv",
         result_check_schedule_csv="data/result_check_schedule.csv",
         predictions_csv="data/knockout_bracket_predictions.csv",
+        pre_match_player_score_window_hours=24,
     ):
         self.bracket_csv = bracket_csv
         self.context_csv = context_csv
         self.news_candidates_csv = news_candidates_csv
         self.match_results_csv = match_results_csv
+        self.player_scores_csv = player_scores_csv
+        self.player_score_refresh_log_csv = player_score_refresh_log_csv
+        self.power_rankings_csv = power_rankings_csv
+        self.power_ranking_refresh_log_csv = power_ranking_refresh_log_csv
         self.update_log_csv = update_log_csv
         self.sources_csv = sources_csv
         self.result_check_schedule_csv = result_check_schedule_csv
         self.predictions_csv = predictions_csv
+        self.pre_match_player_score_window = timedelta(hours=pre_match_player_score_window_hours)
 
     def run(self):
         self.ensure_files()
+        power_updates = self.refresh_fifa_power_rankings()
+        player_updates = self.refresh_pre_match_fifa_player_scores()
         harvested_results = self.harvest_ready_match_results()
         result_updates = self.apply_match_result_updates()
         strength_updates = self.apply_performance_context_adjustments()
         news_updates = self.collect_and_apply_post_match_news()
         return {
+            "power_ranking_updates": power_updates,
+            "player_score_updates": player_updates,
             "news_results_harvested": harvested_results,
             "match_result_updates": result_updates,
             "strength_adjustments_applied": strength_updates,
@@ -166,9 +216,27 @@ class AutomatedUpdateAgent:
         self.ensure_csv(self.context_csv, CONTEXT_FIELDS)
         self.ensure_csv(self.news_candidates_csv, NEWS_CANDIDATE_FIELDS)
         self.ensure_csv(self.match_results_csv, MATCH_RESULT_FIELDS)
+        self.ensure_csv(self.player_scores_csv, PLAYER_SCORE_FIELDS)
+        self.ensure_csv(self.player_score_refresh_log_csv, PLAYER_SCORE_REFRESH_FIELDS)
+        self.ensure_csv(self.power_rankings_csv, [
+            "rank",
+            "change",
+            "player",
+            "team",
+            "attacking",
+            "creativity",
+            "defending",
+            "goalkeeping_defending",
+            "goalkeeping_possession",
+            "overall_score",
+            "source",
+            "checked_at",
+        ])
+        self.ensure_csv(self.power_ranking_refresh_log_csv, POWER_RANKING_REFRESH_FIELDS)
         self.ensure_csv(self.update_log_csv, LOG_FIELDS)
         self.ensure_csv(self.result_check_schedule_csv, RESULT_CHECK_FIELDS)
-        self.ensure_csv(self.sources_csv, SOURCE_FIELDS, [
+        self.ensure_csv(self.sources_csv, SOURCE_FIELDS)
+        self.ensure_default_sources([
             {
                 "source_type": "post_match_news_rss",
                 "name": "Google News RSS",
@@ -181,7 +249,379 @@ class AutomatedUpdateAgent:
                 "url": "",
                 "enabled": "no",
             },
+            {
+                "source_type": "fifa_player_scores_json",
+                "name": "Official FIFA player-score JSON or page URL",
+                "url": "",
+                "enabled": "yes",
+            },
+            {
+                "source_type": "fifa_power_rankings_browser",
+                "name": "Official FIFA Power Rankings browser refresh",
+                "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings",
+                "enabled": "yes",
+            },
         ])
+
+    def refresh_fifa_power_rankings(self):
+        sources = self.enabled_sources("fifa_power_rankings_browser")
+        if not sources:
+            return 0
+
+        rows_before = self.read_csv(self.power_rankings_csv)
+        script_path = os.path.join(os.getcwd(), "refresh_fifa_power_rankings.py")
+        if not os.path.exists(script_path):
+            self.log_power_ranking_refresh("missing_script", len(rows_before), len(rows_before), 0, "Refresh script not found.")
+            return 0
+
+        command = [
+            sys.executable,
+            script_path,
+            "--predictions",
+            self.predictions_csv,
+            "--output",
+            self.power_rankings_csv,
+            "--raw-output",
+            "data/fifa_power_rankings_harvest.json",
+        ]
+        try:
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=600,
+                check=False,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            self.log_power_ranking_refresh("failed", len(rows_before), len(rows_before), 0, str(exc))
+            return 0
+
+        rows_after = self.read_csv(self.power_rankings_csv)
+        if completed.returncode != 0:
+            note = self.compact_process_note(completed.stderr or completed.stdout or "FIFA Power Rankings refresh failed.")
+            self.log_power_ranking_refresh("failed", len(rows_before), len(rows_after), 0, note)
+            return 0
+
+        changed = 1 if rows_before != rows_after else 0
+        status = "applied" if changed else "unchanged"
+        note = self.compact_process_note(completed.stdout or "FIFA Power Rankings refresh completed.")
+        self.log_power_ranking_refresh(status, len(rows_before), len(rows_after), changed, note)
+        if changed:
+            self.log_update(
+                "power_rankings",
+                self.power_rankings_csv,
+                "",
+                "",
+                "rows",
+                str(len(rows_before)),
+                str(len(rows_after)),
+                sources[0].get("url", ""),
+                "Refreshed FIFA Power Rankings from the official browser-rendered page.",
+            )
+        return changed
+
+    def log_power_ranking_refresh(self, status, rows_before, rows_after, rows_changed, note):
+        rows = self.read_csv(self.power_ranking_refresh_log_csv)
+        rows.append({
+            "checked_at": self.now(),
+            "source": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings",
+            "status": status,
+            "rows_before": rows_before,
+            "rows_after": rows_after,
+            "rows_changed": rows_changed,
+            "note": note,
+        })
+        self.write_csv(self.power_ranking_refresh_log_csv, POWER_RANKING_REFRESH_FIELDS, rows)
+
+    def compact_process_note(self, value, max_length=500):
+        lines = [line.strip() for line in (value or "").splitlines() if line.strip()]
+        if not lines:
+            return ""
+        note = lines[-1]
+        if "Playwright is not installed" in value:
+            note = "Playwright is not installed. Install it with: python3 -m pip install -r requirements.txt && python3 -m playwright install chromium"
+        if len(note) > max_length:
+            note = note[: max_length - 3] + "..."
+        return note
+
+    def refresh_pre_match_fifa_player_scores(self):
+        sources = self.enabled_sources("fifa_player_scores_json")
+        sources = [source for source in sources if source.get("url", "").strip()]
+        upcoming_matches = self.matches_needing_player_score_refresh()
+        if not upcoming_matches:
+            return 0
+
+        if not sources:
+            for match in upcoming_matches:
+                self.log_player_score_refresh(
+                    match,
+                    "",
+                    "skipped",
+                    0,
+                    0,
+                    "No enabled FIFA player-score URL is configured.",
+                )
+            return 0
+
+        existing_rows = self.read_csv(self.player_scores_csv)
+        merged = {
+            self.player_score_key(row): row
+            for row in existing_rows
+            if self.player_score_key(row)
+        }
+        applied = 0
+
+        for match in upcoming_matches:
+            for source in sources:
+                url = self.format_player_score_url(source["url"], match)
+                fetched_rows = self.fetch_fifa_player_score_rows(url, match)
+                valid_rows = [
+                    row for row in fetched_rows
+                    if row.get("team") in (match.get("team1"), match.get("team2"))
+                ]
+                source_applied = 0
+                for row in valid_rows:
+                    key = self.player_score_key(row)
+                    if not key:
+                        continue
+                    old_row = merged.get(key)
+                    if old_row == row:
+                        continue
+                    merged[key] = row
+                    source_applied += 1
+                    applied += 1
+
+                status = "applied" if source_applied else "no_scores_found"
+                note = "Applied FIFA player scores." if source_applied else "No valid numeric FIFA player scores found for this match."
+                self.log_player_score_refresh(match, url, status, len(fetched_rows), source_applied, note)
+
+        if applied:
+            rows = sorted(merged.values(), key=lambda row: (row["team"], row["player"]))
+            self.write_csv(self.player_scores_csv, PLAYER_SCORE_FIELDS, rows)
+            self.log_update(
+                "player_scores",
+                self.player_scores_csv,
+                "",
+                "",
+                "rows",
+                "",
+                str(applied),
+                "FIFA player-score refresh",
+                "Updated player-level FIFA scores before upcoming matches.",
+            )
+        return applied
+
+    def matches_needing_player_score_refresh(self):
+        now = datetime.now(timezone.utc)
+        matches = []
+        for match in self.read_csv(self.bracket_csv):
+            if match.get("actual_advancing_team"):
+                continue
+            if not match.get("team1") or not match.get("team2"):
+                continue
+            kickoff = self.parse_utc_datetime(match.get("kickoff_utc", ""))
+            if not kickoff:
+                continue
+            if now <= kickoff <= now + self.pre_match_player_score_window:
+                matches.append(match)
+        return matches
+
+    def format_player_score_url(self, url_template, match):
+        values = {
+            "match_number": urllib.parse.quote(match.get("match_number", "")),
+            "team1": urllib.parse.quote(match.get("team1", "")),
+            "team2": urllib.parse.quote(match.get("team2", "")),
+        }
+        return url_template.format(**values)
+
+    def fetch_fifa_player_score_rows(self, url, match):
+        body = self.fetch_text(url)
+        if not body:
+            return []
+
+        payloads = []
+        try:
+            payloads.append(json.loads(body))
+        except json.JSONDecodeError:
+            payloads.extend(self.extract_json_payloads_from_html(body))
+
+        rows = []
+        for payload in payloads:
+            rows.extend(self.extract_player_scores_from_json(payload, url, match))
+        return self.dedupe_player_score_rows(rows)
+
+    def fetch_text(self, url):
+        try:
+            request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(request, timeout=25) as response:
+                return response.read().decode("utf-8", errors="ignore")
+        except OSError:
+            try:
+                context = ssl._create_unverified_context()
+                request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                with urllib.request.urlopen(request, timeout=25, context=context) as response:
+                    return response.read().decode("utf-8", errors="ignore")
+            except OSError:
+                return ""
+
+    def extract_json_payloads_from_html(self, body):
+        payloads = []
+        next_data = re.search(
+            r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+            body,
+            flags=re.DOTALL,
+        )
+        if next_data:
+            try:
+                payloads.append(json.loads(html.unescape(next_data.group(1))))
+            except json.JSONDecodeError:
+                pass
+
+        for match in re.finditer(r'<script[^>]+type=["\']application/json["\'][^>]*>(.*?)</script>', body, flags=re.DOTALL):
+            try:
+                payloads.append(json.loads(html.unescape(match.group(1))))
+            except json.JSONDecodeError:
+                continue
+        return payloads
+
+    def extract_player_scores_from_json(self, payload, source, match):
+        rows = []
+        for item in self.walk_json_dicts(payload):
+            row = self.player_score_row_from_dict(item, source, match)
+            if row:
+                rows.append(row)
+        return rows
+
+    def walk_json_dicts(self, value):
+        if isinstance(value, dict):
+            yield value
+            for child in value.values():
+                yield from self.walk_json_dicts(child)
+        elif isinstance(value, list):
+            for child in value:
+                yield from self.walk_json_dicts(child)
+
+    def player_score_row_from_dict(self, item, source, match):
+        team = self.first_text(item, (
+            "team",
+            "teamName",
+            "team_name",
+            "country",
+            "countryName",
+            "competitorName",
+            "nationalTeam",
+        ))
+        player = self.first_text(item, (
+            "player",
+            "playerName",
+            "displayName",
+            "name",
+            "shortName",
+            "knownName",
+        ))
+        score = self.first_number(item, (
+            "score",
+            "rating",
+            "playerScore",
+            "player_score",
+            "points",
+            "value",
+        ))
+
+        team = self.normalize_team_name(team, match)
+        if not team or not player or score is None:
+            return None
+        if team not in (match.get("team1"), match.get("team2")):
+            return None
+
+        return {
+            "team": team,
+            "player": player,
+            "position": self.first_text(item, ("position", "positionName", "fieldPosition", "rolePosition")),
+            "score": str(round(score, 2)),
+            "role": self.player_role_from_dict(item),
+            "status": self.player_status_from_dict(item),
+            "source": source,
+        }
+
+    def normalize_team_name(self, value, match):
+        if not value:
+            return ""
+        value_norm = self.normalize_text(value)
+        for team in (match.get("team1", ""), match.get("team2", "")):
+            if value == team or value_norm == self.normalize_text(team):
+                return team
+        return value
+
+    def first_text(self, item, keys):
+        for key in keys:
+            value = item.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+            if isinstance(value, dict):
+                nested = self.first_text(value, ("name", "displayName", "shortName"))
+                if nested:
+                    return nested
+        return ""
+
+    def first_number(self, item, keys):
+        for key in keys:
+            value = item.get(key)
+            if isinstance(value, bool):
+                continue
+            if isinstance(value, (int, float)):
+                return float(value)
+            if isinstance(value, str):
+                try:
+                    return float(value)
+                except ValueError:
+                    continue
+        return None
+
+    def player_role_from_dict(self, item):
+        role = self.first_text(item, ("role", "lineupRole", "matchRole"))
+        if role:
+            return role
+        if item.get("isStarter") is True or item.get("starter") is True:
+            return "starter"
+        return ""
+
+    def player_status_from_dict(self, item):
+        status = self.first_text(item, ("status", "availability", "injuryStatus"))
+        lower = status.lower()
+        if "suspend" in lower:
+            return "suspended"
+        if "injur" in lower or lower == "out":
+            return "injured"
+        return status
+
+    def dedupe_player_score_rows(self, rows):
+        deduped = {}
+        for row in rows:
+            deduped[self.player_score_key(row)] = row
+        return list(deduped.values())
+
+    def player_score_key(self, row):
+        team = row.get("team", "")
+        player = row.get("player", "")
+        if not team or not player:
+            return None
+        return (team, player)
+
+    def log_player_score_refresh(self, match, source, status, rows_found, rows_applied, note):
+        rows = self.read_csv(self.player_score_refresh_log_csv)
+        rows.append({
+            "checked_at": self.now(),
+            "match_number": match.get("match_number", ""),
+            "team1": match.get("team1", ""),
+            "team2": match.get("team2", ""),
+            "source": source,
+            "status": status,
+            "rows_found": rows_found,
+            "rows_applied": rows_applied,
+            "note": note,
+        })
+        self.write_csv(self.player_score_refresh_log_csv, PLAYER_SCORE_REFRESH_FIELDS, rows)
 
     def harvest_ready_match_results(self):
         bracket_rows = self.read_csv(self.bracket_csv)
@@ -396,6 +836,23 @@ class AutomatedUpdateAgent:
             writer.writeheader()
             if starter_rows:
                 writer.writerows(starter_rows)
+
+    def ensure_default_sources(self, starter_rows):
+        rows = self.read_csv(self.sources_csv)
+        existing = {
+            (row.get("source_type", ""), row.get("name", ""))
+            for row in rows
+        }
+        changed = False
+        for row in starter_rows:
+            key = (row.get("source_type", ""), row.get("name", ""))
+            if key in existing:
+                continue
+            rows.append(row)
+            existing.add(key)
+            changed = True
+        if changed:
+            self.write_csv(self.sources_csv, SOURCE_FIELDS, rows)
 
     def apply_match_result_updates(self):
         updates = 0

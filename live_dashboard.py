@@ -266,6 +266,16 @@ LIVE_HTML = """<!doctype html>
       const cls = evaluation.evaluation === "Miss" ? "miss-pill" : "actual-pill";
       return `<span class="pill ${cls}">${esc(evaluation.evaluation)}</span><br><span class="muted">${esc(evaluation.predicted_advancing_team)} → ${esc(evaluation.actual_advancing_team)}</span>`;
     }
+    function playerCell(row) {
+      const hasPlayerData = row.team1_player_strength || row.team2_player_strength;
+      if (!hasPlayerData) return "<span class='muted'>No data</span>";
+      return `${esc(row.team1_player_adjustment || "0.0")}<br>${esc(row.team2_player_adjustment || "0.0")}`;
+    }
+    function powerCell(row) {
+      const hasPowerData = row.team1_power_score || row.team2_power_score;
+      if (!hasPowerData) return "<span class='muted'>No data</span>";
+      return `${esc(row.team1_power_adjustment || "0.0")}<br>${esc(row.team2_power_adjustment || "0.0")}`;
+    }
     function rowMatches(row) {
       const query = document.getElementById("search").value.trim().toLowerCase();
       if (!query) return true;
@@ -318,7 +328,7 @@ LIVE_HTML = """<!doctype html>
     function renderKnockout() {
       let rows = DATA.knockout.filter(row => round === "All" || row.round === round).filter(rowMatches);
       document.getElementById("thead").innerHTML = `
-        <tr><th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Context</th><th>Eval</th></tr>`;
+        <tr><th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Player</th><th>Power</th><th>Context</th><th>Eval</th></tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr class="${evaluationFor(row)?.evaluation === "Miss" ? "miss" : row.is_actual_result === "True" ? "actual" : ""}">
           <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong></td>
@@ -330,6 +340,8 @@ LIVE_HTML = """<!doctype html>
           <td>${esc(row.predicted_90min_result)}<br><span class="muted">${pct(row.team1_90min_win_probability)} / ${pct(row.draw_90min_probability)} / ${pct(row.team2_90min_win_probability)}</span></td>
           <td>${esc(row.team1)} ${pct(row.team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.team2_advance_probability)}</td>
           <td><span class="pill projected-pill">${esc(row.projected_advancing_team)}</span></td>
+          <td>${playerCell(row)}</td>
+          <td>${powerCell(row)}</td>
           <td class="reason">${esc(contextSummary(row)) || "<span class='muted'>None</span>"}</td>
           <td>${evaluationCell(row)}</td>
         </tr>

@@ -12,6 +12,8 @@ def main():
     summary = automation_agent.run()
     print(
         "[Automation]: "
+        f"{summary['power_ranking_updates']} power-ranking refreshes applied; "
+        f"{summary['player_score_updates']} player-score rows updated; "
         f"{summary['news_results_harvested']} news result rows harvested; "
         f"{summary['match_result_updates']} match-result fields updated; "
         f"{summary['strength_adjustments_applied']} strength adjustments applied; "

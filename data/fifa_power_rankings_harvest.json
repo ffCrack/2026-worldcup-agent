@@ -1,0 +1,3270 @@
+{
+  "source": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings",
+  "checked_at": "2026-07-04T18:04:24.614Z",
+  "rows": [
+    {
+      "category": "Outfield",
+      "cells": [
+        "25\n31",
+        "Julio ENCISO\n\nParaguay",
+        "6.30",
+        "6.95",
+        "4.74"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "44\n13",
+        "Matias GALARZA\n\nParaguay",
+        "5.89",
+        "6.03",
+        "5.83"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "80",
+        "MAURICIO\n\nParaguay",
+        "5.59",
+        "5.82",
+        "5.37"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "203\n19",
+        "Diego GOMEZ\n\nParaguay",
+        "4.82",
+        "6.01",
+        "6.18"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "248\n1",
+        "Juan Jose CACERES\n\nParaguay",
+        "4.76",
+        "5.90",
+        "6.84"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "434\n-15",
+        "Andres CUBAS\n\nParaguay",
+        "4.48",
+        "4.90",
+        "6.96"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "444\n-15",
+        "Gustavo GOMEZ\n\nParaguay",
+        "4.46",
+        "4.67",
+        "6.18"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "1\n2",
+        "Kylian MBAPPE\n\nFrance",
+        "8.69",
+        "7.64",
+        "4.76"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "8\n-2",
+        "Ousmane DEMBELE\n\nFrance",
+        "7.26",
+        "6.83",
+        "4.87"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "33\n22",
+        "Bradley BARCOLA\n\nFrance",
+        "6.10",
+        "6.19",
+        "5.60"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "66\n20",
+        "Michael OLISE\n\nFrance",
+        "5.68",
+        "8.34",
+        "5.38"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "92\n3",
+        "Desire DOUE\n\nFrance",
+        "5.50",
+        "5.85",
+        "5.86"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "321\n-78",
+        "Adrien RABIOT\n\nFrance",
+        "4.66",
+        "6.28",
+        "5.88"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "332\n-91",
+        "Aurelien TCHOUAMENI\n\nFrance",
+        "4.63",
+        "5.36",
+        "6.50"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "447\n-9",
+        "William SALIBA\n\nFrance",
+        "4.45",
+        "4.77",
+        "6.40"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "482\n79",
+        "Dayot UPAMECANO\n\nFrance",
+        "4.38",
+        "5.15",
+        "7.15"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "16\n1",
+        "Cyle LARIN\n\nCanada",
+        "6.54",
+        "5.13",
+        "5.22"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "43\n-12",
+        "Jonathan DAVID\n\nCanada",
+        "5.93",
+        "5.60",
+        "4.91"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "74\n-29",
+        "Nathan SALIBA\n\nCanada",
+        "5.63",
+        "6.87",
+        "6.49"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "114\n245",
+        "Stephen EUSTAQUIO\n\nCanada",
+        "5.35",
+        "6.64",
+        "5.60"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "152",
+        "Liam MILLAR\n\nCanada",
+        "5.00",
+        "6.30",
+        "5.25"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "160\n-21",
+        "Tajon BUCHANAN\n\nCanada",
+        "4.95",
+        "6.26",
+        "4.97"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "193\n12",
+        "Ali AHMED\n\nCanada",
+        "4.84",
+        "6.40",
+        "5.46"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "342\n-9",
+        "Alistair JOHNSTON\n\nCanada",
+        "4.62",
+        "6.77",
+        "6.69"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "358\n18",
+        "Richie LARYEA\n\nCanada",
+        "4.59",
+        "6.30",
+        "5.90"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "394\n18",
+        "Luc DE FOUGEROLLES\n\nCanada",
+        "4.54",
+        "5.89",
+        "7.38"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "15\n-5",
+        "Ismael SAIBARI\n\nMorocco",
+        "6.58",
+        "6.21",
+        "5.11"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "96\n-42",
+        "Achraf HAKIMI\n\nMorocco",
+        "5.49",
+        "6.28",
+        "5.83"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "98\n448",
+        "Issa Diop\n\nMorocco",
+        "5.48",
+        "4.48",
+        "6.06"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "120\n-51",
+        "Brahim DIAZ\n\nMorocco",
+        "5.31",
+        "6.35",
+        "5.21"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "242\n-31",
+        "Bilal EL KHANNOUSS\n\nMorocco",
+        "4.76",
+        "6.45",
+        "5.85"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "277\n-38",
+        "Azzedine OUNAHI\n\nMorocco",
+        "4.71",
+        "6.55",
+        "4.77"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "468\n-54",
+        "Neil EL AYNAOUI\n\nMorocco",
+        "4.42",
+        "4.94",
+        "6.84"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "531\n-42",
+        "Noussair MAZRAOUI\n\nMorocco",
+        "4.21",
+        "5.52",
+        "7.05"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "253131",
+        "Julio ENCISOParaguay",
+        "6.30",
+        "6.95",
+        "4.74"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "441313",
+        "Matias GALARZAParaguay",
+        "5.89",
+        "6.03",
+        "5.83"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "800",
+        "MAURICIOParaguay",
+        "5.59",
+        "5.82",
+        "5.37"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "2031919",
+        "Diego GOMEZParaguay",
+        "4.82",
+        "6.01",
+        "6.18"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "24811",
+        "Juan Jose CACERESParaguay",
+        "4.76",
+        "5.90",
+        "6.84"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "43415-15",
+        "Andres CUBASParaguay",
+        "4.48",
+        "4.90",
+        "6.96"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "44415-15",
+        "Gustavo GOMEZParaguay",
+        "4.46",
+        "4.67",
+        "6.18"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Paraguay"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "122",
+        "Kylian MBAPPEFrance",
+        "8.69",
+        "7.64",
+        "4.76"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "82-2",
+        "Ousmane DEMBELEFrance",
+        "7.26",
+        "6.83",
+        "4.87"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "332222",
+        "Bradley BARCOLAFrance",
+        "6.10",
+        "6.19",
+        "5.60"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "662020",
+        "Michael OLISEFrance",
+        "5.68",
+        "8.34",
+        "5.38"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "9233",
+        "Desire DOUEFrance",
+        "5.50",
+        "5.85",
+        "5.86"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "32178-78",
+        "Adrien RABIOTFrance",
+        "4.66",
+        "6.28",
+        "5.88"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "33291-91",
+        "Aurelien TCHOUAMENIFrance",
+        "4.63",
+        "5.36",
+        "6.50"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4479-9",
+        "William SALIBAFrance",
+        "4.45",
+        "4.77",
+        "6.40"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4827979",
+        "Dayot UPAMECANOFrance",
+        "4.38",
+        "5.15",
+        "7.15"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "France"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1611",
+        "Cyle LARINCanada",
+        "6.54",
+        "5.13",
+        "5.22"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4312-12",
+        "Jonathan DAVIDCanada",
+        "5.93",
+        "5.60",
+        "4.91"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "7429-29",
+        "Nathan SALIBACanada",
+        "5.63",
+        "6.87",
+        "6.49"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "114245245",
+        "Stephen EUSTAQUIOCanada",
+        "5.35",
+        "6.64",
+        "5.60"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1520",
+        "Liam MILLARCanada",
+        "5.00",
+        "6.30",
+        "5.25"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "16021-21",
+        "Tajon BUCHANANCanada",
+        "4.95",
+        "6.26",
+        "4.97"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1931212",
+        "Ali AHMEDCanada",
+        "4.84",
+        "6.40",
+        "5.46"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "3429-9",
+        "Alistair JOHNSTONCanada",
+        "4.62",
+        "6.77",
+        "6.69"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "3581818",
+        "Richie LARYEACanada",
+        "4.59",
+        "6.30",
+        "5.90"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "3941818",
+        "Luc DE FOUGEROLLESCanada",
+        "4.54",
+        "5.89",
+        "7.38"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Canada"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "155-5",
+        "Ismael SAIBARIMorocco",
+        "6.58",
+        "6.21",
+        "5.11"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "9642-42",
+        "Achraf HAKIMIMorocco",
+        "5.49",
+        "6.28",
+        "5.83"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "98448448",
+        "Issa DiopMorocco",
+        "5.48",
+        "4.48",
+        "6.06"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "12051-51",
+        "Brahim DIAZMorocco",
+        "5.31",
+        "6.35",
+        "5.21"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "24231-31",
+        "Bilal EL KHANNOUSSMorocco",
+        "4.76",
+        "6.45",
+        "5.85"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "27738-38",
+        "Azzedine OUNAHIMorocco",
+        "4.71",
+        "6.55",
+        "4.77"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "46854-54",
+        "Neil EL AYNAOUIMorocco",
+        "4.42",
+        "4.94",
+        "6.84"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "53142-42",
+        "Noussair MAZRAOUIMorocco",
+        "4.21",
+        "5.52",
+        "7.05"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Morocco"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "7\n-3",
+        "VINICIUS JUNIOR\n\nBrazil",
+        "7.31",
+        "6.50",
+        "4.85"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "20\n-7",
+        "MATHEUS CUNHA\n\nBrazil",
+        "6.43",
+        "5.76",
+        "5.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "128\n297",
+        "CASEMIRO\n\nBrazil",
+        "5.21",
+        "5.33",
+        "7.51"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "137\n-20",
+        "BRUNO GUIMARAES\n\nBrazil",
+        "5.16",
+        "6.10",
+        "6.36"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "192\n-28",
+        "LUCAS PAQUETA\n\nBrazil",
+        "4.84",
+        "6.36",
+        "5.97"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "494\n-27",
+        "DOUGLAS SANTOS\n\nBrazil",
+        "4.37",
+        "5.33",
+        "6.22"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "546\n11",
+        "DANILO\n\nBrazil",
+        "4.09",
+        "5.27",
+        "6.13"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "3\n4",
+        "Erling HAALAND\n\nNorway",
+        "7.47",
+        "4.96",
+        "4.86"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "31\n105",
+        "Antonio NUSA\n\nNorway",
+        "6.11",
+        "6.23",
+        "4.98"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "56\n-13",
+        "Marcus HOLMGREN PEDERSEN\n\nNorway",
+        "5.78",
+        "5.12",
+        "4.64"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "123\n-19",
+        "Martin ODEGAARD\n\nNorway",
+        "5.28",
+        "6.94",
+        "5.02"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "141\n34",
+        "Andreas SCHJELDERUP\n\nNorway",
+        "5.08",
+        "6.61",
+        "5.59"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "402\n-38",
+        "Kristoffer AJER\n\nNorway",
+        "4.53",
+        "4.68",
+        "6.44"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "11\n30",
+        "Julian QUINONES\n\nMexico",
+        "6.76",
+        "6.65",
+        "5.42"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "53\n-25",
+        "Luis ROMO\n\nMexico",
+        "5.81",
+        "5.84",
+        "5.71"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "76\n48",
+        "Raul JIMENEZ\n\nMexico",
+        "5.63",
+        "5.74",
+        "5.48"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "139\n3",
+        "Roberto ALVARADO\n\nMexico",
+        "5.12",
+        "6.96",
+        "5.73"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "165",
+        "Gilberto MORA\n\nMexico",
+        "4.93",
+        "6.54",
+        "5.63"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "200\n-40",
+        "Jorge SANCHEZ\n\nMexico",
+        "4.83",
+        "5.59",
+        "6.16"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "350\n-42",
+        "Jesus GALLARDO\n\nMexico",
+        "4.60",
+        "5.06",
+        "6.95"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "393\n35",
+        "Israel REYES\n\nMexico",
+        "4.54",
+        "5.13",
+        "6.80"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "508\n25",
+        "Edson ALVAREZ\n\nMexico",
+        "4.29",
+        "5.03",
+        "6.17"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "4\n21",
+        "Harry KANE\n\nEngland",
+        "7.44",
+        "4.98",
+        "5.16"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "24\n-10",
+        "Jude BELLINGHAM\n\nEngland",
+        "6.34",
+        "5.93",
+        "5.81"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "82\n-11",
+        "Marcus RASHFORD\n\nEngland",
+        "5.58",
+        "7.25",
+        "4.69"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "100\n-35",
+        "Bukayo SAKA\n\nEngland",
+        "5.47",
+        "6.94",
+        "5.66"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "111\n63",
+        "Anthony GORDON\n\nEngland",
+        "5.38",
+        "6.92",
+        "4.89"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "174\n55",
+        "Noni MADUEKE\n\nEngland",
+        "4.89",
+        "6.51",
+        "5.34"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "260\n-82",
+        "Declan RICE\n\nEngland",
+        "4.73",
+        "6.30",
+        "5.77"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "311\n-77",
+        "Elliot ANDERSON\n\nEngland",
+        "4.66",
+        "5.90",
+        "7.00"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "361\n-20",
+        "Djed SPENCE\n\nEngland",
+        "4.58",
+        "5.91",
+        "6.36"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "430\n-60",
+        "Nico OREILLY\n\nEngland",
+        "4.49",
+        "5.53",
+        "6.28"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "73-3",
+        "VINICIUS JUNIORBrazil",
+        "7.31",
+        "6.50",
+        "4.85"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "207-7",
+        "MATHEUS CUNHABrazil",
+        "6.43",
+        "5.76",
+        "5.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "128297297",
+        "CASEMIROBrazil",
+        "5.21",
+        "5.33",
+        "7.51"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "13720-20",
+        "BRUNO GUIMARAESBrazil",
+        "5.16",
+        "6.10",
+        "6.36"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "19228-28",
+        "LUCAS PAQUETABrazil",
+        "4.84",
+        "6.36",
+        "5.97"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "49427-27",
+        "DOUGLAS SANTOSBrazil",
+        "4.37",
+        "5.33",
+        "6.22"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "5461111",
+        "DANILOBrazil",
+        "4.09",
+        "5.27",
+        "6.13"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Brazil"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "344",
+        "Erling HAALANDNorway",
+        "7.47",
+        "4.96",
+        "4.86"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "31105105",
+        "Antonio NUSANorway",
+        "6.11",
+        "6.23",
+        "4.98"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "5613-13",
+        "Marcus HOLMGREN PEDERSENNorway",
+        "5.78",
+        "5.12",
+        "4.64"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "12319-19",
+        "Martin ODEGAARDNorway",
+        "5.28",
+        "6.94",
+        "5.02"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1413434",
+        "Andreas SCHJELDERUPNorway",
+        "5.08",
+        "6.61",
+        "5.59"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "40238-38",
+        "Kristoffer AJERNorway",
+        "4.53",
+        "4.68",
+        "6.44"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Norway"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "113030",
+        "Julian QUINONESMexico",
+        "6.76",
+        "6.65",
+        "5.42"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "5325-25",
+        "Luis ROMOMexico",
+        "5.81",
+        "5.84",
+        "5.71"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "764848",
+        "Raul JIMENEZMexico",
+        "5.63",
+        "5.74",
+        "5.48"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "13933",
+        "Roberto ALVARADOMexico",
+        "5.12",
+        "6.96",
+        "5.73"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1650",
+        "Gilberto MORAMexico",
+        "4.93",
+        "6.54",
+        "5.63"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "20040-40",
+        "Jorge SANCHEZMexico",
+        "4.83",
+        "5.59",
+        "6.16"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "35042-42",
+        "Jesus GALLARDOMexico",
+        "4.60",
+        "5.06",
+        "6.95"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "3933535",
+        "Israel REYESMexico",
+        "4.54",
+        "5.13",
+        "6.80"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "5082525",
+        "Edson ALVAREZMexico",
+        "4.29",
+        "5.03",
+        "6.17"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Mexico"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "42121",
+        "Harry KANEEngland",
+        "7.44",
+        "4.98",
+        "5.16"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "2410-10",
+        "Jude BELLINGHAMEngland",
+        "6.34",
+        "5.93",
+        "5.81"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "8211-11",
+        "Marcus RASHFORDEngland",
+        "5.58",
+        "7.25",
+        "4.69"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "10035-35",
+        "Bukayo SAKAEngland",
+        "5.47",
+        "6.94",
+        "5.66"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1116363",
+        "Anthony GORDONEngland",
+        "5.38",
+        "6.92",
+        "4.89"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1745555",
+        "Noni MADUEKEEngland",
+        "4.89",
+        "6.51",
+        "5.34"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "26082-82",
+        "Declan RICEEngland",
+        "4.73",
+        "6.30",
+        "5.77"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "31177-77",
+        "Elliot ANDERSONEngland",
+        "4.66",
+        "5.90",
+        "7.00"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "36120-20",
+        "Djed SPENCEEngland",
+        "4.58",
+        "5.91",
+        "6.36"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "43060-60",
+        "Nico OREILLYEngland",
+        "4.49",
+        "5.53",
+        "6.28"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "England"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "37",
+        "RAFAEL LEAO\n\nPortugal",
+        "6.03",
+        "6.56",
+        "4.93"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "42\n38",
+        "CRISTIANO RONALDO\n\nPortugal",
+        "5.95",
+        "4.89",
+        "4.64"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "134\n-24",
+        "NUNO MENDES\n\nPortugal",
+        "5.18",
+        "6.24",
+        "6.29"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "209\n-30",
+        "JOAO CANCELO\n\nPortugal",
+        "4.82",
+        "5.90",
+        "6.59"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "317\n-56",
+        "BRUNO FERNANDES\n\nPortugal",
+        "4.66",
+        "6.21",
+        "6.21"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "499\n61",
+        "RENATO VEIGA\n\nPortugal",
+        "4.35",
+        "4.80",
+        "6.45"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "541\n-1",
+        "RUBEN DIAS\n\nPortugal",
+        "4.16",
+        "5.35",
+        "7.09"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "13\n63",
+        "Mikel OYARZABAL\n\nSpain",
+        "6.59",
+        "5.07",
+        "5.62"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "28\n-1",
+        "Lamine YAMAL\n\nSpain",
+        "6.25",
+        "7.19",
+        "5.22"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "50\n17",
+        "Alex BAENA\n\nSpain",
+        "5.84",
+        "6.78",
+        "5.72"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "258\n12",
+        "Fabian RUIZ\n\nSpain",
+        "4.74",
+        "6.40",
+        "6.17"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "314\n155",
+        "Marc CUCURELLA\n\nSpain",
+        "4.66",
+        "5.68",
+        "6.67"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "387\n-78",
+        "Aymeric LAPORTE\n\nSpain",
+        "4.55",
+        "5.69",
+        "7.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "401\n-13",
+        "PEDRI\n\nSpain",
+        "4.53",
+        "6.21",
+        "6.55"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "485\n-5",
+        "RODRI\n\nSpain",
+        "4.37",
+        "5.85",
+        "7.52"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "502\n-10",
+        "Pau CUBARSI\n\nSpain",
+        "4.33",
+        "5.47",
+        "7.46"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "40\n-4",
+        "Sebastian BERHALTER\n\nUSA",
+        "5.97",
+        "6.63",
+        "5.89"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "88\n-37",
+        "Alex FREEMAN\n\nUSA",
+        "5.53",
+        "6.34",
+        "6.65"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "93\n-40",
+        "Folarin BALOGUN\n\nUSA",
+        "5.50",
+        "4.31",
+        "3.85"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "101\n28",
+        "Malik TILLMAN\n\nUSA",
+        "5.45",
+        "6.50",
+        "6.18"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "108",
+        "Christian PULISIC\n\nUSA",
+        "5.39",
+        "7.23",
+        "5.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "197\n-40",
+        "Sergino DEST\n\nUSA",
+        "4.84",
+        "6.35",
+        "5.31"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "403\n-49",
+        "Weston McKENNIE\n\nUSA",
+        "4.53",
+        "6.81",
+        "5.33"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "425\n-34",
+        "Antonee ROBINSON\n\nUSA",
+        "4.49",
+        "6.78",
+        "6.03"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "450\n-17",
+        "Chris RICHARDS\n\nUSA",
+        "4.45",
+        "4.61",
+        "7.26"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "534\n5",
+        "Tyler ADAMS\n\nUSA",
+        "4.20",
+        "5.43",
+        "6.93"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "36\n38",
+        "Romelu LUKAKU\n\nBelgium",
+        "6.04",
+        "5.69",
+        "4.84"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "48\n0",
+        "Leandro TROSSARD\n\nBelgium",
+        "5.86",
+        "6.74",
+        "5.43"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "86\n266",
+        "Youri TIELEMANS\n\nBelgium",
+        "5.54",
+        "5.70",
+        "5.51"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "119\n-16",
+        "Kevin DE BRUYNE\n\nBelgium",
+        "5.31",
+        "7.00",
+        "5.19"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "127\n-27",
+        "Jeremy DOKU\n\nBelgium",
+        "5.22",
+        "7.05",
+        "4.71"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "182\n132",
+        "Thomas MEUNIER\n\nBelgium",
+        "4.87",
+        "6.18",
+        "6.35"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "205\n61",
+        "Nicolas RASKIN\n\nBelgium",
+        "4.82",
+        "5.94",
+        "6.20"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "308\n-22",
+        "Charles DE KETELAERE\n\nBelgium",
+        "4.67",
+        "6.33",
+        "6.12"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "446\n-61",
+        "Brandon MECHELE\n\nBelgium",
+        "4.46",
+        "5.61",
+        "7.04"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "448\n-50",
+        "Timothy CASTAGNE\n\nBelgium",
+        "4.45",
+        "6.00",
+        "6.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "370",
+        "RAFAEL LEAOPortugal",
+        "6.03",
+        "6.56",
+        "4.93"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "423838",
+        "CRISTIANO RONALDOPortugal",
+        "5.95",
+        "4.89",
+        "4.64"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "13424-24",
+        "NUNO MENDESPortugal",
+        "5.18",
+        "6.24",
+        "6.29"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "20930-30",
+        "JOAO CANCELOPortugal",
+        "4.82",
+        "5.90",
+        "6.59"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "31756-56",
+        "BRUNO FERNANDESPortugal",
+        "4.66",
+        "6.21",
+        "6.21"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4996161",
+        "RENATO VEIGAPortugal",
+        "4.35",
+        "4.80",
+        "6.45"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "5411-1",
+        "RUBEN DIASPortugal",
+        "4.16",
+        "5.35",
+        "7.09"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Portugal"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "136363",
+        "Mikel OYARZABALSpain",
+        "6.59",
+        "5.07",
+        "5.62"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "281-1",
+        "Lamine YAMALSpain",
+        "6.25",
+        "7.19",
+        "5.22"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "501717",
+        "Alex BAENASpain",
+        "5.84",
+        "6.78",
+        "5.72"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "2581212",
+        "Fabian RUIZSpain",
+        "4.74",
+        "6.40",
+        "6.17"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "314155155",
+        "Marc CUCURELLASpain",
+        "4.66",
+        "5.68",
+        "6.67"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "38778-78",
+        "Aymeric LAPORTESpain",
+        "4.55",
+        "5.69",
+        "7.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "40113-13",
+        "PEDRISpain",
+        "4.53",
+        "6.21",
+        "6.55"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4855-5",
+        "RODRISpain",
+        "4.37",
+        "5.85",
+        "7.52"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "50210-10",
+        "Pau CUBARSISpain",
+        "4.33",
+        "5.47",
+        "7.46"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Spain"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "404-4",
+        "Sebastian BERHALTERUSA",
+        "5.97",
+        "6.63",
+        "5.89"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "8837-37",
+        "Alex FREEMANUSA",
+        "5.53",
+        "6.34",
+        "6.65"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "9340-40",
+        "Folarin BALOGUNUSA",
+        "5.50",
+        "4.31",
+        "3.85"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1012828",
+        "Malik TILLMANUSA",
+        "5.45",
+        "6.50",
+        "6.18"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "1080",
+        "Christian PULISICUSA",
+        "5.39",
+        "7.23",
+        "5.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "19740-40",
+        "Sergino DESTUSA",
+        "4.84",
+        "6.35",
+        "5.31"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "40349-49",
+        "Weston McKENNIEUSA",
+        "4.53",
+        "6.81",
+        "5.33"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "42534-34",
+        "Antonee ROBINSONUSA",
+        "4.49",
+        "6.78",
+        "6.03"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "45017-17",
+        "Chris RICHARDSUSA",
+        "4.45",
+        "4.61",
+        "7.26"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "53455",
+        "Tyler ADAMSUSA",
+        "4.20",
+        "5.43",
+        "6.93"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "USA"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "363838",
+        "Romelu LUKAKUBelgium",
+        "6.04",
+        "5.69",
+        "4.84"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4800",
+        "Leandro TROSSARDBelgium",
+        "5.86",
+        "6.74",
+        "5.43"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "86266266",
+        "Youri TIELEMANSBelgium",
+        "5.54",
+        "5.70",
+        "5.51"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "11916-16",
+        "Kevin DE BRUYNEBelgium",
+        "5.31",
+        "7.00",
+        "5.19"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "12727-27",
+        "Jeremy DOKUBelgium",
+        "5.22",
+        "7.05",
+        "4.71"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "182132132",
+        "Thomas MEUNIERBelgium",
+        "4.87",
+        "6.18",
+        "6.35"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "2056161",
+        "Nicolas RASKINBelgium",
+        "4.82",
+        "5.94",
+        "6.20"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "30822-22",
+        "Charles DE KETELAEREBelgium",
+        "4.67",
+        "6.33",
+        "6.12"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "44661-61",
+        "Brandon MECHELEBelgium",
+        "4.46",
+        "5.61",
+        "7.04"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "44850-50",
+        "Timothy CASTAGNEBelgium",
+        "4.45",
+        "6.00",
+        "6.39"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Belgium"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "2\n0",
+        "Lionel MESSI\n\nArgentina",
+        "8.20",
+        "6.61",
+        "4.75"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Argentina"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "77\n472",
+        "Lisandro MARTINEZ\n\nArgentina",
+        "5.62",
+        "5.56",
+        "5.40"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Argentina"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "415\n103",
+        "Cristian ROMERO\n\nArgentina",
+        "4.51",
+        "5.48",
+        "6.37"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Argentina"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "34\n47",
+        "EMAM ASHOUR\n\nEgypt",
+        "6.08",
+        "5.72",
+        "5.73"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "46\n-11",
+        "TREZEGUET\n\nEgypt",
+        "5.87",
+        "5.94",
+        "5.08"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "61\n-35",
+        "MOHAMED SALAH\n\nEgypt",
+        "5.74",
+        "6.74",
+        "4.98"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "94\n-24",
+        "MOSTAFA ZICO\n\nEgypt",
+        "5.49",
+        "5.67",
+        "5.33"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "229\n-80",
+        "OMAR MARMOUSH\n\nEgypt",
+        "4.78",
+        "6.31",
+        "4.87"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "432\n97",
+        "RAMY RABIA\n\nEgypt",
+        "4.48",
+        "5.09",
+        "6.26"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "443\n27",
+        "MOHANAD LASHIN\n\nEgypt",
+        "4.46",
+        "5.19",
+        "7.01"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "547\n17",
+        "YASSER IBRAHIM\n\nEgypt",
+        "4.06",
+        "4.32",
+        "6.74"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "6\n-1",
+        "Johan MANZAMBI\n\nSwitzerland",
+        "7.37",
+        "6.79",
+        "4.65"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "18\n-7",
+        "Ruben VARGAS\n\nSwitzerland",
+        "6.51",
+        "6.74",
+        "5.11"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "49\n49",
+        "Breel EMBOLO\n\nSwitzerland",
+        "5.85",
+        "5.70",
+        "5.00"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "69\n58",
+        "Dan NDOYE\n\nSwitzerland",
+        "5.66",
+        "5.49",
+        "6.12"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "455\n-21",
+        "Nico ELVEDI\n\nSwitzerland",
+        "4.44",
+        "5.58",
+        "6.59"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "456\n10",
+        "Manuel AKANJI\n\nSwitzerland",
+        "4.44",
+        "5.90",
+        "6.70"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "470\n96",
+        "Ricardo RODRIGUEZ\n\nSwitzerland",
+        "4.41",
+        "5.80",
+        "6.33"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "30\n-10",
+        "Daniel MUNOZ\n\nColombia",
+        "6.13",
+        "5.56",
+        "6.37"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "68\n-18",
+        "Luis DIAZ\n\nColombia",
+        "5.66",
+        "6.25",
+        "4.90"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "90\n100",
+        "Jhon ARIAS\n\nColombia",
+        "5.51",
+        "5.98",
+        "6.46"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "186\n-33",
+        "Gustavo PUERTA\n\nColombia",
+        "4.85",
+        "5.84",
+        "6.17"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "396\n-38",
+        "Johan MOJICA\n\nColombia",
+        "4.54",
+        "5.22",
+        "6.55"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "424\n-24",
+        "Jefferson LERMA\n\nColombia",
+        "4.49",
+        "5.03",
+        "6.35"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "457\n-7",
+        "Davinson SANCHEZ\n\nColombia",
+        "4.43",
+        "5.36",
+        "7.14"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Outfield",
+      "cells": [
+        "493\n-17",
+        "Jhon LUCUMI\n\nColombia",
+        "4.37",
+        "4.83",
+        "6.41"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "200",
+        "Lionel MESSIArgentina",
+        "8.20",
+        "6.61",
+        "4.75"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Argentina"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "77472472",
+        "Lisandro MARTINEZArgentina",
+        "5.62",
+        "5.56",
+        "5.40"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Argentina"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "415103103",
+        "Cristian ROMEROArgentina",
+        "4.51",
+        "5.48",
+        "6.37"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Argentina"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "344747",
+        "EMAM ASHOUREgypt",
+        "6.08",
+        "5.72",
+        "5.73"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4611-11",
+        "TREZEGUETEgypt",
+        "5.87",
+        "5.94",
+        "5.08"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "6135-35",
+        "MOHAMED SALAHEgypt",
+        "5.74",
+        "6.74",
+        "4.98"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "9424-24",
+        "MOSTAFA ZICOEgypt",
+        "5.49",
+        "5.67",
+        "5.33"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "22980-80",
+        "OMAR MARMOUSHEgypt",
+        "4.78",
+        "6.31",
+        "4.87"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4329797",
+        "RAMY RABIAEgypt",
+        "4.48",
+        "5.09",
+        "6.26"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4432727",
+        "MOHANAD LASHINEgypt",
+        "4.46",
+        "5.19",
+        "7.01"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "5471717",
+        "YASSER IBRAHIMEgypt",
+        "4.06",
+        "4.32",
+        "6.74"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Egypt"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "61-1",
+        "Johan MANZAMBISwitzerland",
+        "7.37",
+        "6.79",
+        "4.65"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "187-7",
+        "Ruben VARGASSwitzerland",
+        "6.51",
+        "6.74",
+        "5.11"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "494949",
+        "Breel EMBOLOSwitzerland",
+        "5.85",
+        "5.70",
+        "5.00"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "695858",
+        "Dan NDOYESwitzerland",
+        "5.66",
+        "5.49",
+        "6.12"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "45521-21",
+        "Nico ELVEDISwitzerland",
+        "4.44",
+        "5.58",
+        "6.59"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4561010",
+        "Manuel AKANJISwitzerland",
+        "4.44",
+        "5.90",
+        "6.70"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4709696",
+        "Ricardo RODRIGUEZSwitzerland",
+        "4.41",
+        "5.80",
+        "6.33"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Switzerland"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "3010-10",
+        "Daniel MUNOZColombia",
+        "6.13",
+        "5.56",
+        "6.37"
+      ],
+      "headers": [
+        "Rank",
+        "Player",
+        "Attacking",
+        "Creativity",
+        "Defending"
+      ],
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "6818-18",
+        "Luis DIAZColombia",
+        "5.66",
+        "6.25",
+        "4.90"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "90100100",
+        "Jhon ARIASColombia",
+        "5.51",
+        "5.98",
+        "6.46"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "18633-33",
+        "Gustavo PUERTAColombia",
+        "4.85",
+        "5.84",
+        "6.17"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "39638-38",
+        "Johan MOJICAColombia",
+        "4.54",
+        "5.22",
+        "6.55"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "42424-24",
+        "Jefferson LERMAColombia",
+        "4.49",
+        "5.03",
+        "6.35"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "4577-7",
+        "Davinson SANCHEZColombia",
+        "4.43",
+        "5.36",
+        "7.14"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    },
+    {
+      "category": "Goalkeeper",
+      "cells": [
+        "49317-17",
+        "Jhon LUCUMIColombia",
+        "4.37",
+        "4.83",
+        "6.41"
+      ],
+      "headers": "[Circular]",
+      "selected_team": "Colombia"
+    }
+  ]
+}

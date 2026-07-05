@@ -95,12 +95,35 @@ def pre_result_baselines(history_pattern="data/run_history/*/data/knockout_brack
     for path in sorted(glob.glob(history_pattern)):
         for row in read_csv(path):
             match_number = row.get("match_number", "")
-            if not match_number or match_number in baselines:
+            if not match_number:
                 continue
             if row.get("actual_advancing_team"):
                 continue
-            baselines[match_number] = row
+            baselines.setdefault(match_number, []).append(row)
     return baselines
+
+
+def select_baseline(row, baselines):
+    candidates = baselines.get(row.get("match_number", ""), [])
+    if not candidates:
+        return row
+
+    exact_candidates = [
+        candidate for candidate in candidates
+        if candidate.get("team1") == row.get("team1") and candidate.get("team2") == row.get("team2")
+    ]
+    if exact_candidates:
+        return exact_candidates[-1]
+
+    same_teams = {row.get("team1"), row.get("team2")}
+    same_team_candidates = [
+        candidate for candidate in candidates
+        if {candidate.get("team1"), candidate.get("team2")} == same_teams
+    ]
+    if same_team_candidates:
+        return same_team_candidates[-1]
+
+    return candidates[0]
 
 
 def evaluate_predictions(predictions_csv=PREDICTIONS_CSV, output_csv=OUTPUT_CSV):
@@ -108,7 +131,7 @@ def evaluate_predictions(predictions_csv=PREDICTIONS_CSV, output_csv=OUTPUT_CSV)
     rows = [
         evaluation
         for evaluation in (
-            evaluate_row_against_baseline(row, baselines.get(row.get("match_number", ""), row))
+            evaluate_row_against_baseline(row, select_baseline(row, baselines))
             for row in read_csv(predictions_csv)
         )
         if evaluation is not None

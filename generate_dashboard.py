@@ -26,6 +26,7 @@ def build_dashboard_data():
     group = read_csv("data/match_predictions.csv")
     history = read_csv("data/run_history/index.csv")
     evaluation = read_csv("data/prediction_evaluation.csv")
+    player_strength = read_csv("data/team_player_strength.csv")
 
     final = next((row for row in knockout if row.get("round") == "Final"), {})
     completed_knockouts = [
@@ -45,6 +46,7 @@ def build_dashboard_data():
         "group": group,
         "history": history,
         "evaluation": evaluation,
+        "player_strength": player_strength,
         "completed_knockout_count": len(completed_knockouts),
         "prediction_hit_count": len(evaluation) - len(misses),
         "prediction_miss_count": len(misses),
@@ -311,6 +313,18 @@ def render_html(data):
       return `<span class="pill ${{cls}}">${{esc(evaluation.evaluation)}}</span><br><span class="muted">${{esc(evaluation.predicted_advancing_team)}} → ${{esc(evaluation.actual_advancing_team)}}</span>`;
     }}
 
+    function playerCell(row) {{
+      const hasPlayerData = row.team1_player_strength || row.team2_player_strength;
+      if (!hasPlayerData) return "<span class='muted'>No data</span>";
+      return `${{esc(row.team1_player_adjustment || "0.0")}}<br>${{esc(row.team2_player_adjustment || "0.0")}}`;
+    }}
+
+    function powerCell(row) {{
+      const hasPowerData = row.team1_power_score || row.team2_power_score;
+      if (!hasPowerData) return "<span class='muted'>No data</span>";
+      return `${{esc(row.team1_power_adjustment || "0.0")}}<br>${{esc(row.team2_power_adjustment || "0.0")}}`;
+    }}
+
     function esc(value) {{
       return String(value ?? "").replace(/[&<>"']/g, ch => ({{
         "&": "&amp;",
@@ -365,7 +379,7 @@ def render_html(data):
       document.getElementById("thead").innerHTML = `
         <tr>
           <th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th>
-          <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Context</th><th>Eval</th>
+          <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Player</th><th>Power</th><th>Context</th><th>Eval</th>
         </tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr class="${{evaluationFor(row)?.evaluation === "Miss" ? "miss" : row.is_actual_result === "True" ? "actual" : ""}}">
@@ -379,6 +393,8 @@ def render_html(data):
           <td>${{esc(row.team1)}} ${{fmtPct(row.team1_advance_probability)}}<br>${{esc(row.team2)}} ${{fmtPct(row.team2_advance_probability)}}</td>
           <td><span class="pill projected">${{esc(row.projected_advancing_team)}}</span></td>
           <td>${{esc(row.team1_adjusted_elo)}}<br>${{esc(row.team2_adjusted_elo)}}</td>
+          <td>${{playerCell(row)}}</td>
+          <td>${{powerCell(row)}}</td>
           <td class="reason">${{esc(contextSummary(row)) || "<span class='muted'>None</span>"}}</td>
           <td>${{evaluationCell(row)}}</td>
         </tr>

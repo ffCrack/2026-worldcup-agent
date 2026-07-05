@@ -1,3 +1,5 @@
 source_type,name,url,enabled
 post_match_news_rss,Google News RSS,https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en,yes
 match_results_csv,Optional normalized results CSV URL,,no
+fifa_player_scores_json,Official FIFA player-score JSON or page URL,,yes
+fifa_power_rankings_browser,Official FIFA Power Rankings browser refresh,https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/power-rankings,yes
