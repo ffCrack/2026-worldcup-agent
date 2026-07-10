@@ -10,6 +10,9 @@ DEFAULT_SNAPSHOT_FILES = [
     "data/world_cup_2026_teams.csv",
     "data/world_cup_history.csv",
     "data/knockout_bracket.csv",
+    "data/result_check_schedule.csv",
+    "data/prediction_locks.csv",
+    "data/match_intelligence_notes.csv",
     "data/team_context_adjustments.csv",
     "data/player_scores.csv",
     "data/player_score_refresh_log.csv",
@@ -18,6 +21,7 @@ DEFAULT_SNAPSHOT_FILES = [
     "data/team_form_adjustments.csv",
     "data/team_player_strength.csv",
     "data/team_power_rankings.csv",
+    "data/team_network_strength.csv",
     "data/match_predictions.csv",
     "data/round_of_32_predictions.csv",
     "data/knockout_bracket_predictions.csv",
@@ -98,6 +102,7 @@ class RunHistoryRecorder:
             or int(summary.get("match_result_updates", 0) or 0) > 0
             or int(summary.get("strength_adjustments_applied", 0) or 0) > 0
             or int(summary.get("news_adjustments_applied", 0) or 0) > 0
+            or int(summary.get("match_intelligence_adjustments", 0) or 0) > 0
         )
 
     def has_snapshot_today(self):
@@ -134,6 +139,8 @@ class RunHistoryRecorder:
             "player_score_updates",
             "strength_adjustments_applied",
             "news_adjustments_applied",
+            "match_intelligence_notes",
+            "match_intelligence_adjustments",
             "snapshot_reason",
             "snapshot_path",
         ]
@@ -156,6 +163,8 @@ class RunHistoryRecorder:
                 "player_score_updates": summary.get("player_score_updates", ""),
                 "strength_adjustments_applied": summary.get("strength_adjustments_applied", ""),
                 "news_adjustments_applied": summary.get("news_adjustments_applied", ""),
+                "match_intelligence_notes": summary.get("match_intelligence_notes", ""),
+                "match_intelligence_adjustments": summary.get("match_intelligence_adjustments", ""),
                 "snapshot_reason": summary.get("snapshot_reason", "meaningful_update"),
                 "snapshot_path": os.path.join(self.history_dir, manifest["run_id"]),
             })

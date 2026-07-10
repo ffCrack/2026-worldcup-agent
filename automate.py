@@ -1,6 +1,7 @@
 from main import main as run_model
 from generate_dashboard import main as generate_dashboard
 from src.automation_agent import AutomatedUpdateAgent
+from src.match_intelligence_agent import MatchIntelligenceAgent
 from src.run_history import RunHistoryRecorder
 from validate_match_results import validate_knockout_results
 from evaluate_predictions import evaluate_predictions
@@ -22,6 +23,22 @@ def main():
 
     print("\n[Automation]: Re-running prediction model with updated inputs...")
     run_model()
+    intelligence_summary = MatchIntelligenceAgent().run()
+    summary.update(intelligence_summary)
+    if intelligence_summary["match_intelligence_adjustments"]:
+        print(
+            "[Match Intelligence]: "
+            f"{intelligence_summary['match_intelligence_notes']} notes written; "
+            f"{intelligence_summary['match_intelligence_adjustments']} context adjustments applied."
+        )
+        print("[Match Intelligence]: Re-running model after intelligence adjustments...")
+        run_model()
+    else:
+        print(
+            "[Match Intelligence]: "
+            f"{intelligence_summary['match_intelligence_notes']} notes written; "
+            "0 context adjustments applied."
+        )
     evaluation_rows = evaluate_predictions()
     misses = sum(1 for row in evaluation_rows if row["evaluation"] == "Miss")
     print(f"[Evaluation]: {len(evaluation_rows)} completed knockout predictions evaluated; {misses} misses.")

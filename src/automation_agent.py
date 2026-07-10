@@ -78,6 +78,17 @@ MATCH_RESULT_FIELDS = [
     "source",
 ]
 
+PREDICTION_LOCK_FIELDS = [
+    "match_number",
+    "predicted_advancing_team",
+    "team1_advance_probability",
+    "team2_advance_probability",
+    "predicted_90min_result",
+    "locked_at",
+    "source",
+    "note",
+]
+
 PLAYER_SCORE_FIELDS = [
     "team",
     "player",
@@ -179,6 +190,7 @@ class AutomatedUpdateAgent:
         sources_csv="data/automation_sources.csv",
         result_check_schedule_csv="data/result_check_schedule.csv",
         predictions_csv="data/knockout_bracket_predictions.csv",
+        prediction_locks_csv="data/prediction_locks.csv",
         pre_match_player_score_window_hours=24,
     ):
         self.bracket_csv = bracket_csv
@@ -193,6 +205,7 @@ class AutomatedUpdateAgent:
         self.sources_csv = sources_csv
         self.result_check_schedule_csv = result_check_schedule_csv
         self.predictions_csv = predictions_csv
+        self.prediction_locks_csv = prediction_locks_csv
         self.pre_match_player_score_window = timedelta(hours=pre_match_player_score_window_hours)
 
     def run(self):
@@ -216,6 +229,7 @@ class AutomatedUpdateAgent:
         self.ensure_csv(self.context_csv, CONTEXT_FIELDS)
         self.ensure_csv(self.news_candidates_csv, NEWS_CANDIDATE_FIELDS)
         self.ensure_csv(self.match_results_csv, MATCH_RESULT_FIELDS)
+        self.ensure_csv(self.prediction_locks_csv, PREDICTION_LOCK_FIELDS)
         self.ensure_csv(self.player_scores_csv, PLAYER_SCORE_FIELDS)
         self.ensure_csv(self.player_score_refresh_log_csv, PLAYER_SCORE_REFRESH_FIELDS)
         self.ensure_csv(self.power_rankings_csv, [
@@ -625,6 +639,10 @@ class AutomatedUpdateAgent:
 
     def harvest_ready_match_results(self):
         bracket_rows = self.read_csv(self.bracket_csv)
+        prediction_rows = {
+            row.get("match_number", ""): row
+            for row in self.read_csv(self.predictions_csv)
+        }
         result_rows = self.read_csv(self.match_results_csv)
         schedule = {
             row.get("match_number", ""): row
@@ -645,7 +663,9 @@ class AutomatedUpdateAgent:
             if not self.is_result_check_ready(match, schedule.get(match_number), now):
                 continue
 
-            result = self.harvest_match_result_from_news(match)
+            result = self.harvest_match_result_from_news(
+                self.resolved_match_for_harvest(match, prediction_rows.get(match_number, {}))
+            )
             if not result:
                 continue
 
@@ -667,6 +687,14 @@ class AutomatedUpdateAgent:
         if harvested:
             self.write_csv(self.match_results_csv, MATCH_RESULT_FIELDS, result_rows)
         return harvested
+
+    def resolved_match_for_harvest(self, match, prediction):
+        resolved = dict(match)
+        if not resolved.get("team1") and prediction.get("team1"):
+            resolved["team1"] = prediction["team1"]
+        if not resolved.get("team2") and prediction.get("team2"):
+            resolved["team2"] = prediction["team2"]
+        return resolved
 
     def is_result_check_ready(self, match, schedule_row, now):
         bracket_check_after = self.parse_utc_datetime(match.get("result_check_after_utc", ""))
@@ -858,6 +886,16 @@ class AutomatedUpdateAgent:
         updates = 0
         bracket_rows = self.read_csv(self.bracket_csv)
         result_rows = self.load_match_result_rows()
+        prediction_rows = {
+            row.get("match_number", ""): row
+            for row in self.read_csv(self.predictions_csv)
+        }
+        lock_rows = self.read_csv(self.prediction_locks_csv)
+        locked_matches = {
+            row.get("match_number", "")
+            for row in lock_rows
+        }
+        locks_changed = False
 
         for result in result_rows:
             match_number = result.get("match_number", "")
@@ -866,6 +904,24 @@ class AutomatedUpdateAgent:
             bracket_row = self.find_match(bracket_rows, match_number)
             if not bracket_row:
                 continue
+
+            if match_number not in locked_matches:
+                lock = self.prediction_lock_row(match_number, prediction_rows.get(match_number, {}), result)
+                if lock:
+                    lock_rows.append(lock)
+                    locked_matches.add(match_number)
+                    locks_changed = True
+                    self.log_update(
+                        "prediction_lock",
+                        self.prediction_locks_csv,
+                        match_number,
+                        result.get("actual_advancing_team", ""),
+                        "predicted_advancing_team",
+                        "",
+                        lock["predicted_advancing_team"],
+                        result.get("source", ""),
+                        "Locked the latest pre-result prediction before applying the harvested result.",
+                    )
 
             for field in MATCH_RESULT_FIELDS:
                 if field in ("match_number", "source"):
@@ -892,7 +948,28 @@ class AutomatedUpdateAgent:
 
         if updates:
             self.write_csv(self.bracket_csv, BRACKET_FIELDS, bracket_rows)
+        if locks_changed:
+            self.write_csv(self.prediction_locks_csv, PREDICTION_LOCK_FIELDS, lock_rows)
         return updates
+
+    def prediction_lock_row(self, match_number, prediction, result):
+        if not prediction or prediction.get("actual_advancing_team"):
+            return None
+
+        predicted = prediction.get("predicted_advancing_team", "")
+        if not predicted:
+            return None
+
+        return {
+            "match_number": match_number,
+            "predicted_advancing_team": predicted,
+            "team1_advance_probability": prediction.get("team1_advance_probability", ""),
+            "team2_advance_probability": prediction.get("team2_advance_probability", ""),
+            "predicted_90min_result": prediction.get("predicted_90min_result", ""),
+            "locked_at": self.now(),
+            "source": result.get("source", ""),
+            "note": "Automatically locked pre-result prediction before applying harvested result.",
+        }
 
     def load_match_result_rows(self):
         rows = self.read_csv(self.match_results_csv)

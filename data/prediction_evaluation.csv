@@ -1,5 +1,5 @@
 round,match_number,date,team1,team2,predicted_advancing_team,actual_advancing_team,evaluation,actual_advance_probability,surprise_score,predicted_90min_result,actual_score,note
-Round of 32,73,2026-06-28,South Africa,Canada,Canada,Canada,Hit,0.5073,0.4927,Draw,0-1,Model hit
+Round of 32,73,2026-06-28,South Africa,Canada,Canada,Canada,Hit,0.52,0.48,Draw,0-1,Model hit
 Round of 32,74,2026-06-29,Germany,Paraguay,Germany,Paraguay,Miss,0.3338,0.6662,Germany,1-1,Miss: actual winner had 33.4% pre-match advance probability
 Round of 32,75,2026-06-29,Netherlands,Morocco,Netherlands,Morocco,Miss,0.4953,0.5047,Draw,1-1,Miss: actual winner had 49.5% pre-match advance probability
 Round of 32,76,2026-06-29,Brazil,Japan,Brazil,Brazil,Hit,0.6684,0.3316,Brazil,2-1,Model hit
@@ -17,3 +17,10 @@ Round of 32,87,2026-07-03,Colombia,Ghana,Colombia,Colombia,Hit,0.8526,0.1474,Col
 Round of 32,88,2026-07-03,Australia,Egypt,Egypt,Egypt,Hit,0.5234,0.4766,Draw,1-1,Model hit
 Round of 16,89,2026-07-04,Paraguay,France,France,France,Hit,0.8491,0.1509,France,0-1,Model hit
 Round of 16,90,2026-07-04,Canada,Morocco,Morocco,Morocco,Hit,0.7553,0.2447,Morocco,0-3,Model hit
+Round of 16,91,2026-07-05,Brazil,Norway,Brazil,Norway,Miss,0.29,0.71,Brazil,1-2,Miss: actual winner had 29.0% pre-match advance probability
+Round of 16,92,2026-07-05,Mexico,England,Mexico,England,Miss,0.4955,0.5045,Draw,2-3,Miss: actual winner had 49.5% pre-match advance probability
+Round of 16,93,2026-07-06,Portugal,Spain,Spain,Spain,Hit,0.6253,0.3747,Spain,0-1,Model hit
+Round of 16,94,2026-07-06,USA,Belgium,Belgium,Belgium,Hit,0.5148,0.4852,Draw,1-4,Model hit
+Round of 16,95,2026-07-07,Argentina,Egypt,Argentina,Argentina,Hit,0.8686,0.1314,Argentina,3-2,Model hit
+Round of 16,96,2026-07-07,Switzerland,Colombia,Switzerland,Switzerland,Hit,0.5397,0.4603,Switzerland,0-0,Model hit
+Quarter-final,97,2026-07-09,France,Morocco,France,France,Hit,0.7048,0.2952,France,2-0,Model hit

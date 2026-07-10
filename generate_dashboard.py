@@ -27,6 +27,7 @@ def build_dashboard_data():
     history = read_csv("data/run_history/index.csv")
     evaluation = read_csv("data/prediction_evaluation.csv")
     player_strength = read_csv("data/team_player_strength.csv")
+    intelligence = read_csv("data/match_intelligence_notes.csv")
 
     final = next((row for row in knockout if row.get("round") == "Final"), {})
     completed_knockouts = [
@@ -47,6 +48,7 @@ def build_dashboard_data():
         "history": history,
         "evaluation": evaluation,
         "player_strength": player_strength,
+        "intelligence": intelligence,
         "completed_knockout_count": len(completed_knockouts),
         "prediction_hit_count": len(evaluation) - len(misses),
         "prediction_miss_count": len(misses),
@@ -220,6 +222,9 @@ def render_html(data):
     .pill.actual {{ color: var(--ok); border-color: #b7dfc9; background: #edf8f2; }}
     .pill.projected {{ color: var(--warn); border-color: #ead2a8; background: #fff8ea; }}
     .pill.miss {{ color: var(--accent-2); border-color: #f3b8b1; background: #fff1f0; }}
+    .pill.live {{ color: #134e63; border-color: #8fc5d2; background: #e6f2f5; }}
+    .pill.due {{ color: var(--accent-2); border-color: #f3b8b1; background: #fff1f0; }}
+    .pill.today {{ color: var(--warn); border-color: #ead2a8; background: #fff8ea; }}
     .reason {{
       max-width: 360px;
       white-space: normal;
@@ -252,9 +257,12 @@ def render_html(data):
       <div class="tabs">
         <button id="tab-knockout" class="active" type="button">Knockout</button>
         <button id="tab-evaluation" type="button">Evaluation</button>
+        <button id="tab-intelligence" type="button">Intelligence</button>
         <button id="tab-group" type="button">Group History</button>
         <button id="tab-runs" type="button">Run History</button>
       </div>
+      <input id="match-date" type="date" aria-label="Match date">
+      <button id="clear-date" type="button">All Dates</button>
       <input id="search" type="search" placeholder="Search team, venue, round">
       <div class="rounds" id="rounds"></div>
     </div>
@@ -284,6 +292,47 @@ def render_html(data):
       const s2 = row.team2_score_final || row.team2_score_90;
       if (s1 === "" || s2 === "" || s1 === undefined || s2 === undefined) return "";
       return `${{s1}}-${{s2}}`;
+    }}
+
+    function dateKey(date) {{
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${{year}}-${{month}}-${{day}}`;
+    }}
+
+    function currentDateKey() {{
+      return dateKey(new Date());
+    }}
+
+    function selectedDate() {{
+      return document.getElementById("match-date").value;
+    }}
+
+    function matchesForDate(dateValue) {{
+      if (!dateValue) return [];
+      return DATA.knockout.filter(row => row.date === dateValue);
+    }}
+
+    function matchStatus(row) {{
+      if (row.is_actual_result === "True" || row.actual_advancing_team) return ["Completed", "actual"];
+
+      const today = currentDateKey();
+      const rowDate = row.date || "";
+      const now = new Date();
+      const kickoff = row.kickoff_utc ? new Date(row.kickoff_utc) : null;
+      const checkAfter = row.result_check_after_utc ? new Date(row.result_check_after_utc) : null;
+
+      if (kickoff && checkAfter && now >= kickoff && now <= checkAfter) return ["Live", "live"];
+      if (checkAfter && now > checkAfter) return ["Update due", "due"];
+      if (rowDate === today) return ["Today", "today"];
+      if (rowDate && rowDate > today) return ["Upcoming", "projected"];
+      return ["Needs update", "due"];
+    }}
+
+    function statusCell(row) {{
+      const [label, cls] = matchStatus(row);
+      return `<span class="pill ${{cls}}">${{esc(label)}}</span>`;
     }}
 
     function contextLabel(reason) {{
@@ -325,6 +374,12 @@ def render_html(data):
       return `${{esc(row.team1_power_adjustment || "0.0")}}<br>${{esc(row.team2_power_adjustment || "0.0")}}`;
     }}
 
+    function networkCell(row) {{
+      const hasNetworkData = row.team1_network_score || row.team2_network_score;
+      if (!hasNetworkData) return "<span class='muted'>No data</span>";
+      return `${{esc(row.team1_network_adjustment || "0.0")}}<br>${{esc(row.team2_network_adjustment || "0.0")}}`;
+    }}
+
     function esc(value) {{
       return String(value ?? "").replace(/[&<>"']/g, ch => ({{
         "&": "&amp;",
@@ -337,10 +392,15 @@ def render_html(data):
 
     function renderSummary() {{
       const final = DATA.final || {{}};
+      const todayRows = matchesForDate(currentDateKey());
+      const todayText = todayRows.length
+        ? todayRows.map(row => `${{row.team1}} vs ${{row.team2}}`).join(" | ")
+        : "No knockout match listed";
       const metrics = [
         ["Champion", DATA.projected_champion || "TBD"],
         ["Final", final.team1 && final.team2 ? `${{final.team1}} vs ${{final.team2}}` : "TBD"],
         ["Final Advance", final.team1_advance_probability ? `${{final.team1}} ${{fmtPct(final.team1_advance_probability)}} / ${{final.team2}} ${{fmtPct(final.team2_advance_probability)}}` : "TBD"],
+        ["Today", todayText],
         ["Prediction Record", `${{DATA.prediction_hit_count || 0}} hit / ${{DATA.prediction_miss_count || 0}} miss`],
       ];
       document.getElementById("summary").innerHTML = metrics.map(([label, value]) => `
@@ -372,18 +432,21 @@ def render_html(data):
 
     function renderKnockout() {{
       const query = document.getElementById("search").value.trim().toLowerCase();
+      const dateFilter = selectedDate();
       let rows = DATA.knockout;
       if (currentRound !== "All") rows = rows.filter(row => row.round === currentRound);
+      if (dateFilter) rows = rows.filter(row => row.date === dateFilter);
       rows = rows.filter(row => rowMatches(row, query));
 
       document.getElementById("thead").innerHTML = `
         <tr>
-          <th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th>
-          <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Player</th><th>Power</th><th>Context</th><th>Eval</th>
+          <th>Match</th><th>Status</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th>
+          <th>90 Min</th><th>Advance</th><th>Projected</th><th>Adjusted Elo</th><th>Player</th><th>Power</th><th>Network</th><th>Context</th><th>Eval</th>
         </tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr class="${{evaluationFor(row)?.evaluation === "Miss" ? "miss" : row.is_actual_result === "True" ? "actual" : ""}}">
           <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong></td>
+          <td>${{statusCell(row)}}</td>
           <td>${{esc(row.date)}}<br><span class="muted">${{esc(row.venue)}}</span></td>
           <td>${{esc(row.result_check_after_utc || "Date passed")}}<br><span class="muted">${{esc(row.kickoff_utc || "")}}</span></td>
           <td><span class="team">${{esc(row.team1)}}</span><br><span class="team">${{esc(row.team2)}}</span></td>
@@ -395,6 +458,7 @@ def render_html(data):
           <td>${{esc(row.team1_adjusted_elo)}}<br>${{esc(row.team2_adjusted_elo)}}</td>
           <td>${{playerCell(row)}}</td>
           <td>${{powerCell(row)}}</td>
+          <td>${{networkCell(row)}}</td>
           <td class="reason">${{esc(contextSummary(row)) || "<span class='muted'>None</span>"}}</td>
           <td>${{evaluationCell(row)}}</td>
         </tr>
@@ -457,10 +521,27 @@ def render_html(data):
       `).join("");
     }}
 
+    function renderIntelligence() {{
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const rows = (DATA.intelligence || []).filter(row => rowMatches(row, query)).slice().reverse();
+      document.getElementById("thead").innerHTML = `
+        <tr><th>Match</th><th>Teams</th><th>Result</th><th>Signals</th><th>Adjustment</th><th>Status</th></tr>`;
+      document.getElementById("tbody").innerHTML = rows.map(row => `
+        <tr>
+          <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong><br><span class="muted">${{esc(row.date)}}</span></td>
+          <td><span class="team">${{esc(row.team1)}}</span><br><span class="team">${{esc(row.team2)}}</span></td>
+          <td>${{esc(row.score)}}<br><span class="pill actual">${{esc(row.actual_advancing_team)}}</span></td>
+          <td class="reason">${{esc(row.signals)}}</td>
+          <td>${{esc(row.adjustment_team || "None")}}<br><span class="muted">${{esc(row.adjustment_points || "0")}}</span></td>
+          <td><span class="pill projected">${{esc(row.status)}}</span><br><span class="muted">${{esc(row.active_until)}}</span></td>
+        </tr>
+      `).join("");
+    }}
+
     function setTab(tab) {{
       currentTab = tab;
       document.querySelectorAll(".tabs button").forEach(button => button.classList.remove("active"));
-      document.getElementById(`tab-${{tab === "group" ? "group" : tab === "runs" ? "runs" : tab === "evaluation" ? "evaluation" : "knockout"}}`).classList.add("active");
+      document.getElementById(`tab-${{tab === "group" ? "group" : tab === "runs" ? "runs" : tab === "evaluation" ? "evaluation" : tab === "intelligence" ? "intelligence" : "knockout"}}`).classList.add("active");
       render();
     }}
 
@@ -469,15 +550,23 @@ def render_html(data):
       renderRoundButtons();
       if (currentTab === "group") renderGroup();
       else if (currentTab === "evaluation") renderEvaluation();
+      else if (currentTab === "intelligence") renderIntelligence();
       else if (currentTab === "runs") renderRuns();
       else renderKnockout();
     }}
 
     document.getElementById("tab-knockout").addEventListener("click", () => setTab("knockout"));
     document.getElementById("tab-evaluation").addEventListener("click", () => setTab("evaluation"));
+    document.getElementById("tab-intelligence").addEventListener("click", () => setTab("intelligence"));
     document.getElementById("tab-group").addEventListener("click", () => setTab("group"));
     document.getElementById("tab-runs").addEventListener("click", () => setTab("runs"));
     document.getElementById("search").addEventListener("input", render);
+    document.getElementById("match-date").addEventListener("change", render);
+    document.getElementById("clear-date").addEventListener("click", () => {{
+      document.getElementById("match-date").value = "";
+      render();
+    }});
+    document.getElementById("match-date").value = currentDateKey();
 
     render();
   </script>

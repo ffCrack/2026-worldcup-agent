@@ -5,6 +5,7 @@ import os
 
 PREDICTIONS_CSV = "data/knockout_bracket_predictions.csv"
 OUTPUT_CSV = "data/prediction_evaluation.csv"
+LOCKS_CSV = "data/prediction_locks.csv"
 
 
 EVALUATION_FIELDS = [
@@ -103,7 +104,22 @@ def pre_result_baselines(history_pattern="data/run_history/*/data/knockout_brack
     return baselines
 
 
-def select_baseline(row, baselines):
+def prediction_locks(locks_csv=LOCKS_CSV):
+    locks = {}
+    for row in read_csv(locks_csv):
+        match_number = row.get("match_number", "")
+        if not match_number:
+            continue
+        locks[match_number] = row
+    return locks
+
+
+def select_baseline(row, baselines, locks=None):
+    locks = locks or {}
+    locked = locks.get(row.get("match_number", ""))
+    if locked:
+        return locked
+
     candidates = baselines.get(row.get("match_number", ""), [])
     if not candidates:
         return row
@@ -126,12 +142,17 @@ def select_baseline(row, baselines):
     return candidates[0]
 
 
-def evaluate_predictions(predictions_csv=PREDICTIONS_CSV, output_csv=OUTPUT_CSV):
-    baselines = pre_result_baselines()
+def evaluate_predictions(
+    predictions_csv=PREDICTIONS_CSV,
+    output_csv=OUTPUT_CSV,
+    use_historical_baseline=True,
+):
+    baselines = pre_result_baselines() if use_historical_baseline else {}
+    locks = prediction_locks()
     rows = [
         evaluation
         for evaluation in (
-            evaluate_row_against_baseline(row, select_baseline(row, baselines))
+            evaluate_row_against_baseline(row, select_baseline(row, baselines, locks))
             for row in read_csv(predictions_csv)
         )
         if evaluation is not None

@@ -39,16 +39,22 @@ At a high level, the prediction pipeline uses:
 - **Elo-style updates** after completed matches.
 - **Tournament form adjustments** for teams that overperform or underperform
   expectations.
+- **FIFA Power Ranking and network-strength adjustments** to capture elite
+  player impact and relationships between completed match results.
 - **Host-country advantage** for USA, Mexico, and Canada when playing in their
   own country.
 - **Knockout advancement logic** that separates 90-minute draw probability from
   the probability of advancing.
 - **Concrete post-match context** such as injuries, red cards, suspensions, or
   player availability.
+- **Deterministic match intelligence** that turns post-match signals into
+  auditable notes and next-match context adjustments.
 
 The implementation details are intentionally simple and inspectable. See
 [data/README.md](data/README.md) for data sources, file meanings, and model
 assumptions.
+This is an agentic workflow rather than an LLM agent: each step is scripted,
+logged, and reproducible.
 
 ## Current Workflow
 
@@ -162,6 +168,7 @@ generate_article_assets.py Article visual generator
 
 src/data_agent.py          Rating, form, prediction, and bracket logic
 src/automation_agent.py    Match-result and post-match news automation
+src/match_intelligence_agent.py Deterministic post-match reasoning layer
 src/run_history.py         Historical snapshot recorder
 src/data_loader.py         CSV loading helpers
 
@@ -186,6 +193,8 @@ Generated outputs:
 ```text
 data/match_predictions.csv
 data/team_form_adjustments.csv
+data/team_network_strength.csv
+data/team_power_rankings.csv
 data/round_of_32_predictions.csv
 data/knockout_bracket_predictions.csv
 data/dashboard.html

@@ -31,10 +31,15 @@ class DataAndRatingAgent:
         self.form_points = 90
         self.player_score_points = 8
         self.player_adjustment_cap = 80
-        self.power_score_points = 14
-        self.power_rank_bonus_points = 2
-        self.power_adjustment_cap = 75
+        self.power_score_points = 20
+        self.power_rank_bonus_points = 3
+        self.power_adjustment_cap = 100
+        self.network_score_points = 115
+        self.network_adjustment_cap = 100
+        self.network_iterations = 8
         self.form = {}
+        self.network_results = []
+        self.network_strengths = {}
         self.context_adjustments = self.load_context_adjustments(context_adjustments_csv)
         self.player_scores = self.load_player_scores(player_scores_csv)
         self.player_strengths = self.compute_player_strengths(self.player_scores)
@@ -50,6 +55,8 @@ class DataAndRatingAgent:
                 self.ratings = json.load(f)
         else:
             self.ratings = {}
+        self.baseline_ratings = dict(self.ratings)
+        self.baseline_rating_average = self.average(self.baseline_ratings.values()) or 1500.0
 
     def get_rating(self, team):
         # Default baseline rating for a World Cup level team is 1500
@@ -64,6 +71,9 @@ class DataAndRatingAgent:
     def form_adjustment(self, team):
         """Temporary tournament-form boost from recent over/under-performance."""
         return self.form.get(team, 0.0) * self.form_points
+
+    def baseline_rating(self, team):
+        return self.baseline_ratings.get(team, 1500.0)
 
     def load_player_scores(self, file_path):
         """Loads optional FIFA-style player ratings for squad-strength adjustment."""
@@ -322,6 +332,102 @@ class DataAndRatingAgent:
             return ""
         return round(score, 2)
 
+    def network_adjustment(self, team):
+        score = self.network_strengths.get(team, 0.0)
+        adjustment = score * self.network_score_points
+        return max(-self.network_adjustment_cap, min(self.network_adjustment_cap, adjustment))
+
+    def network_score(self, team):
+        if team not in self.network_strengths:
+            return ""
+        return round(self.network_strengths[team], 3)
+
+    def add_network_result(self, team1, team2, score1, score2, date="", stage=""):
+        if score1 is None or score2 is None:
+            return
+
+        self.network_results.append({
+            "team1": team1,
+            "team2": team2,
+            "score1": int(score1),
+            "score2": int(score2),
+            "date": date,
+            "stage": stage,
+        })
+        self.recompute_network_strengths()
+
+    def recompute_network_strengths(self):
+        teams = sorted({
+            team
+            for row in self.network_results
+            for team in (row["team1"], row["team2"])
+        })
+        if not teams:
+            self.network_strengths = {}
+            return
+
+        scores = {team: 0.0 for team in teams}
+        for _ in range(self.network_iterations):
+            totals = {team: 0.0 for team in teams}
+            counts = {team: 0 for team in teams}
+
+            for row in self.network_results:
+                team1 = row["team1"]
+                team2 = row["team2"]
+                score1 = row["score1"]
+                score2 = row["score2"]
+
+                value1 = self.network_match_value(team1, team2, score1, score2, scores)
+                value2 = self.network_match_value(team2, team1, score2, score1, scores)
+                totals[team1] += value1
+                totals[team2] += value2
+                counts[team1] += 1
+                counts[team2] += 1
+
+            next_scores = {}
+            for team in teams:
+                if counts[team]:
+                    next_scores[team] = totals[team] / counts[team]
+                else:
+                    next_scores[team] = 0.0
+            scores = next_scores
+
+        average_score = self.average(scores.values()) or 0.0
+        self.network_strengths = {
+            team: scores[team] - average_score
+            for team in teams
+        }
+
+    def network_match_value(self, team, opponent, team_score, opponent_score, previous_scores):
+        actual = self.match_score(team_score, opponent_score)
+        expected = self.baseline_expected_score(team, opponent)
+        margin = abs(team_score - opponent_score)
+        signed_margin = 0.0
+        if team_score > opponent_score:
+            signed_margin = min(0.25, margin * 0.08)
+        elif team_score < opponent_score:
+            signed_margin = -min(0.25, margin * 0.08)
+
+        opponent_quality = (self.baseline_rating(opponent) - self.baseline_rating_average) / 300
+        direct_performance = (actual - expected) + signed_margin + (actual * 0.18 * opponent_quality)
+
+        # Transitive credit: beating or drawing a team is worth more when that
+        # opponent has also proven strong elsewhere in the tournament.
+        propagated_performance = 0.35 * previous_scores.get(opponent, 0.0) * (actual - 0.25)
+        return direct_performance + propagated_performance
+
+    def match_score(self, team_score, opponent_score):
+        if team_score > opponent_score:
+            return 1.0
+        if team_score < opponent_score:
+            return 0.0
+        return 0.5
+
+    def baseline_expected_score(self, team1, team2):
+        r1 = self.baseline_rating(team1)
+        r2 = self.baseline_rating(team2)
+        return 1 / (1 + 10 ** ((r2 - r1) / self.elo_scale))
+
     def date_from_iso(self, value):
         if not value:
             return ""
@@ -414,6 +520,7 @@ class DataAndRatingAgent:
             + self.context_adjustment(team, match_date)
             + self.player_strength_adjustment(team)
             + self.power_ranking_adjustment(team, match_date)
+            + self.network_adjustment(team)
         )
 
     def expected_score(self, team1, team2, venue_country=None, match_date=None):
@@ -432,6 +539,8 @@ class DataAndRatingAgent:
         team2_player = self.player_strength_adjustment(team2)
         team1_power = self.power_ranking_adjustment(team1, match_date)
         team2_power = self.power_ranking_adjustment(team2, match_date)
+        team1_network = self.network_adjustment(team1)
+        team2_network = self.network_adjustment(team2)
         team1_adjusted = self.adjusted_rating(team1, venue_country, match_date)
         team2_adjusted = self.adjusted_rating(team2, venue_country, match_date)
         expected = self.expected_score(team1, team2, venue_country, match_date)
@@ -468,6 +577,10 @@ class DataAndRatingAgent:
             "away_power_score": self.power_score(team2, match_date),
             "home_power_adjustment": round(team1_power, 1),
             "away_power_adjustment": round(team2_power, 1),
+            "home_network_score": self.network_score(team1),
+            "away_network_score": self.network_score(team2),
+            "home_network_adjustment": round(team1_network, 1),
+            "away_network_adjustment": round(team2_network, 1),
             "home_context_reason": self.context_adjustment_reasons(team1, match_date),
             "away_context_reason": self.context_adjustment_reasons(team2, match_date),
             "home_adjusted_elo": round(team1_adjusted, 1),
@@ -568,6 +681,14 @@ class DataAndRatingAgent:
                     venue_country,
                     row["date"],
                 )
+                self.add_network_result(
+                    home_team,
+                    away_team,
+                    int(row["home_score"]),
+                    int(row["away_score"]),
+                    row["date"],
+                    row.get("stage", ""),
+                )
 
             result["home_post_elo"] = round(self.get_rating(home_team), 1)
             result["away_post_elo"] = round(self.get_rating(away_team), 1)
@@ -619,6 +740,10 @@ class DataAndRatingAgent:
                 "team2_power_score": prediction["away_power_score"],
                 "team1_power_adjustment": prediction["home_power_adjustment"],
                 "team2_power_adjustment": prediction["away_power_adjustment"],
+                "team1_network_score": prediction["home_network_score"],
+                "team2_network_score": prediction["away_network_score"],
+                "team1_network_adjustment": prediction["home_network_adjustment"],
+                "team2_network_adjustment": prediction["away_network_adjustment"],
                 "team1_context_reason": prediction["home_context_reason"],
                 "team2_context_reason": prediction["away_context_reason"],
                 "team1_adjusted_elo": prediction["home_adjusted_elo"],
@@ -733,6 +858,14 @@ class DataAndRatingAgent:
             int(team2_score),
             row.get("venue_country", ""),
             row.get("date"),
+        )
+        self.add_network_result(
+            team1,
+            team2,
+            int(team1_score),
+            int(team2_score),
+            row.get("date", ""),
+            row.get("round", ""),
         )
 
     def process_historical_data(self):
@@ -851,6 +984,35 @@ class DataAndRatingAgent:
             "best_player",
             "team_power_score",
             "power_adjustment",
+        ]
+        with open(file_path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+
+    def network_strength_summary(self):
+        rows = []
+        for team in sorted(self.network_strengths):
+            rows.append({
+                "team": team,
+                "network_score": round(self.network_strengths[team], 4),
+                "network_adjustment": round(self.network_adjustment(team), 1),
+                "completed_matches_in_graph": sum(
+                    1 for row in self.network_results
+                    if row["team1"] == team or row["team2"] == team
+                ),
+            })
+        return sorted(rows, key=lambda row: row["network_adjustment"], reverse=True)
+
+    def save_network_strength_summary(self, file_path="data/team_network_strength.csv"):
+        rows = self.network_strength_summary()
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        fieldnames = [
+            "team",
+            "network_score",
+            "network_adjustment",
+            "completed_matches_in_graph",
         ]
         with open(file_path, "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)

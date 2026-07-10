@@ -34,11 +34,13 @@ def main():
     rating_agent.save_form_summary()
     rating_agent.save_player_strength_summary()
     rating_agent.save_power_ranking_summary()
+    rating_agent.save_network_strength_summary()
     rating_agent.save_ratings()
     print("[Data Agent]: 'data/match_predictions.csv' written successfully.")
     print("[Data Agent]: 'data/team_form_adjustments.csv' written successfully.")
     print("[Data Agent]: 'data/team_player_strength.csv' written successfully.")
     print("[Data Agent]: 'data/team_power_rankings.csv' written successfully.")
+    print("[Data Agent]: 'data/team_network_strength.csv' written successfully.")
     print("[Data Agent]: 'data/team_ratings.json' updated successfully.")
 
     # 5. Predict the full knockout bracket. Actual results in the bracket file

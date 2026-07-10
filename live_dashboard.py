@@ -181,6 +181,9 @@ LIVE_HTML = """<!doctype html>
     .actual-pill { color: var(--ok); border-color: #b7dfc9; background: #edf8f2; }
     .projected-pill { color: var(--warn); border-color: #ead2a8; background: #fff8ea; }
     .miss-pill { color: var(--bad); border-color: #f3b8b1; background: #fff1f0; }
+    .live-pill { color: #134e63; border-color: #8fc5d2; background: #e6f2f5; }
+    .due-pill { color: var(--bad); border-color: #f3b8b1; background: #fff1f0; }
+    .today-pill { color: var(--warn); border-color: #ead2a8; background: #fff8ea; }
     .bad { color: var(--bad); }
     .reason { max-width: 360px; white-space: normal; color: var(--muted); }
     @media (max-width: 900px) {
@@ -206,9 +209,12 @@ LIVE_HTML = """<!doctype html>
     <div class="controls">
       <button class="active" id="tabKnockout" type="button">Knockout</button>
       <button id="tabEval" type="button">Evaluation</button>
+      <button id="tabIntel" type="button">Intelligence</button>
       <button id="tabGroup" type="button">Group History</button>
       <button id="tabRuns" type="button">Run History</button>
       <select id="roundFilter"></select>
+      <input id="matchDate" type="date" aria-label="Match date">
+      <button id="clearDate" type="button">All Dates</button>
       <input id="search" type="search" placeholder="Search team, venue, round">
     </div>
     <section class="table-wrap">
@@ -240,8 +246,43 @@ LIVE_HTML = """<!doctype html>
     function score(row) {
       const s1 = row.team1_score_final || row.team1_score_90;
       const s2 = row.team2_score_final || row.team2_score_90;
-      if (!s1 || !s2) return "";
+      if (s1 === "" || s2 === "" || s1 === undefined || s2 === undefined) return "";
       return `${s1}-${s2}`;
+    }
+    function dateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+    function currentDateKey() {
+      return dateKey(new Date());
+    }
+    function selectedDate() {
+      return document.getElementById("matchDate").value;
+    }
+    function matchesForDate(dateValue) {
+      if (!dateValue) return [];
+      return DATA.knockout.filter(row => row.date === dateValue);
+    }
+    function matchStatus(row) {
+      if (row.is_actual_result === "True" || row.actual_advancing_team) return ["Completed", "actual-pill"];
+
+      const today = currentDateKey();
+      const rowDate = row.date || "";
+      const now = new Date();
+      const kickoff = row.kickoff_utc ? new Date(row.kickoff_utc) : null;
+      const checkAfter = row.result_check_after_utc ? new Date(row.result_check_after_utc) : null;
+
+      if (kickoff && checkAfter && now >= kickoff && now <= checkAfter) return ["Live", "live-pill"];
+      if (checkAfter && now > checkAfter) return ["Update due", "due-pill"];
+      if (rowDate === today) return ["Today", "today-pill"];
+      if (rowDate && rowDate > today) return ["Upcoming", "projected-pill"];
+      return ["Needs update", "due-pill"];
+    }
+    function statusCell(row) {
+      const [label, cls] = matchStatus(row);
+      return `<span class="pill ${cls}">${esc(label)}</span>`;
     }
     function contextLabel(reason) {
       if (!reason) return "";
@@ -276,6 +317,11 @@ LIVE_HTML = """<!doctype html>
       if (!hasPowerData) return "<span class='muted'>No data</span>";
       return `${esc(row.team1_power_adjustment || "0.0")}<br>${esc(row.team2_power_adjustment || "0.0")}`;
     }
+    function networkCell(row) {
+      const hasNetworkData = row.team1_network_score || row.team2_network_score;
+      if (!hasNetworkData) return "<span class='muted'>No data</span>";
+      return `${esc(row.team1_network_adjustment || "0.0")}<br>${esc(row.team2_network_adjustment || "0.0")}`;
+    }
     function rowMatches(row) {
       const query = document.getElementById("search").value.trim().toLowerCase();
       if (!query) return true;
@@ -309,10 +355,15 @@ LIVE_HTML = """<!doctype html>
     }
     function renderMetrics() {
       const final = DATA.final || {};
+      const todayRows = matchesForDate(currentDateKey());
+      const todayText = todayRows.length
+        ? todayRows.map(row => `${row.team1} vs ${row.team2}`).join(" | ")
+        : "No knockout match listed";
       const rows = [
         ["Champion", DATA.projected_champion || "TBD"],
         ["Final", final.team1 && final.team2 ? `${final.team1} vs ${final.team2}` : "TBD"],
         ["Final Odds", final.team1_advance_probability ? `${final.team1} ${pct(final.team1_advance_probability)} / ${final.team2} ${pct(final.team2_advance_probability)}` : "TBD"],
+        ["Today", todayText],
         ["Prediction Record", `${DATA.prediction_hit_count || 0} hit / ${DATA.prediction_miss_count || 0} miss`],
       ];
       document.getElementById("metrics").innerHTML = rows.map(([label, value]) => `
@@ -326,12 +377,16 @@ LIVE_HTML = """<!doctype html>
       select.innerHTML = rounds.map(item => `<option value="${esc(item)}"${item === round ? " selected" : ""}>${esc(item)}</option>`).join("");
     }
     function renderKnockout() {
-      let rows = DATA.knockout.filter(row => round === "All" || row.round === round).filter(rowMatches);
+      const dateFilter = selectedDate();
+      let rows = DATA.knockout.filter(row => round === "All" || row.round === round);
+      if (dateFilter) rows = rows.filter(row => row.date === dateFilter);
+      rows = rows.filter(rowMatches);
       document.getElementById("thead").innerHTML = `
-        <tr><th>Match</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Player</th><th>Power</th><th>Context</th><th>Eval</th></tr>`;
+        <tr><th>Match</th><th>Status</th><th>Date</th><th>Check After</th><th>Teams</th><th>Score</th><th>Actual</th><th>90 Min</th><th>Advance</th><th>Projected</th><th>Player</th><th>Power</th><th>Network</th><th>Context</th><th>Eval</th></tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr class="${evaluationFor(row)?.evaluation === "Miss" ? "miss" : row.is_actual_result === "True" ? "actual" : ""}">
           <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong></td>
+          <td>${statusCell(row)}</td>
           <td>${esc(row.date)}<br><span class="muted">${esc(row.venue)}</span></td>
           <td>${esc(row.result_check_after_utc || "Date passed")}<br><span class="muted">${esc(row.kickoff_utc || "")}</span></td>
           <td><span class="team">${esc(row.team1)}</span><br><span class="team">${esc(row.team2)}</span></td>
@@ -342,6 +397,7 @@ LIVE_HTML = """<!doctype html>
           <td><span class="pill projected-pill">${esc(row.projected_advancing_team)}</span></td>
           <td>${playerCell(row)}</td>
           <td>${powerCell(row)}</td>
+          <td>${networkCell(row)}</td>
           <td class="reason">${esc(contextSummary(row)) || "<span class='muted'>None</span>"}</td>
           <td>${evaluationCell(row)}</td>
         </tr>
@@ -379,6 +435,21 @@ LIVE_HTML = """<!doctype html>
         </tr>
       `).join("");
     }
+    function renderIntelligence() {
+      const rows = (DATA.intelligence || []).filter(rowMatches).slice().reverse();
+      document.getElementById("thead").innerHTML = `
+        <tr><th>Match</th><th>Teams</th><th>Result</th><th>Signals</th><th>Adjustment</th><th>Status</th></tr>`;
+      document.getElementById("tbody").innerHTML = rows.map(row => `
+        <tr>
+          <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong><br><span class="muted">${esc(row.date)}</span></td>
+          <td><span class="team">${esc(row.team1)}</span><br><span class="team">${esc(row.team2)}</span></td>
+          <td>${esc(row.score)}<br><span class="pill actual-pill">${esc(row.actual_advancing_team)}</span></td>
+          <td class="reason">${esc(row.signals)}</td>
+          <td>${esc(row.adjustment_team || "None")}<br><span class="muted">${esc(row.adjustment_points || "0")}</span></td>
+          <td><span class="pill projected-pill">${esc(row.status)}</span><br><span class="muted">${esc(row.active_until)}</span></td>
+        </tr>
+      `).join("");
+    }
     function renderRuns() {
       const rows = DATA.history.filter(rowMatches).slice().reverse();
       document.getElementById("thead").innerHTML = `
@@ -396,7 +467,7 @@ LIVE_HTML = """<!doctype html>
     function setTab(nextTab) {
       tab = nextTab;
       document.querySelectorAll(".controls button:not(#runNow)").forEach(button => button.classList.remove("active"));
-      document.getElementById(nextTab === "group" ? "tabGroup" : nextTab === "runs" ? "tabRuns" : nextTab === "evaluation" ? "tabEval" : "tabKnockout").classList.add("active");
+      document.getElementById(nextTab === "group" ? "tabGroup" : nextTab === "runs" ? "tabRuns" : nextTab === "evaluation" ? "tabEval" : nextTab === "intelligence" ? "tabIntel" : "tabKnockout").classList.add("active");
       render();
     }
     function render() {
@@ -406,14 +477,22 @@ LIVE_HTML = """<!doctype html>
       renderRoundFilter();
       if (tab === "group") renderGroup();
       else if (tab === "evaluation") renderEvaluation();
+      else if (tab === "intelligence") renderIntelligence();
       else if (tab === "runs") renderRuns();
       else renderKnockout();
     }
     document.getElementById("tabKnockout").addEventListener("click", () => setTab("knockout"));
     document.getElementById("tabEval").addEventListener("click", () => setTab("evaluation"));
+    document.getElementById("tabIntel").addEventListener("click", () => setTab("intelligence"));
     document.getElementById("tabGroup").addEventListener("click", () => setTab("group"));
     document.getElementById("tabRuns").addEventListener("click", () => setTab("runs"));
     document.getElementById("roundFilter").addEventListener("change", event => { round = event.target.value; render(); });
+    document.getElementById("matchDate").addEventListener("change", render);
+    document.getElementById("clearDate").addEventListener("click", () => {
+      document.getElementById("matchDate").value = "";
+      render();
+    });
+    document.getElementById("matchDate").value = currentDateKey();
     document.getElementById("search").addEventListener("input", render);
     document.getElementById("runNow").addEventListener("click", runNow);
     refresh();
