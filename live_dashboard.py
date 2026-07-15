@@ -1,9 +1,10 @@
 import argparse
+import csv
 import json
 import errno
 import threading
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
@@ -23,6 +24,65 @@ STATE = {
 }
 
 STATE_LOCK = threading.Lock()
+BRACKET_CSV = "data/knockout_bracket.csv"
+DUE_MATCH_COOLDOWN_SECONDS = 10 * 60
+
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def parse_utc(value):
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def seconds_since(value, now):
+    parsed = parse_utc(value)
+    if not parsed:
+        return None
+    return (now - parsed).total_seconds()
+
+
+def has_due_unfinished_match(now):
+    try:
+        with open(BRACKET_CSV, newline="") as f:
+            rows = list(csv.DictReader(f))
+    except FileNotFoundError:
+        return False
+
+    for row in rows:
+        if row.get("actual_advancing_team"):
+            continue
+        check_after = parse_utc(row.get("result_check_after_utc", ""))
+        if check_after and now >= check_after:
+            return True
+    return False
+
+
+def maybe_start_overdue_update():
+    now = datetime.now(timezone.utc)
+    with STATE_LOCK:
+        if not STATE["auto_update"] or STATE["is_updating"]:
+            return
+
+        last_finished_age = seconds_since(STATE["last_update_finished"], now)
+        last_started_age = seconds_since(STATE["last_update_started"], now)
+        interval_due = last_finished_age is None or last_finished_age >= STATE["interval_seconds"]
+        due_match_ready = has_due_unfinished_match(now)
+        due_match_cooldown_ok = last_started_age is None or last_started_age >= DUE_MATCH_COOLDOWN_SECONDS
+
+        if not interval_due and not (due_match_ready and due_match_cooldown_ok):
+            return
+
+    threading.Thread(target=run_update_once, daemon=True).start()
 
 
 LIVE_HTML = """<!doctype html>
@@ -209,6 +269,7 @@ LIVE_HTML = """<!doctype html>
     <div class="controls">
       <button class="active" id="tabKnockout" type="button">Knockout</button>
       <button id="tabEval" type="button">Evaluation</button>
+      <button id="tabHighStakes" type="button">High Stakes</button>
       <button id="tabIntel" type="button">Intelligence</button>
       <button id="tabGroup" type="button">Group History</button>
       <button id="tabRuns" type="button">Run History</button>
@@ -225,6 +286,7 @@ LIVE_HTML = """<!doctype html>
     </section>
   </main>
   <script>
+    const DISPLAY_TIME_ZONE = "America/Los_Angeles";
     let DATA = null;
     let STATUS = null;
     let tab = "knockout";
@@ -257,6 +319,27 @@ LIVE_HTML = """<!doctype html>
     }
     function currentDateKey() {
       return dateKey(new Date());
+    }
+    function formatWesternTime(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: DISPLAY_TIME_ZONE,
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short"
+      }).format(date);
+    }
+    function scheduleTimeCell(row) {
+      const checkAfter = formatWesternTime(row.result_check_after_utc);
+      const kickoff = formatWesternTime(row.kickoff_utc);
+      if (!checkAfter && !kickoff) return "Date passed";
+      const kickoffLine = kickoff ? `Kickoff ${esc(kickoff)}` : "";
+      return `${esc(checkAfter || "Date passed")}<br><span class="muted">${kickoffLine}</span>`;
     }
     function selectedDate() {
       return document.getElementById("matchDate").value;
@@ -322,6 +405,10 @@ LIVE_HTML = """<!doctype html>
       if (!hasNetworkData) return "<span class='muted'>No data</span>";
       return `${esc(row.team1_network_adjustment || "0.0")}<br>${esc(row.team2_network_adjustment || "0.0")}`;
     }
+    function signed(value) {
+      const number = Number(value || 0);
+      return `${number >= 0 ? "+" : ""}${number.toFixed(1)}`;
+    }
     function rowMatches(row) {
       const query = document.getElementById("search").value.trim().toLowerCase();
       if (!query) return true;
@@ -345,11 +432,11 @@ LIVE_HTML = """<!doctype html>
     }
     function renderStatus() {
       const err = STATUS.last_update_error ? `<span class="bad">${esc(STATUS.last_update_error)}</span>` : "None";
-      document.getElementById("subtitle").textContent = `Dashboard read at ${STATUS.last_dashboard_read || "never"}`;
+      document.getElementById("subtitle").textContent = `Dashboard read at ${formatWesternTime(STATUS.last_dashboard_read) || "never"}`;
       document.getElementById("status").innerHTML = `
         <div><div class="muted">Updater</div><strong>${STATUS.auto_update ? "On" : "Off"}</strong></div>
-        <div><div class="muted">Last Started</div><strong>${esc(STATUS.last_update_started || "Not yet")}</strong></div>
-        <div><div class="muted">Last Finished</div><strong>${esc(STATUS.last_update_finished || "Not yet")}</strong></div>
+        <div><div class="muted">Last Started</div><strong>${esc(formatWesternTime(STATUS.last_update_started) || "Not yet")}</strong></div>
+        <div><div class="muted">Last Finished</div><strong>${esc(formatWesternTime(STATUS.last_update_finished) || "Not yet")}</strong></div>
         <div><div class="muted">Last Error</div><strong>${err}</strong></div>
       `;
     }
@@ -388,7 +475,7 @@ LIVE_HTML = """<!doctype html>
           <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong></td>
           <td>${statusCell(row)}</td>
           <td>${esc(row.date)}<br><span class="muted">${esc(row.venue)}</span></td>
-          <td>${esc(row.result_check_after_utc || "Date passed")}<br><span class="muted">${esc(row.kickoff_utc || "")}</span></td>
+          <td>${scheduleTimeCell(row)}</td>
           <td><span class="team">${esc(row.team1)}</span><br><span class="team">${esc(row.team2)}</span></td>
           <td>${esc(score(row)) || "<span class='muted'>Pending</span>"}</td>
           <td>${row.actual_advancing_team ? `<span class="pill actual-pill">${esc(row.actual_advancing_team)}</span>` : "<span class='muted'>Pending</span>"}</td>
@@ -435,6 +522,22 @@ LIVE_HTML = """<!doctype html>
         </tr>
       `).join("");
     }
+    function renderHighStakes() {
+      const rows = (DATA.high_stakes || []).filter(rowMatches);
+      document.getElementById("thead").innerHTML = `
+        <tr><th>Match</th><th>Teams</th><th>Base Model</th><th>High-Stakes Model</th><th>Pick</th><th>Feature Edges</th><th>Why</th></tr>`;
+      document.getElementById("tbody").innerHTML = rows.map(row => `
+        <tr>
+          <td><span class="muted">${esc(row.round)}</span><br><strong>#${esc(row.match_number)}</strong><br><span class="muted">${esc(row.date)}</span></td>
+          <td><span class="team">${esc(row.team1)}</span><br><span class="team">${esc(row.team2)}</span></td>
+          <td>${esc(row.team1)} ${pct(row.base_team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.base_team2_advance_probability)}</td>
+          <td>${esc(row.team1)} ${pct(row.high_stakes_team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.high_stakes_team2_advance_probability)}</td>
+          <td><span class="pill projected-pill">${esc(row.high_stakes_pick)}</span><br><span class="muted">${esc(row.confidence)}</span></td>
+          <td>Elo ${signed(row.adjusted_elo_gap)}<br>Form ${signed(row.recent_world_cup_form_gap)}<br>Star ${signed(row.star_power_gap)}<br>Network ${signed(row.network_gap)}<br>Fatigue ${signed(row.fatigue_gap)}</td>
+          <td class="reason">${esc(row.rationale)}</td>
+        </tr>
+      `).join("");
+    }
     function renderIntelligence() {
       const rows = (DATA.intelligence || []).filter(rowMatches).slice().reverse();
       document.getElementById("thead").innerHTML = `
@@ -456,7 +559,7 @@ LIVE_HTML = """<!doctype html>
         <tr><th>Timestamp</th><th>Run</th><th>Champion</th><th>Updates</th><th>Snapshot</th></tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr>
-          <td>${esc(row.timestamp)}</td>
+          <td>${esc(formatWesternTime(row.timestamp) || row.timestamp)}</td>
           <td>${esc(row.run_type)}<br><span class="muted">${esc(row.run_id)}</span></td>
           <td><span class="pill projected-pill">${esc(row.projected_champion)}</span></td>
           <td>Results: ${esc(row.match_result_updates)}<br>Strength: ${esc(row.strength_adjustments_applied)}<br>News: ${esc(row.news_adjustments_applied)}</td>
@@ -467,7 +570,7 @@ LIVE_HTML = """<!doctype html>
     function setTab(nextTab) {
       tab = nextTab;
       document.querySelectorAll(".controls button:not(#runNow)").forEach(button => button.classList.remove("active"));
-      document.getElementById(nextTab === "group" ? "tabGroup" : nextTab === "runs" ? "tabRuns" : nextTab === "evaluation" ? "tabEval" : nextTab === "intelligence" ? "tabIntel" : "tabKnockout").classList.add("active");
+      document.getElementById(nextTab === "group" ? "tabGroup" : nextTab === "runs" ? "tabRuns" : nextTab === "evaluation" ? "tabEval" : nextTab === "high-stakes" ? "tabHighStakes" : nextTab === "intelligence" ? "tabIntel" : "tabKnockout").classList.add("active");
       render();
     }
     function render() {
@@ -477,12 +580,14 @@ LIVE_HTML = """<!doctype html>
       renderRoundFilter();
       if (tab === "group") renderGroup();
       else if (tab === "evaluation") renderEvaluation();
+      else if (tab === "high-stakes") renderHighStakes();
       else if (tab === "intelligence") renderIntelligence();
       else if (tab === "runs") renderRuns();
       else renderKnockout();
     }
     document.getElementById("tabKnockout").addEventListener("click", () => setTab("knockout"));
     document.getElementById("tabEval").addEventListener("click", () => setTab("evaluation"));
+    document.getElementById("tabHighStakes").addEventListener("click", () => setTab("high-stakes"));
     document.getElementById("tabIntel").addEventListener("click", () => setTab("intelligence"));
     document.getElementById("tabGroup").addEventListener("click", () => setTab("group"));
     document.getElementById("tabRuns").addEventListener("click", () => setTab("runs"));
@@ -517,7 +622,7 @@ def run_update_once():
         if STATE["is_updating"]:
             return
         STATE["is_updating"] = True
-        STATE["last_update_started"] = datetime.now().isoformat(timespec="seconds")
+        STATE["last_update_started"] = utc_now()
         STATE["last_update_error"] = ""
 
     try:
@@ -529,7 +634,7 @@ def run_update_once():
             STATE["last_update_error"] = str(exc)
     finally:
         with STATE_LOCK:
-            STATE["last_update_finished"] = datetime.now().isoformat(timespec="seconds")
+            STATE["last_update_finished"] = utc_now()
             STATE["is_updating"] = False
 
 
@@ -563,8 +668,9 @@ class LiveDashboardHandler(BaseHTTPRequestHandler):
         self.send_error(404)
 
     def dashboard_payload(self):
+        maybe_start_overdue_update()
         with STATE_LOCK:
-            STATE["last_dashboard_read"] = datetime.now().isoformat(timespec="seconds")
+            STATE["last_dashboard_read"] = utc_now()
             status = dict(STATE)
         return {
             "data": build_dashboard_data(),

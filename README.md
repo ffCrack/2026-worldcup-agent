@@ -197,6 +197,7 @@ data/team_network_strength.csv
 data/team_power_rankings.csv
 data/round_of_32_predictions.csv
 data/knockout_bracket_predictions.csv
+data/high_stakes_predictions.csv
 data/dashboard.html
 data/team_ratings.json
 ```

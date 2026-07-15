@@ -18,9 +18,13 @@ Round of 32,88,2026-07-03,Australia,Egypt,Egypt,Egypt,Hit,0.5234,0.4766,Draw,1-1
 Round of 16,89,2026-07-04,Paraguay,France,France,France,Hit,0.8491,0.1509,France,0-1,Model hit
 Round of 16,90,2026-07-04,Canada,Morocco,Morocco,Morocco,Hit,0.7553,0.2447,Morocco,0-3,Model hit
 Round of 16,91,2026-07-05,Brazil,Norway,Brazil,Norway,Miss,0.29,0.71,Brazil,1-2,Miss: actual winner had 29.0% pre-match advance probability
-Round of 16,92,2026-07-05,Mexico,England,Mexico,England,Miss,0.4955,0.5045,Draw,2-3,Miss: actual winner had 49.5% pre-match advance probability
+Round of 16,92,2026-07-05,Mexico,England,England,England,Hit,0.5137,0.4863,Draw,2-3,Model hit
 Round of 16,93,2026-07-06,Portugal,Spain,Spain,Spain,Hit,0.6253,0.3747,Spain,0-1,Model hit
 Round of 16,94,2026-07-06,USA,Belgium,Belgium,Belgium,Hit,0.5148,0.4852,Draw,1-4,Model hit
-Round of 16,95,2026-07-07,Argentina,Egypt,Argentina,Argentina,Hit,0.8686,0.1314,Argentina,3-2,Model hit
+Round of 16,95,2026-07-07,Argentina,Egypt,Argentina,Argentina,Hit,0.8684,0.1316,Argentina,3-2,Model hit
 Round of 16,96,2026-07-07,Switzerland,Colombia,Switzerland,Switzerland,Hit,0.5397,0.4603,Switzerland,0-0,Model hit
 Quarter-final,97,2026-07-09,France,Morocco,France,France,Hit,0.7048,0.2952,France,2-0,Model hit
+Quarter-final,98,2026-07-10,Spain,Belgium,Spain,Spain,Hit,0.663,0.337,Spain,2-1,Model hit
+Quarter-final,99,2026-07-11,Norway,England,England,England,Hit,0.6895,0.3105,England,1-2,Model hit
+Quarter-final,100,2026-07-11,Argentina,Switzerland,Argentina,Argentina,Hit,0.718,0.282,Argentina,3-1,Model hit
+Semi-final,101,2026-07-14,France,Spain,France,Spain,Miss,0.4244,0.5756,France,0-2,Miss: actual winner had 42.4% pre-match advance probability

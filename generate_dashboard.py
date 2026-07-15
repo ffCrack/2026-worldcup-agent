@@ -2,10 +2,12 @@ import csv
 import html
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 
 OUTPUT_PATH = "data/dashboard.html"
+DISPLAY_TIME_ZONE = "America/Los_Angeles"
 
 
 def read_csv(path):
@@ -21,6 +23,12 @@ def pct(value):
     return f"{float(value) * 100:.1f}%"
 
 
+def western_timestamp(value=None):
+    if value is None:
+        value = datetime.now(timezone.utc)
+    return value.astimezone(ZoneInfo(DISPLAY_TIME_ZONE)).strftime("%Y-%m-%d %I:%M %p %Z")
+
+
 def build_dashboard_data():
     knockout = read_csv("data/knockout_bracket_predictions.csv")
     group = read_csv("data/match_predictions.csv")
@@ -28,6 +36,7 @@ def build_dashboard_data():
     evaluation = read_csv("data/prediction_evaluation.csv")
     player_strength = read_csv("data/team_player_strength.csv")
     intelligence = read_csv("data/match_intelligence_notes.csv")
+    high_stakes = read_csv("data/high_stakes_predictions.csv")
 
     final = next((row for row in knockout if row.get("round") == "Final"), {})
     completed_knockouts = [
@@ -40,7 +49,8 @@ def build_dashboard_data():
     ]
 
     return {
-        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at_display": western_timestamp(),
         "projected_champion": final.get("projected_advancing_team", ""),
         "final": final,
         "knockout": knockout,
@@ -49,6 +59,7 @@ def build_dashboard_data():
         "evaluation": evaluation,
         "player_strength": player_strength,
         "intelligence": intelligence,
+        "high_stakes": high_stakes,
         "completed_knockout_count": len(completed_knockouts),
         "prediction_hit_count": len(evaluation) - len(misses),
         "prediction_miss_count": len(misses),
@@ -61,7 +72,7 @@ def json_script(data):
 
 def render_html(data):
     champion = html.escape(data.get("projected_champion") or "TBD")
-    generated_at = html.escape(data["generated_at"])
+    generated_at = html.escape(data.get("generated_at_display") or data["generated_at"])
     payload = json_script(data)
 
     return f"""<!doctype html>
@@ -257,6 +268,7 @@ def render_html(data):
       <div class="tabs">
         <button id="tab-knockout" class="active" type="button">Knockout</button>
         <button id="tab-evaluation" type="button">Evaluation</button>
+        <button id="tab-high-stakes" type="button">High Stakes</button>
         <button id="tab-intelligence" type="button">Intelligence</button>
         <button id="tab-group" type="button">Group History</button>
         <button id="tab-runs" type="button">Run History</button>
@@ -277,6 +289,7 @@ def render_html(data):
 
   <script>
     const DATA = {payload};
+    const DISPLAY_TIME_ZONE = "America/Los_Angeles";
     let currentTab = "knockout";
     let currentRound = "All";
 
@@ -303,6 +316,29 @@ def render_html(data):
 
     function currentDateKey() {{
       return dateKey(new Date());
+    }}
+
+    function formatWesternTime(value) {{
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+      return new Intl.DateTimeFormat("en-US", {{
+        timeZone: DISPLAY_TIME_ZONE,
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short"
+      }}).format(date);
+    }}
+
+    function scheduleTimeCell(row) {{
+      const checkAfter = formatWesternTime(row.result_check_after_utc);
+      const kickoff = formatWesternTime(row.kickoff_utc);
+      if (!checkAfter && !kickoff) return "Date passed";
+      const kickoffLine = kickoff ? `Kickoff ${{esc(kickoff)}}` : "";
+      return `${{esc(checkAfter || "Date passed")}}<br><span class="muted">${{kickoffLine}}</span>`;
     }}
 
     function selectedDate() {{
@@ -380,6 +416,11 @@ def render_html(data):
       return `${{esc(row.team1_network_adjustment || "0.0")}}<br>${{esc(row.team2_network_adjustment || "0.0")}}`;
     }}
 
+    function signed(value) {{
+      const number = Number(value || 0);
+      return `${{number >= 0 ? "+" : ""}}${{number.toFixed(1)}}`;
+    }}
+
     function esc(value) {{
       return String(value ?? "").replace(/[&<>"']/g, ch => ({{
         "&": "&amp;",
@@ -448,7 +489,7 @@ def render_html(data):
           <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong></td>
           <td>${{statusCell(row)}}</td>
           <td>${{esc(row.date)}}<br><span class="muted">${{esc(row.venue)}}</span></td>
-          <td>${{esc(row.result_check_after_utc || "Date passed")}}<br><span class="muted">${{esc(row.kickoff_utc || "")}}</span></td>
+          <td>${{scheduleTimeCell(row)}}</td>
           <td><span class="team">${{esc(row.team1)}}</span><br><span class="team">${{esc(row.team2)}}</span></td>
           <td>${{esc(score(row)) || "<span class='muted'>Pending</span>"}}</td>
           <td>${{row.actual_advancing_team ? `<span class="pill actual">${{esc(row.actual_advancing_team)}}</span>` : "<span class='muted'>Pending</span>"}}</td>
@@ -494,7 +535,7 @@ def render_html(data):
         <tr><th>Timestamp</th><th>Run</th><th>Champion</th><th>Updates</th><th>Snapshot</th></tr>`;
       document.getElementById("tbody").innerHTML = rows.map(row => `
         <tr>
-          <td>${{esc(row.timestamp)}}</td>
+          <td>${{esc(formatWesternTime(row.timestamp) || row.timestamp)}}</td>
           <td>${{esc(row.run_type)}}<br><span class="muted">${{esc(row.run_id)}}</span></td>
           <td><span class="pill projected">${{esc(row.projected_champion)}}</span></td>
           <td>Results: ${{esc(row.match_result_updates)}}<br>Strength: ${{esc(row.strength_adjustments_applied)}}<br>News: ${{esc(row.news_adjustments_applied)}}</td>
@@ -521,6 +562,24 @@ def render_html(data):
       `).join("");
     }}
 
+    function renderHighStakes() {{
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const rows = (DATA.high_stakes || []).filter(row => rowMatches(row, query));
+      document.getElementById("thead").innerHTML = `
+        <tr><th>Match</th><th>Teams</th><th>Base Model</th><th>High-Stakes Model</th><th>Pick</th><th>Feature Edges</th><th>Why</th></tr>`;
+      document.getElementById("tbody").innerHTML = rows.map(row => `
+        <tr>
+          <td><span class="muted">${{esc(row.round)}}</span><br><strong>#${{esc(row.match_number)}}</strong><br><span class="muted">${{esc(row.date)}}</span></td>
+          <td><span class="team">${{esc(row.team1)}}</span><br><span class="team">${{esc(row.team2)}}</span></td>
+          <td>${{esc(row.team1)}} ${{fmtPct(row.base_team1_advance_probability)}}<br>${{esc(row.team2)}} ${{fmtPct(row.base_team2_advance_probability)}}</td>
+          <td>${{esc(row.team1)}} ${{fmtPct(row.high_stakes_team1_advance_probability)}}<br>${{esc(row.team2)}} ${{fmtPct(row.high_stakes_team2_advance_probability)}}</td>
+          <td><span class="pill projected">${{esc(row.high_stakes_pick)}}</span><br><span class="muted">${{esc(row.confidence)}}</span></td>
+          <td>Elo ${{signed(row.adjusted_elo_gap)}}<br>Form ${{signed(row.recent_world_cup_form_gap)}}<br>Star ${{signed(row.star_power_gap)}}<br>Network ${{signed(row.network_gap)}}<br>Fatigue ${{signed(row.fatigue_gap)}}</td>
+          <td class="reason">${{esc(row.rationale)}}</td>
+        </tr>
+      `).join("");
+    }}
+
     function renderIntelligence() {{
       const query = document.getElementById("search").value.trim().toLowerCase();
       const rows = (DATA.intelligence || []).filter(row => rowMatches(row, query)).slice().reverse();
@@ -541,7 +600,7 @@ def render_html(data):
     function setTab(tab) {{
       currentTab = tab;
       document.querySelectorAll(".tabs button").forEach(button => button.classList.remove("active"));
-      document.getElementById(`tab-${{tab === "group" ? "group" : tab === "runs" ? "runs" : tab === "evaluation" ? "evaluation" : tab === "intelligence" ? "intelligence" : "knockout"}}`).classList.add("active");
+      document.getElementById(`tab-${{tab === "group" ? "group" : tab === "runs" ? "runs" : tab === "evaluation" ? "evaluation" : tab === "high-stakes" ? "high-stakes" : tab === "intelligence" ? "intelligence" : "knockout"}}`).classList.add("active");
       render();
     }}
 
@@ -550,6 +609,7 @@ def render_html(data):
       renderRoundButtons();
       if (currentTab === "group") renderGroup();
       else if (currentTab === "evaluation") renderEvaluation();
+      else if (currentTab === "high-stakes") renderHighStakes();
       else if (currentTab === "intelligence") renderIntelligence();
       else if (currentTab === "runs") renderRuns();
       else renderKnockout();
@@ -557,6 +617,7 @@ def render_html(data):
 
     document.getElementById("tab-knockout").addEventListener("click", () => setTab("knockout"));
     document.getElementById("tab-evaluation").addEventListener("click", () => setTab("evaluation"));
+    document.getElementById("tab-high-stakes").addEventListener("click", () => setTab("high-stakes"));
     document.getElementById("tab-intelligence").addEventListener("click", () => setTab("intelligence"));
     document.getElementById("tab-group").addEventListener("click", () => setTab("group"));
     document.getElementById("tab-runs").addEventListener("click", () => setTab("runs"));

@@ -1,6 +1,10 @@
 match_number,predicted_advancing_team,team1_advance_probability,team2_advance_probability,predicted_90min_result,locked_at,source,note
 92,England,0.4863,0.5137,Draw,2026-07-05,user_confirmed_dashboard_prediction,"User-confirmed pre-result dashboard line: Mexico 48.6%, England 51.4%."
-94,Belgium,0.4852,0.5148,Draw,2026-07-06,pre_result_dashboard_prediction,"Pre-result dashboard line before applying USA 1-4 Belgium."
-95,Argentina,0.8684,0.1315,Argentina,2026-07-07,pre_result_dashboard_prediction,"Pre-result dashboard line before applying Argentina 3-2 Egypt."
-96,Switzerland,0.5397,0.4602,Switzerland,2026-07-07,pre_result_dashboard_prediction,"Pre-result dashboard line before applying Switzerland 0-0 Colombia; Switzerland advanced 4-3 on penalties."
-97,France,0.7048,0.2952,France,2026-07-09,pre_result_dashboard_prediction,"Pre-result dashboard line before applying France 2-0 Morocco."
+94,Belgium,0.4852,0.5148,Draw,2026-07-06,pre_result_dashboard_prediction,Pre-result dashboard line before applying USA 1-4 Belgium.
+95,Argentina,0.8684,0.1315,Argentina,2026-07-07,pre_result_dashboard_prediction,Pre-result dashboard line before applying Argentina 3-2 Egypt.
+96,Switzerland,0.5397,0.4602,Switzerland,2026-07-07,pre_result_dashboard_prediction,Pre-result dashboard line before applying Switzerland 0-0 Colombia; Switzerland advanced 4-3 on penalties.
+97,France,0.7048,0.2952,France,2026-07-09,pre_result_dashboard_prediction,Pre-result dashboard line before applying France 2-0 Morocco.
+98,Spain,0.663,0.3371,Spain,2026-07-11T14:19:20+00:00,https://apnews.com/article/780243a17571b6b2b26074b66feec90a,Automatically locked pre-result prediction before applying harvested result.
+99,England,0.3105,0.6895,England,2026-07-12T00:47:51+00:00,https://apnews.com/article/f246f138c3a8563cb5a0e3f4037e930a,Automatically locked pre-result prediction before applying harvested result.
+100,Argentina,0.718,0.2819,Argentina,2026-07-12T05:32:00+00:00,https://apnews.com/article/d47ccb4ac5b3af67eca1f82228155174,Automatically locked pre-result prediction before applying harvested result.
+101,France,0.5756,0.4244,France,2026-07-15T05:23:08+00:00,https://apnews.com/article/87fb7740fa552edf4bfd28d0e8727c23,Automatically locked pre-result prediction before applying harvested result.
