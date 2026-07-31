@@ -102,7 +102,7 @@ data/dashboard.html
 Run a local dashboard server:
 
 ```bash
-python3 live_dashboard.py --interval-minutes 15
+python3 live_dashboard.py
 ```
 
 Then open:
@@ -124,6 +124,14 @@ The live dashboard shows:
 
 It also includes a **Run Update Now** button.
 
+The World Cup has finished, so the live dashboard now starts in view-only mode
+by default. To re-enable timed automated harvesting for a future tournament or
+test run, start it explicitly:
+
+```bash
+python3 live_dashboard.py --auto-update --interval-minutes 120
+```
+
 ## Main Commands
 
 Run the deterministic prediction pipeline:
@@ -144,10 +152,11 @@ Refresh FIFA Power Rankings only:
 python3 refresh_fifa_power_rankings.py
 ```
 
-Run the live updater without the browser UI:
+Run the live updater without the browser UI, only if you intentionally want a
+timed automation loop:
 
 ```bash
-python3 live_update.py --interval-minutes 15
+python3 live_update.py --interval-minutes 120
 ```
 
 Generate article charts/screenshots:
@@ -198,6 +207,7 @@ data/team_power_rankings.csv
 data/round_of_32_predictions.csv
 data/knockout_bracket_predictions.csv
 data/high_stakes_predictions.csv
+data/high_stakes_strategy_profiles.csv
 data/dashboard.html
 data/team_ratings.json
 ```

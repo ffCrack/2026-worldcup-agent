@@ -13,7 +13,7 @@ from generate_dashboard import build_dashboard_data
 
 
 STATE = {
-    "auto_update": True,
+    "auto_update": False,
     "interval_seconds": 15 * 60,
     "last_update_started": "",
     "last_update_finished": "",
@@ -533,7 +533,7 @@ LIVE_HTML = """<!doctype html>
           <td>${esc(row.team1)} ${pct(row.base_team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.base_team2_advance_probability)}</td>
           <td>${esc(row.team1)} ${pct(row.high_stakes_team1_advance_probability)}<br>${esc(row.team2)} ${pct(row.high_stakes_team2_advance_probability)}</td>
           <td><span class="pill projected-pill">${esc(row.high_stakes_pick)}</span><br><span class="muted">${esc(row.confidence)}</span></td>
-          <td>Elo ${signed(row.adjusted_elo_gap)}<br>Form ${signed(row.recent_world_cup_form_gap)}<br>Star ${signed(row.star_power_gap)}<br>Network ${signed(row.network_gap)}<br>Fatigue ${signed(row.fatigue_gap)}</td>
+          <td>Elo ${signed(row.adjusted_elo_gap)}<br>Recent ${signed(row.recent_world_cup_form_gap)}<br>Knockout ${signed(row.knockout_form_gap)}<br>Defense ${signed(row.defensive_control_gap)}<br>Star ${signed(row.star_power_gap)}<br>Strategy ${signed(row.strategy_gap)}<br>Clutch ${signed(row.clutch_late_game_gap)}<br>Fatigue ${signed(row.fatigue_gap)}</td>
           <td class="reason">${esc(row.rationale)}</td>
         </tr>
       `).join("");
@@ -613,6 +613,7 @@ def parse_args():
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--interval-minutes", type=float, default=15)
+    parser.add_argument("--auto-update", action="store_true")
     parser.add_argument("--no-auto-update", action="store_true")
     return parser.parse_args()
 
@@ -701,7 +702,7 @@ class LiveDashboardHandler(BaseHTTPRequestHandler):
 def main():
     args = parse_args()
     with STATE_LOCK:
-        STATE["auto_update"] = not args.no_auto_update
+        STATE["auto_update"] = args.auto_update and not args.no_auto_update
         STATE["interval_seconds"] = max(args.interval_minutes, 1) * 60
 
     try:
@@ -721,7 +722,7 @@ def main():
 
     print("=== LIVE WORLD CUP DASHBOARD ===")
     print(f"Open http://{args.host}:{args.port}")
-    print(f"Auto update: {'on' if not args.no_auto_update else 'off'}")
+    print(f"Auto update: {'on' if STATE['auto_update'] else 'off'}")
     print(f"Interval: {args.interval_minutes} minutes")
     server.serve_forever()
 

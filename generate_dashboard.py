@@ -574,7 +574,7 @@ def render_html(data):
           <td>${{esc(row.team1)}} ${{fmtPct(row.base_team1_advance_probability)}}<br>${{esc(row.team2)}} ${{fmtPct(row.base_team2_advance_probability)}}</td>
           <td>${{esc(row.team1)}} ${{fmtPct(row.high_stakes_team1_advance_probability)}}<br>${{esc(row.team2)}} ${{fmtPct(row.high_stakes_team2_advance_probability)}}</td>
           <td><span class="pill projected">${{esc(row.high_stakes_pick)}}</span><br><span class="muted">${{esc(row.confidence)}}</span></td>
-          <td>Elo ${{signed(row.adjusted_elo_gap)}}<br>Form ${{signed(row.recent_world_cup_form_gap)}}<br>Star ${{signed(row.star_power_gap)}}<br>Network ${{signed(row.network_gap)}}<br>Fatigue ${{signed(row.fatigue_gap)}}</td>
+          <td>Elo ${{signed(row.adjusted_elo_gap)}}<br>Recent ${{signed(row.recent_world_cup_form_gap)}}<br>Knockout ${{signed(row.knockout_form_gap)}}<br>Defense ${{signed(row.defensive_control_gap)}}<br>Star ${{signed(row.star_power_gap)}}<br>Strategy ${{signed(row.strategy_gap)}}<br>Clutch ${{signed(row.clutch_late_game_gap)}}<br>Fatigue ${{signed(row.fatigue_gap)}}</td>
           <td class="reason">${{esc(row.rationale)}}</td>
         </tr>
       `).join("");

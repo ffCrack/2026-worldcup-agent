@@ -182,9 +182,155 @@ def later_rounds_overview_chart(rows, output_path):
     write(output_path, "\n".join(parts))
 
 
+def prediction_record_chart(evaluation_rows, output_path):
+    total = len(evaluation_rows)
+    hits = sum(1 for row in evaluation_rows if row["evaluation"] == "Hit")
+    misses = total - hits
+    hit_rate = hits / total * 100 if total else 0
+    width = 1100
+    height = 520
+    hit_width = 760 * hits / total if total else 0
+    miss_width = 760 * misses / total if total else 0
+
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="#f7f8fa"/>',
+        '<text x="52" y="62" font-family="Arial, sans-serif" font-size="32" font-weight="800" fill="#20242b">Knockout Prediction Record</text>',
+        '<text x="52" y="94" font-family="Arial, sans-serif" font-size="16" fill="#667085">Completed matches only, using pre-result prediction locks</text>',
+        '<rect x="52" y="136" width="300" height="150" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        '<text x="78" y="182" font-family="Arial, sans-serif" font-size="18" fill="#667085">Hits</text>',
+        f'<text x="78" y="248" font-family="Arial, sans-serif" font-size="62" font-weight="800" fill="#176b87">{hits}</text>',
+        '<rect x="394" y="136" width="300" height="150" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        '<text x="420" y="182" font-family="Arial, sans-serif" font-size="18" fill="#667085">Misses</text>',
+        f'<text x="420" y="248" font-family="Arial, sans-serif" font-size="62" font-weight="800" fill="#b44b38">{misses}</text>',
+        '<rect x="736" y="136" width="300" height="150" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        '<text x="762" y="182" font-family="Arial, sans-serif" font-size="18" fill="#667085">Hit Rate</text>',
+        f'<text x="762" y="248" font-family="Arial, sans-serif" font-size="62" font-weight="800" fill="#217a4d">{hit_rate:.1f}%</text>',
+        '<text x="52" y="346" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#20242b">Final scorecard</text>',
+        '<rect x="52" y="376" width="760" height="32" rx="8" fill="#e6eaf0"/>',
+        f'<rect x="52" y="376" width="{hit_width:.1f}" height="32" rx="8" fill="#176b87"/>',
+        f'<rect x="{52 + hit_width:.1f}" y="376" width="{miss_width:.1f}" height="32" rx="8" fill="#b44b38"/>',
+        f'<text x="52" y="442" font-family="Arial, sans-serif" font-size="16" fill="#667085">Hit {hits}/{total}. The misses became training signals for the next version of the workflow.</text>',
+    ]
+    parts.append("</svg>")
+    write(output_path, "\n".join(parts))
+
+
+def misses_summary_chart(evaluation_rows, output_path):
+    misses = [row for row in evaluation_rows if row["evaluation"] == "Miss"]
+    width = 1300
+    row_height = 86
+    top = 136
+    height = top + len(misses) * row_height + 58
+
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="#f7f8fa"/>',
+        '<text x="44" y="56" font-family="Arial, sans-serif" font-size="32" font-weight="800" fill="#20242b">The Misses That Changed the Model</text>',
+        '<text x="44" y="88" font-family="Arial, sans-serif" font-size="16" fill="#667085">Each miss is shown with the model pick, actual winner, and the actual winner pre-match advance probability.</text>',
+        '<rect x="44" y="112" width="1212" height="40" rx="6" fill="#20242b"/>',
+        '<text x="64" y="138" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Match</text>',
+        '<text x="410" y="138" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Model Pick</text>',
+        '<text x="650" y="138" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Actual Winner</text>',
+        '<text x="920" y="138" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Actual Winner Probability</text>',
+    ]
+
+    for index, row in enumerate(misses):
+        y = top + index * row_height
+        matchup = f"#{row['match_number']} {row['team1']} vs {row['team2']}"
+        prob = pct(row["actual_advance_probability"])
+        parts.extend([
+            f'<rect x="44" y="{y}" width="1212" height="70" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+            f'<text x="64" y="{y + 28}" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#20242b">{html.escape(matchup)}</text>',
+            f'<text x="64" y="{y + 52}" font-family="Arial, sans-serif" font-size="14" fill="#667085">{html.escape(row["round"])} · actual {html.escape(row["actual_score"])}</text>',
+            f'<text x="410" y="{y + 42}" font-family="Arial, sans-serif" font-size="18" fill="#b44b38">{html.escape(row["predicted_advancing_team"])}</text>',
+            f'<text x="650" y="{y + 42}" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#176b87">{html.escape(row["actual_advancing_team"])}</text>',
+            f'<text x="920" y="{y + 42}" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#20242b">{prob:.1f}%</text>',
+        ])
+
+    parts.append("</svg>")
+    write(output_path, "\n".join(parts))
+
+
+def final_prediction_chart(evaluation_rows, output_path):
+    final = next(row for row in evaluation_rows if row["round"] == "Final")
+    winner = final["predicted_advancing_team"]
+    actual = final["actual_advancing_team"]
+    probability = pct(final["actual_advance_probability"])
+    other_probability = 100 - probability
+    width = 1100
+    height = 560
+    bar_width = 860
+    winner_width = bar_width * probability / 100
+
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="#f7f8fa"/>',
+        '<text x="54" y="62" font-family="Arial, sans-serif" font-size="32" font-weight="800" fill="#20242b">Final Prediction: Spain vs Argentina</text>',
+        '<text x="54" y="94" font-family="Arial, sans-serif" font-size="16" fill="#667085">The locked pre-match model gave Spain a narrow edge. The final result confirmed it.</text>',
+        '<rect x="54" y="136" width="992" height="270" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        f'<text x="86" y="196" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#176b87">{html.escape(winner)}</text>',
+        f'<text x="86" y="236" font-family="Arial, sans-serif" font-size="52" font-weight="800" fill="#176b87">{probability:.1f}%</text>',
+        '<text x="86" y="270" font-family="Arial, sans-serif" font-size="16" fill="#667085">advance probability before kickoff</text>',
+        '<text x="520" y="196" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#20242b">Actual Result</text>',
+        f'<text x="520" y="244" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#217a4d">{html.escape(actual)} {html.escape(final["actual_score"])}</text>',
+        '<text x="520" y="278" font-family="Arial, sans-serif" font-size="16" fill="#667085">Spain won after extra time</text>',
+        '<rect x="86" y="332" width="860" height="30" rx="8" fill="#dfe6ee"/>',
+        f'<rect x="86" y="332" width="{winner_width:.1f}" height="30" rx="8" fill="#176b87"/>',
+        f'<text x="86" y="390" font-family="Arial, sans-serif" font-size="15" fill="#667085">Spain {probability:.1f}% · Argentina {other_probability:.1f}%</text>',
+        '<rect x="54" y="438" width="992" height="66" rx="8" fill="#edf7f1" stroke="#c9e8d4"/>',
+        '<text x="86" y="480" font-family="Arial, sans-serif" font-size="20" font-weight="800" fill="#217a4d">Final evaluation: Hit</text>',
+    ]
+    parts.append("</svg>")
+    write(output_path, "\n".join(parts))
+
+
+def workflow_chart(output_path):
+    width = 1400
+    height = 520
+    boxes = [
+        ("Match finishes", "Score, ET, penalties, cards"),
+        ("Harvest result", "Write structured CSV rows"),
+        ("Lock prediction", "Keep the pre-result forecast"),
+        ("Evaluate", "Hit, miss, surprise score"),
+        ("Adjust signals", "Form, network, stars, news"),
+        ("Repredict bracket", "Dashboard refreshes"),
+    ]
+
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="#f7f8fa"/>',
+        '<text x="48" y="58" font-family="Arial, sans-serif" font-size="32" font-weight="800" fill="#20242b">The Iteration Loop</text>',
+        '<text x="48" y="90" font-family="Arial, sans-serif" font-size="16" fill="#667085">The project became less about one perfect model and more about a transparent update workflow.</text>',
+    ]
+    for index, (title, subtitle) in enumerate(boxes):
+        x = 48 + index * 220
+        y = 178
+        fill = "#ffffff" if index % 2 == 0 else "#fbfcfd"
+        parts.extend([
+            f'<rect x="{x}" y="{y}" width="176" height="128" rx="8" fill="{fill}" stroke="#d8dee8"/>',
+            f'<text x="{x + 18}" y="{y + 44}" font-family="Arial, sans-serif" font-size="18" font-weight="800" fill="#20242b">{html.escape(title)}</text>',
+            f'<text x="{x + 18}" y="{y + 78}" font-family="Arial, sans-serif" font-size="14" fill="#667085">{html.escape(subtitle)}</text>',
+        ])
+        if index < len(boxes) - 1:
+            arrow_x = x + 184
+            parts.extend([
+                f'<line x1="{arrow_x}" y1="{y + 64}" x2="{arrow_x + 42}" y2="{y + 64}" stroke="#176b87" stroke-width="3"/>',
+                f'<path d="M {arrow_x + 42} {y + 64} L {arrow_x + 30} {y + 56} L {arrow_x + 30} {y + 72} Z" fill="#176b87"/>',
+            ])
+    parts.extend([
+        '<rect x="48" y="374" width="1268" height="76" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        '<text x="78" y="418" font-family="Arial, sans-serif" font-size="19" font-weight="800" fill="#20242b">Design principle</text>',
+        '<text x="250" y="418" font-family="Arial, sans-serif" font-size="17" fill="#667085">Every update should be traceable: what changed, why it changed, and whether the previous prediction was right.</text>',
+    ])
+    parts.append("</svg>")
+    write(output_path, "\n".join(parts))
+
+
 def main():
     form_rows = read_csv("data/team_form_adjustments.csv")[:12]
     knockout_rows = read_csv("data/knockout_bracket_predictions.csv")
+    evaluation_rows = read_csv("data/prediction_evaluation.csv")
     round_32 = [row for row in knockout_rows if row["round"] == "Round of 32"][:8]
 
     bar_chart(
@@ -205,6 +351,21 @@ def main():
     later_rounds_overview_chart(
         knockout_rows,
         os.path.join(ASSET_DIR, "later_rounds_overview.svg"),
+    )
+    prediction_record_chart(
+        evaluation_rows,
+        os.path.join(ASSET_DIR, "prediction_record.svg"),
+    )
+    misses_summary_chart(
+        evaluation_rows,
+        os.path.join(ASSET_DIR, "misses_summary.svg"),
+    )
+    final_prediction_chart(
+        evaluation_rows,
+        os.path.join(ASSET_DIR, "final_prediction_summary.svg"),
+    )
+    workflow_chart(
+        os.path.join(ASSET_DIR, "model_iteration_workflow.svg"),
     )
     print(f"[Article Assets]: Wrote SVG charts to {ASSET_DIR}")
 

@@ -1,5 +1,6 @@
 from main import main as run_model
 from generate_dashboard import main as generate_dashboard
+from generate_high_stakes_predictions import generate_high_stakes_predictions
 from src.automation_agent import AutomatedUpdateAgent
 from src.match_intelligence_agent import MatchIntelligenceAgent
 from src.run_history import RunHistoryRecorder
@@ -39,6 +40,8 @@ def main():
             f"{intelligence_summary['match_intelligence_notes']} notes written; "
             "0 context adjustments applied."
         )
+    high_stakes_rows = generate_high_stakes_predictions()
+    print(f"[High Stakes Model]: {len(high_stakes_rows)} high-stakes matches projected.")
     evaluation_rows = evaluate_predictions()
     misses = sum(1 for row in evaluation_rows if row["evaluation"] == "Miss")
     print(f"[Evaluation]: {len(evaluation_rows)} completed knockout predictions evaluated; {misses} misses.")

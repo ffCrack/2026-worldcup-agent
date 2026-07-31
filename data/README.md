@@ -339,9 +339,23 @@ knockout advancement probability, then reweights late-tournament signals:
 - result-network strength gap
 - rest and extra-time fatigue
 - knockout pressure/resilience from completed knockout matches
+- coach/strategy fit from `high_stakes_strategy_profiles.csv`
+- late-game clutch tendency from `high_stakes_strategy_profiles.csv`
 
 This is not a betting-odds feed. It is a transparent model view designed to make
 critical-match assumptions easier to inspect.
+
+### `high_stakes_strategy_profiles.csv`
+
+Manual/source-backed tactical profile for late knockout matches.
+
+- `team` and `opponent` identify the matchup.
+- `strategy_score` is an Elo-like tactical/coach-fit adjustment used only by the
+  high-stakes model.
+- `late_game_score` is an Elo-like adjustment for repeated late-game resilience,
+  comeback threat, and end-of-match finishing.
+- `reason` explains the tactical signal.
+- `source` records where the profile came from.
 
 ### `dashboard.html`
 
